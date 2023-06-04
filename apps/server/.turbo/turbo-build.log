@@ -1,0 +1,8 @@
+npm WARN config init.author.email Use `--init-author-email` instead.
+npm WARN config init.license Use `--init-license` instead.
+npm WARN config init.author.email Use `--init-author-email` instead.
+npm WARN config init.license Use `--init-license` instead.
+
+> server@0.0.1 build
+> nest build
+

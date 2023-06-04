@@ -1,0 +1,20 @@
+{
+  "name": "pollquest",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "start": "node apps/server/dist/main.js"
+  },
+  "keywords": [],
+  "author": "edwin <edwintorrado15@gmail.com>",
+  "license": "MIT",
+  "workspaces": [
+    "apps/*"
+  ],
+  "devDependencies": {
+    "turbo": "^1.10.1"
+  }
+}
