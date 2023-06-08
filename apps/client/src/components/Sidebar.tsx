@@ -1,4 +1,3 @@
-import { useRef, useState, useEffect } from "react";
 import { NavItem } from "@/components";
 import {
   FiHome,
@@ -99,7 +98,7 @@ const Sidebar = ({ onClose, open }: SidebarProps) => {
             py: 3,
           }}
         >
-          <Typography color="neutral.400" variant="caption">
+          <Typography color="neutral.300" variant="caption">
             &copy; {year} ARTECH - Derechos totalmente reservados.
           </Typography>
         </Box>

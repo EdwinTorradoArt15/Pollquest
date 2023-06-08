@@ -40,7 +40,7 @@ const AccountPopover = ({
           px: 2,
         }}
       >
-        <Typography variant="body2">Edwin Torrado{/* userName.toUpperCase() */}</Typography>
+        <Typography variant="body2">{userName}</Typography>
       </Box>
       <MenuList
         disablePadding
