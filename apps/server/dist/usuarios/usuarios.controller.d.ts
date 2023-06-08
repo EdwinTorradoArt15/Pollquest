@@ -42,7 +42,11 @@ export declare class UsuariosController {
     }, never>)[], import("mongoose").Document<unknown, {}, User> & Omit<User & {
         _id: import("mongoose").Types.ObjectId;
     }, never>, {}, User, "find">;
-    findOne(id: string): string;
+    findOne(id: string): import("mongoose").Query<import("mongoose").Document<unknown, {}, User> & Omit<User & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>, import("mongoose").Document<unknown, {}, User> & Omit<User & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>, {}, User, "findOne">;
     update(id: string, updateUsuarioDto: UpdateUsuarioDto): string;
     remove(id: string): string;
 }

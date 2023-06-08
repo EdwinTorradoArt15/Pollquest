@@ -26,8 +26,12 @@ export class UsuariosService {
     return this.userModel.find().select('-clave');
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} usuario`;
+  findOne(id: string) {
+    const user = this.userModel.findById(id).select('-clave');
+    if (!user) {
+      throw new UnauthorizedException('Usuario no encontrado');
+    }
+    return user;
   }
 
   update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
@@ -57,7 +61,6 @@ export class UsuariosService {
 
   createPayload(user: User) {
     const payload = { correo: user.email, _id: user._id };
-
     return this.jwtService.sign(payload);
   }
 }

@@ -31,7 +31,11 @@ let UsuariosService = class UsuariosService {
         return this.userModel.find().select('-clave');
     }
     findOne(id) {
-        return `This action returns a #${id} usuario`;
+        const user = this.userModel.findById(id).select('-clave');
+        if (!user) {
+            throw new common_1.UnauthorizedException('Usuario no encontrado');
+        }
+        return user;
     }
     update(id, updateUsuarioDto) {
         return `This action updates a #${id} usuario`;
