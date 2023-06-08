@@ -16,6 +16,8 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { year } from "@/utils/date";
+
 interface SidebarProps {
   onClose: () => void;
   open: boolean;
@@ -50,7 +52,6 @@ const itemsSidebar = [
 ];
 
 const Sidebar = ({ onClose, open }: SidebarProps) => {
-  const year = new Date().getFullYear();
   const theme = useTheme();
   const lgUp = useMediaQuery(theme.breakpoints.up("lg"));
 

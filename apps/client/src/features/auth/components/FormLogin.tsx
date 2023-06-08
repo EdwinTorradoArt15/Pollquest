@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import { LoginFormValues } from "@/features/auth/interfaces/auth.interfaces";
 import { Loader } from "@/components";
+import { year } from "@/utils/date";
+
 
 const FormLogin = () => {
   const { control, handleSubmit } = useForm<LoginFormValues>();
@@ -18,8 +20,6 @@ const FormLogin = () => {
   const login = (data: LoginFormValues) => {
     loginUser(data);
   };
-
-  const year = new Date().getFullYear();
 
   return (
     <form onSubmit={handleSubmit(login)}>

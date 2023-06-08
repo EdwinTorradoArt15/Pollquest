@@ -1,17 +1,16 @@
 import { useRef, useContext } from "react";
 import { AuthContext } from "@/features/auth/context/AuthContext";
 import { useForm, Controller } from "react-hook-form";
-import { Button, FormHelperText, TextField, Stack, Grid } from "@mui/material";
+import { Button, FormHelperText, TextField, Grid } from "@mui/material";
 import { RegisterFormValues } from "@/features/auth/interfaces/auth.interfaces";
 import { Loader } from "@/components";
+import { year } from "@/utils/date";
 
 const FormRegister = () => {
   const { control, handleSubmit, watch } = useForm<RegisterFormValues>();
   const { loading, registerUser } = useContext(AuthContext);
   const password = useRef({});
   password.current = watch("clave", "");
-
-  const year = new Date().getFullYear();
 
   const register = async (formUserData: RegisterFormValues) => {
     registerUser(formUserData);
