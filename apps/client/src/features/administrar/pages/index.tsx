@@ -1,0 +1,1 @@
+export {default as Administrar} from './Administrar'

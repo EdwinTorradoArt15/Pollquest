@@ -15,6 +15,7 @@ const path_1 = require("path");
 const usuarios_module_1 = require("./usuarios/usuarios.module");
 const mongoose_1 = require("@nestjs/mongoose");
 const config_1 = require("@nestjs/config");
+const categorias_module_1 = require("./categorias/categorias.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -23,9 +24,10 @@ AppModule = __decorate([
             serve_static_1.ServeStaticModule.forRoot({
                 rootPath: (0, path_1.join)(__dirname, '../../', 'client/dist'),
             }),
-            usuarios_module_1.UsuariosModule,
             config_1.ConfigModule.forRoot(),
             mongoose_1.MongooseModule.forRoot(process.env.MONGO_URI),
+            usuarios_module_1.UsuariosModule,
+            categorias_module_1.CategoriasModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
