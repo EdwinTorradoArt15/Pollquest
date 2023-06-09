@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "@/theme";
 import { AuthProvider } from "@/features/auth/context/AuthContext";
+import { CategoryProvider } from "@/features/administrar/context/CategoryContext";
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
@@ -36,7 +37,9 @@ const App = () => {
               path={DASHBOARD}
               element={
                 <Privates>
-                  <Dashboard />
+                  <CategoryProvider>
+                    <Dashboard />
+                  </CategoryProvider>
                 </Privates>
               }
             />
