@@ -6,9 +6,8 @@ interface CardCategoryProps {
 }
 
 const CardCategory = ({ nombre, imagen }: CardCategoryProps) => {
-  const imageUrl = !imagen ? imagen : noImage;
-  //   const imageUrl =
-  //     imagen && imagen.replace("function join() { [native code] }", "");
+  const imageUrl = imagen ? imagen : noImage;
+
   return (
     <div
       style={{
