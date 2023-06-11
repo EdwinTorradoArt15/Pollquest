@@ -6,7 +6,7 @@ interface CardCategoryProps {
   imagen?: string;
 }
 
-const CardCategory = ({ nombre, imagen }: CardCategoryProps) => {
+const CardCategory = ({  nombre, imagen }: CardCategoryProps) => {
   const imageUrl = imagen ? imagen : noImage;
 
   return (

@@ -15,18 +15,23 @@ interface FormCreateCategoryProps {
 interface CategoryContextValues {
   loading: boolean;
   categories: any[];
+  image: any;
+  setImg: (image: any) => void;
   createCategory: (data: FormCreateCategoryProps) => void;
 }
 
 export const CategoryContext = createContext<CategoryContextValues>({
   loading: false,
   categories: [],
+  image: { preview: "", data: "" },
+  setImg: () => {},
   createCategory: () => {},
 });
 
 export const CategoryProvider = ({ children }: CategoryProviderProps) => {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [image, setImg] = useState({ preview: "", data: "" });
 
   const createCategory = async (data: FormCreateCategoryProps) => {
     try {
@@ -35,7 +40,7 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
       formData.append("nombre", data.nombre);
       formData.append("descripcion", data.descripcion);
       if (data.file && data.file.length > 0) {
-        formData.append("file", data.file[0]);
+        formData.append("file", image.data);
       }
       await categoriesServices.createCategory(formData);
       setLoading(false);
@@ -62,7 +67,9 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
   }, []);
 
   return (
-    <CategoryContext.Provider value={{ loading, createCategory, categories }}>
+    <CategoryContext.Provider
+      value={{ loading, createCategory, categories, image, setImg }}
+    >
       {children}
     </CategoryContext.Provider>
   );

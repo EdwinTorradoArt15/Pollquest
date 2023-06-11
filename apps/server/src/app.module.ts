@@ -6,7 +6,6 @@ import { join } from 'path';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
-import { CategoriasService } from './categorias/categorias.service';
 import { CategoriasModule } from './categorias/categorias.module';
 
 @Module({

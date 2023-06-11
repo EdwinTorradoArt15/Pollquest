@@ -8,6 +8,7 @@ import {
   Typography,
   useMediaQuery,
   Stack,
+  IconButton,
 } from "@mui/material";
 
 import { useContext } from "react";
@@ -15,6 +16,8 @@ import { CategoryContext } from "@/features/administrar/context/CategoryContext"
 import { useTheme } from "@mui/material/styles";
 import { Controller, useForm } from "react-hook-form";
 import { Loader } from "@/components";
+import { AiFillCamera } from "react-icons/ai";
+import noImage from "@/features/administrar/image/noImage.png";
 
 interface ModalAdministrarProps {
   open: boolean;
@@ -48,13 +51,23 @@ const useStyles = () => {
 
 const ModalAdministrar = ({ open, setOpen }: ModalAdministrarProps) => {
   const { control, handleSubmit, reset } = useForm();
-  const { createCategory, loading } = useContext(CategoryContext);
+  const { createCategory, loading, image, setImg } =
+    useContext(CategoryContext);
 
   const styles = useStyles();
 
   const handleClose = () => {
     reset();
+    setImg({ preview: "", data: "" });
     setOpen(false);
+  };
+
+  const handleChange = (e: any) => {
+    const img = {
+      preview: URL.createObjectURL(e.target.files[0]),
+      data: e.target.files[0],
+    };
+    setImg(img);
   };
 
   const postCategory = (formCategoryData: FormCreateCategoryProps) => {
@@ -82,22 +95,74 @@ const ModalAdministrar = ({ open, setOpen }: ModalAdministrarProps) => {
             Agregar Categoria
           </Typography>
           <form
+            encType="multipart/form-data"
             onSubmit={handleSubmit(postCategory)}
             style={{ marginTop: "20px" }}
           >
             <Stack spacing={2}>
-              <Controller
-                name="file"
-                control={control}
-                defaultValue={undefined}
-                render={({ field }) => (
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => field.onChange(e.target.files)}
+              <Box
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "0.5rem",
+                  backgroundColor: "#fff",
+                }}
+              >
+                <img
+                  src={image.preview ? image.preview : noImage}
+                  alt="No hay imagen"
+                  style={{
+                    width: "100%",
+                    height: "8rem",
+                    objectFit: "cover",
+                    objectPosition: "center",
+                    borderTopLeftRadius: "0.375rem",
+                    borderTopRightRadius: "0.375rem",
+                  }}
+                />
+                <div
+                  style={{
+                    backgroundColor: "#fff",
+                    width: "100%",
+                    borderBottomLeftRadius: "0.375rem",
+                    borderBottomRightRadius: "0.375rem",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <IconButton
+                    onClick={() => {
+                      const fileInput = document.getElementById("file");
+                      if (fileInput) {
+                        fileInput.click();
+                      }
+                    }}
+                  >
+                    <AiFillCamera size={22} color="#000" />
+                  </IconButton>
+                  <Controller
+                    name="file"
+                    control={control}
+                    defaultValue={undefined}
+                    render={({ field }) => (
+                      <input
+                        id="file"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          field.onChange(e);
+                          handleChange(e);
+                        }}
+                        style={{ display: "none" }}
+                      />
+                    )}
                   />
-                )}
-              />
+                </div>
+              </Box>
               <Controller
                 name="nombre"
                 control={control}

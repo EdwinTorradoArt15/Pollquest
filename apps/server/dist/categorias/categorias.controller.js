@@ -28,9 +28,9 @@ let CategoriasController = class CategoriasController {
     }
     async createCategorie(file, createCategoriaDto) {
         cloudinary_1.v2.config({
-            cloud_name: 'edwintorrado',
-            api_key: '967816159971617',
-            api_secret: 'pO5_BS3I1adSByzd3n8h9N5ERWM',
+            cloud_name: process.env.CLOUD_NAME,
+            api_key: process.env.API_KEY,
+            api_secret: process.env.API_SECRET,
         });
         if (file) {
             const uploadedImage = await cloudinary_1.v2.uploader.upload(file.path);

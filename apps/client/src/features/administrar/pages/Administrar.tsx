@@ -64,6 +64,7 @@ const Administrar = () => {
         >
           {categories.map((category) => (
             <CardCategory
+              key={category.id}
               nombre={category.nombre}
               imagen={category.imagenUrl}
             />
