@@ -21,13 +21,20 @@ const swagger_1 = require("@nestjs/swagger");
 const platform_express_1 = require("@nestjs/platform-express");
 const multer_1 = require("multer");
 const images_helpers_1 = require("./helpers/images.helpers");
+const cloudinary_1 = require("cloudinary");
 let CategoriasController = class CategoriasController {
     constructor(categoriasService) {
         this.categoriasService = categoriasService;
     }
     async createCategorie(file, createCategoriaDto) {
+        cloudinary_1.v2.config({
+            cloud_name: 'edwintorrado',
+            api_key: '967816159971617',
+            api_secret: 'pO5_BS3I1adSByzd3n8h9N5ERWM',
+        });
         if (file) {
-            createCategoriaDto.imagenUrl = file.filename;
+            const uploadedImage = await cloudinary_1.v2.uploader.upload(file.path);
+            createCategoriaDto.imagenUrl = uploadedImage.secure_url;
         }
         const categoria = await this.categoriasService.createCategorie(createCategoriaDto);
         return categoria;
@@ -50,7 +57,6 @@ __decorate([
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
         storage: (0, multer_1.diskStorage)({
             destination: './uploads',
-            filename: images_helpers_1.renameImage,
         }),
         fileFilter: images_helpers_1.fileFilter,
     })),
