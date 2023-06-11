@@ -1,4 +1,5 @@
 import noImage from "@/features/administrar/image/noImage.png";
+import { formatedText } from "@/utils/formatedText";
 
 interface CardCategoryProps {
   nombre: string;
@@ -30,7 +31,7 @@ const CardCategory = ({ nombre, imagen }: CardCategoryProps) => {
         }}
         className="btn btn-categoria"
       >
-        <p>{nombre}</p>
+        <p>{formatedText(nombre)}</p>
       </div>
     </div>
   );

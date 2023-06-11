@@ -15,9 +15,11 @@
     background: none;
     border: 2px solid #fff;
     border-radius: 8px;
-    color: #000;
+    color: #fff;
     transition: color 0.4s linear;
     position: relative;
+    z-index: 1;
+    cursor: default;
   }
   
   .btn:hover {
