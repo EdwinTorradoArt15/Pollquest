@@ -62,13 +62,16 @@ const Administrar = () => {
             gap: "1rem",
           }}
         >
-          {categories.map((category) => (
-            <CardCategory
-              key={category.id}
-              nombre={category.nombre}
-              imagen={category.imagenUrl}
-            />
-          ))}
+          {categories.map((category) => {
+            return (
+              <CardCategory
+                key={category._id}
+                id={category._id}
+                nombre={category.nombre}
+                imagen={category.imagenUrl}
+              />
+            );
+          })}
         </Box>
       </Stack>
       <ModalAdministrar open={open} setOpen={setOpen} />
