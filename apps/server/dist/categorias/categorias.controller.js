@@ -30,6 +30,9 @@ let CategoriasController = class CategoriasController {
     findAllCategories() {
         return this.categoriasService.findAllCategories();
     }
+    findOneCategorie(id) {
+        return this.categoriasService.findOneCategorie(id);
+    }
     async createCategorie(file, createCategoriaDto) {
         cloudinary_1.v2.config({
             cloud_name: process.env.CLOUD_NAME,
@@ -75,6 +78,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], CategoriasController.prototype, "findAllCategories", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], CategoriasController.prototype, "findOneCategorie", null);
 __decorate([
     (0, common_1.Post)(),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {

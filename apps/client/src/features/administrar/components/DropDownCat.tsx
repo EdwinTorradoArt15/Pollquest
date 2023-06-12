@@ -1,17 +1,24 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { CategoryContext } from "@/features/administrar/context/CategoryContext";
 import { FiMoreHorizontal, FiTrash2, FiEdit } from "react-icons/fi";
 import { IconButton, Menu, MenuItem } from "@mui/material";
-import Swal from "sweetalert2";
-import * as categoriesServices from "@/features/administrar/services/categoriesServices";
 import { toast } from "react-toastify";
+import * as categoriesServices from "@/features/administrar/services/categoriesServices";
+import Swal from "sweetalert2";
 
 interface DropDownCatProps {
   id: string;
   getCategories: () => void;
+  handleOpenModalAdministrar: () => void;
 }
 
-const DropDownCat = ({ id, getCategories }: DropDownCatProps) => {
+const DropDownCat = ({
+  id,
+  getCategories,
+  handleOpenModalAdministrar,
+}: DropDownCatProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { getCategory } = useContext(CategoryContext);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -19,6 +26,11 @@ const DropDownCat = ({ id, getCategories }: DropDownCatProps) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const getCategoryAndOpenModal = (id: string) => {
+    getCategory(id);
+    handleOpenModalAdministrar();
   };
 
   const handleDeleteCategory = async (id: string) => {
@@ -69,7 +81,7 @@ const DropDownCat = ({ id, getCategories }: DropDownCatProps) => {
       >
         <MenuItem
           onClick={() => {
-            console.log("editar categoria", id);
+            getCategoryAndOpenModal(id);
             handleClose();
           }}
           sx={{

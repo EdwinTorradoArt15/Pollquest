@@ -70,6 +70,7 @@ const Administrar = () => {
                 nombre={category.nombre}
                 imagen={category.imagenUrl}
                 getCategories={getCategories}
+                handleOpenModalAdministrar={handleOpenModalAdministrar}
               />
             );
           })}

@@ -34,6 +34,9 @@ export declare class CategoriasController {
     findAllCategories(): Promise<(import("mongoose").Document<unknown, {}, Categoria> & Omit<Categoria & {
         _id: import("mongoose").Types.ObjectId;
     }, never>)[]>;
+    findOneCategorie(id: string): Promise<import("mongoose").Document<unknown, {}, Categoria> & Omit<Categoria & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>>;
     createCategorie(file: Express.Multer.File, createCategoriaDto: CreateCategoriaDto): Promise<import("mongoose").Document<unknown, {}, Categoria> & Omit<Categoria & {
         _id: import("mongoose").Types.ObjectId;
     }, never>>;

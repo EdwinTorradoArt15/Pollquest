@@ -16,6 +16,11 @@ export class CategoriasService {
     return this.categoriaModel.find().exec();
   }
 
+  // Obtener una categoria
+  findOneCategorie(id: string) {
+    return this.categoriaModel.findOne({ _id: id }).exec();
+  }
+
   // Crear una categoria
   async createCategorie(createCategoriaDto: CreateCategoriaDto) {
     const { nombre } = createCategoriaDto;

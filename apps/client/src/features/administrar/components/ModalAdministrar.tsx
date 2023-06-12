@@ -11,7 +11,7 @@ import {
   IconButton,
 } from "@mui/material";
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { CategoryContext } from "@/features/administrar/context/CategoryContext";
 import { useTheme } from "@mui/material/styles";
 import { Controller, useForm } from "react-hook-form";
@@ -24,7 +24,7 @@ interface ModalAdministrarProps {
   setOpen: (open: boolean) => void;
 }
 
-interface FormCreateCategoryProps {
+interface FormDataCategoryProps {
   nombre: string;
   descripcion: string;
   file?: FileList;
@@ -50,16 +50,24 @@ const useStyles = () => {
 };
 
 const ModalAdministrar = ({ open, setOpen }: ModalAdministrarProps) => {
-  const { control, handleSubmit, reset } = useForm();
-  const { createCategory, loading, image, setImg } =
-    useContext(CategoryContext);
+  const { control, handleSubmit, reset, setValue } = useForm();
+  const {
+    createCategory,
+    updateCategory,
+    category,
+    setCategory,
+    loading,
+    image,
+    setImg,
+  } = useContext(CategoryContext);
 
   const styles = useStyles();
 
   const handleClose = () => {
-    reset();
     setImg({ preview: "", data: "" });
+    setCategory({});
     setOpen(false);
+    reset();
   };
 
   const handleChange = (e: any) => {
@@ -70,10 +78,24 @@ const ModalAdministrar = ({ open, setOpen }: ModalAdministrarProps) => {
     setImg(img);
   };
 
-  const postCategory = (formCategoryData: FormCreateCategoryProps) => {
-    createCategory(formCategoryData);
+  const onsubmit = (formData: FormDataCategoryProps) => {
+    if (category?._id) {
+      updateCategory(category._id, formData);
+      console.log("editado");
+    } else {
+      createCategory(formData);
+      console.log("creado");
+    }
     handleClose();
   };
+
+  useEffect(() => {
+    if (category?._id) {
+      setValue("nombre", category.nombre);
+      setValue("descripcion", category.descripcion);
+      setImg({ preview: category.imagenUrl, data: "" });
+    }
+  }, [category]);
 
   return (
     <Modal
@@ -96,7 +118,7 @@ const ModalAdministrar = ({ open, setOpen }: ModalAdministrarProps) => {
           </Typography>
           <form
             encType="multipart/form-data"
-            onSubmit={handleSubmit(postCategory)}
+            onSubmit={handleSubmit(onsubmit)}
             style={{ marginTop: "20px" }}
           >
             <Stack spacing={2}>
@@ -202,7 +224,7 @@ const ModalAdministrar = ({ open, setOpen }: ModalAdministrarProps) => {
                 size="medium"
                 type="submit"
               >
-                {loading ? <Loader /> : "Agregar"}
+                {loading ? <Loader /> : category?._id ? "Editar" : "Agregar"}
               </Button>
             </Stack>
           </form>

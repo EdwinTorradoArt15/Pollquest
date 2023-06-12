@@ -42,6 +42,12 @@ export class CategoriasController {
     return this.categoriasService.findAllCategories();
   }
 
+  // Obtener una categoria
+  @Get(':id')
+  findOneCategorie(@Param('id') id: string) {
+    return this.categoriasService.findOneCategorie(id);
+  }
+
   // Crear una categoria
   @Post()
   @UseInterceptors(

@@ -8,16 +8,27 @@ interface CardCategoryProps {
   nombre: string;
   imagen?: string;
   getCategories: () => void;
+  handleOpenModalAdministrar: () => void;
 }
 
-const CardCategory = ({ nombre, imagen, id, getCategories }: CardCategoryProps) => {
+const CardCategory = ({
+  id,
+  nombre,
+  imagen,
+  getCategories,
+  handleOpenModalAdministrar,
+}: CardCategoryProps) => {
   const imageUrl = imagen ? imagen : noImage;
 
   return (
     <Box
       sx={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}
     >
-      <DropDownCat id={id} getCategories={getCategories}/>
+      <DropDownCat
+        id={id}
+        getCategories={getCategories}
+        handleOpenModalAdministrar={handleOpenModalAdministrar}
+      />
       <div
         style={{
           backgroundImage: `url(${imageUrl})`,

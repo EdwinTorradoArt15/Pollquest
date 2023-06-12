@@ -24,6 +24,9 @@ let CategoriasService = class CategoriasService {
     findAllCategories() {
         return this.categoriaModel.find().exec();
     }
+    findOneCategorie(id) {
+        return this.categoriaModel.findOne({ _id: id }).exec();
+    }
     async createCategorie(createCategoriaDto) {
         const { nombre } = createCategoriaDto;
         const nombreLowerCase = nombre.toLowerCase();
