@@ -14,7 +14,12 @@ import {
 import { useContext, useEffect } from "react";
 import { CategoryContext } from "@/features/administrar/context/CategoryContext";
 import { useTheme } from "@mui/material/styles";
-import { Controller, useForm } from "react-hook-form";
+import {
+  Controller,
+  useForm,
+  SubmitHandler,
+  FieldValues,
+} from "react-hook-form";
 import { Loader } from "@/components";
 import { AiFillCamera } from "react-icons/ai";
 import noImage from "@/features/administrar/image/noImage.png";
@@ -78,13 +83,11 @@ const ModalAdministrar = ({ open, setOpen }: ModalAdministrarProps) => {
     setImg(img);
   };
 
-  const onsubmit = (formData: FormDataCategoryProps) => {
+  const onsubmit: SubmitHandler<FieldValues> = (formData) => {
     if (category?._id) {
-      updateCategory(category._id, formData);
-      console.log("editado");
+      updateCategory(category._id, formData as FormDataCategoryProps);
     } else {
-      createCategory(formData);
-      console.log("creado");
+      createCategory(formData as FormDataCategoryProps);
     }
     handleClose();
   };
