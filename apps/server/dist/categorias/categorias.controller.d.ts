@@ -26,6 +26,7 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { CategoriasService } from './categorias.service';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
+import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { Categoria } from './entities/categoria.entity';
 export declare class CategoriasController {
     private readonly categoriasService;
@@ -34,6 +35,9 @@ export declare class CategoriasController {
         _id: import("mongoose").Types.ObjectId;
     }, never>)[]>;
     createCategorie(file: Express.Multer.File, createCategoriaDto: CreateCategoriaDto): Promise<import("mongoose").Document<unknown, {}, Categoria> & Omit<Categoria & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>>;
+    updateCategoria(id: string, file: Express.Multer.File, updateCategoriaDto: UpdateCategoriaDto): Promise<import("mongoose").Document<unknown, {}, Categoria> & Omit<Categoria & {
         _id: import("mongoose").Types.ObjectId;
     }, never>>;
     deleteCategorie(id: string): Promise<import("mongoose").Document<unknown, {}, Categoria> & Omit<Categoria & {

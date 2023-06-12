@@ -16,6 +16,7 @@ exports.CategoriasController = void 0;
 const common_1 = require("@nestjs/common");
 const categorias_service_1 = require("./categorias.service");
 const create_categoria_dto_1 = require("./dto/create-categoria.dto");
+const update_categoria_dto_1 = require("./dto/update-categoria.dto");
 const categoria_entity_1 = require("./entities/categoria.entity");
 const swagger_1 = require("@nestjs/swagger");
 const platform_express_1 = require("@nestjs/platform-express");
@@ -40,6 +41,19 @@ let CategoriasController = class CategoriasController {
             createCategoriaDto.imagenUrl = uploadedImage.secure_url;
         }
         const categoria = await this.categoriasService.createCategorie(createCategoriaDto);
+        return categoria;
+    }
+    async updateCategoria(id, file, updateCategoriaDto) {
+        cloudinary_1.v2.config({
+            cloud_name: process.env.CLOUD_NAME,
+            api_key: process.env.API_KEY,
+            api_secret: process.env.API_SECRET,
+        });
+        if (file) {
+            const uploadedImage = await cloudinary_1.v2.uploader.upload(file.path);
+            updateCategoriaDto.imagenUrl = uploadedImage.secure_url;
+        }
+        const categoria = await this.categoriasService.updateCategorie(id, updateCategoriaDto);
         return categoria;
     }
     deleteCategorie(id) {
@@ -75,6 +89,21 @@ __decorate([
     __metadata("design:paramtypes", [Object, create_categoria_dto_1.CreateCategoriaDto]),
     __metadata("design:returntype", Promise)
 ], CategoriasController.prototype, "createCategorie", null);
+__decorate([
+    (0, common_1.Patch)(':id'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
+        storage: (0, multer_1.diskStorage)({
+            destination: './uploads',
+        }),
+        fileFilter: images_helpers_1.fileFilter,
+    })),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.UploadedFile)()),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, update_categoria_dto_1.UpdateCategoriaDto]),
+    __metadata("design:returntype", Promise)
+], CategoriasController.prototype, "updateCategoria", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),

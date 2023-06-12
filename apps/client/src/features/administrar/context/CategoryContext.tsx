@@ -1,7 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import * as categoriesServices from "@/features/administrar/services/categoriesServices";
-import { getCategories } from '../services/categoriesServices';
 
 interface CategoryProviderProps {
   children: React.ReactNode;

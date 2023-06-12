@@ -36,6 +36,18 @@ let CategoriasService = class CategoriasService {
         const categoria = new this.categoriaModel(Object.assign(Object.assign({}, createCategoriaDto), { nombre: nombreLowerCase }));
         return categoria.save();
     }
+    async updateCategorie(id, updateCategoriaDto) {
+        const { nombre } = updateCategoriaDto;
+        const nombreLowerCase = nombre.toLowerCase();
+        const existingCategoria = await this.categoriaModel.findOne({
+            nombre: nombreLowerCase,
+            _id: { $ne: id },
+        });
+        if (existingCategoria) {
+            throw new common_1.UnauthorizedException(`Ya existe una categoría con el nombre ${nombre}`);
+        }
+        return this.categoriaModel.findByIdAndUpdate(id, { $set: Object.assign(Object.assign({}, updateCategoriaDto), { nombre: nombreLowerCase }) }, { new: true });
+    }
     deleteCategorie(id) {
         return this.categoriaModel.findByIdAndDelete(id).exec();
     }

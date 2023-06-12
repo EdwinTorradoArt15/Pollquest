@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import { CategoriasService } from './categorias.service';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
+import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { Categoria } from './entities/categoria.entity';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -67,6 +68,39 @@ export class CategoriasController {
 
     const categoria = await this.categoriasService.createCategorie(
       createCategoriaDto,
+    );
+    return categoria;
+  }
+
+  // Actualizar categoria
+  @Patch(':id')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './uploads',
+      }),
+      fileFilter: fileFilter,
+    }),
+  )
+  async updateCategoria(
+    @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() updateCategoriaDto: UpdateCategoriaDto,
+  ) {
+    v2.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_KEY,
+      api_secret: process.env.API_SECRET,
+    });
+
+    if (file) {
+      const uploadedImage = await v2.uploader.upload(file.path);
+      updateCategoriaDto.imagenUrl = uploadedImage.secure_url;
+    }
+
+    const categoria = await this.categoriasService.updateCategorie(
+      id,
+      updateCategoriaDto,
     );
     return categoria;
   }

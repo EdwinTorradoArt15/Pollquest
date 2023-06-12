@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { Categoria } from './entities/categoria.entity';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
+import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
@@ -39,6 +40,32 @@ export class CategoriasService {
     });
 
     return categoria.save();
+  }
+
+  // Actualizar categoria
+  async updateCategorie(id: string, updateCategoriaDto: UpdateCategoriaDto) {
+    const { nombre } = updateCategoriaDto;
+
+    // Convertir el nombre a minúsculas
+    const nombreLowerCase = nombre.toLowerCase();
+
+    // Verificar si ya existe una categoría con el nuevo nombre
+    const existingCategoria = await this.categoriaModel.findOne({
+      nombre: nombreLowerCase,
+      _id: { $ne: id },
+    });
+    if (existingCategoria) {
+      throw new UnauthorizedException(
+        `Ya existe una categoría con el nombre ${nombre}`,
+      );
+    }
+
+    // Actualizar la categoría con el nuevo nombre en minúsculas
+    return this.categoriaModel.findByIdAndUpdate(
+      id,
+      { $set: { ...updateCategoriaDto, nombre: nombreLowerCase } },
+      { new: true },
+    );
   }
 
   // Eliminar categoria

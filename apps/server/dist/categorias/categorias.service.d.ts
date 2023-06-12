@@ -25,6 +25,7 @@
 import { Model } from 'mongoose';
 import { Categoria } from './entities/categoria.entity';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
+import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 export declare class CategoriasService {
     private categoriaModel;
     constructor(categoriaModel: Model<Categoria>);
@@ -32,6 +33,9 @@ export declare class CategoriasService {
         _id: import("mongoose").Types.ObjectId;
     }, never>)[]>;
     createCategorie(createCategoriaDto: CreateCategoriaDto): Promise<import("mongoose").Document<unknown, {}, Categoria> & Omit<Categoria & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>>;
+    updateCategorie(id: string, updateCategoriaDto: UpdateCategoriaDto): Promise<import("mongoose").Document<unknown, {}, Categoria> & Omit<Categoria & {
         _id: import("mongoose").Types.ObjectId;
     }, never>>;
     deleteCategorie(id: string): Promise<import("mongoose").Document<unknown, {}, Categoria> & Omit<Categoria & {
