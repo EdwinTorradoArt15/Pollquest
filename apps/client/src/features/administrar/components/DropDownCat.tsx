@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { FiMoreHorizontal, FiTrash2, FiEdit } from "react-icons/fi";
 import { IconButton, Menu, MenuItem } from "@mui/material";
+import Swal from "sweetalert2";
+import * as categoriesServices from "@/features/administrar/services/categoriesServices";
+import { toast } from "react-toastify";
 
 interface DropDownCatProps {
   id: string;
+  getCategories: () => void;
 }
 
-const DropDownCat = ({ id }: DropDownCatProps) => {
+const DropDownCat = ({ id, getCategories }: DropDownCatProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -15,6 +19,34 @@ const DropDownCat = ({ id }: DropDownCatProps) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleDeleteCategory = async (id: string) => {
+    Swal.fire({
+      title: `¿Estás seguro?`,
+      html: `No podrás revertir esto!`,
+      text: "No podrás revertir esta acción",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#008000",
+      cancelButtonColor: "#D00000",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Eliminado!", "La categoría ha sido eliminada.", "success");
+        categoriesServices
+          .deleteCategory(id)
+          .then(() => {
+            toast.success("Mesa eliminada correctamente");
+            getCategories();
+          })
+          .catch((error) => {
+            toast.error("Error al eliminar la mesa");
+            console.error(error);
+          });
+      }
+    });
   };
 
   return (
@@ -38,7 +70,7 @@ const DropDownCat = ({ id }: DropDownCatProps) => {
         <MenuItem
           onClick={() => {
             console.log("editar categoria", id);
-            handleClose;
+            handleClose();
           }}
           sx={{
             display: "flex",
@@ -52,8 +84,8 @@ const DropDownCat = ({ id }: DropDownCatProps) => {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            console.log("eliminar categoria", id);
-            handleClose;
+            handleDeleteCategory(id);
+            handleClose();
           }}
           sx={{ display: "flex", gap: 2, alignItems: "center" }}
         >

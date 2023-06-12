@@ -34,4 +34,7 @@ export declare class CategoriasService {
     createCategorie(createCategoriaDto: CreateCategoriaDto): Promise<import("mongoose").Document<unknown, {}, Categoria> & Omit<Categoria & {
         _id: import("mongoose").Types.ObjectId;
     }, never>>;
+    deleteCategorie(id: string): Promise<import("mongoose").Document<unknown, {}, Categoria> & Omit<Categoria & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>>;
 }

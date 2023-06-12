@@ -17,7 +17,7 @@ import { Categoria } from './entities/categoria.entity';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { fileFilter, renameImage } from './helpers/images.helpers';
+import { fileFilter } from './helpers/images.helpers';
 import { v2 } from 'cloudinary';
 @ApiBearerAuth()
 @ApiTags('Categorias')
@@ -34,6 +34,12 @@ export class CategoriasController {
     status: 400,
     description: 'Hubo un error y no se pudo crear la categoria.',
   })
+
+  // Obtener todas las categorias
+  @Get()
+  findAllCategories() {
+    return this.categoriasService.findAllCategories();
+  }
 
   // Crear una categoria
   @Post()
@@ -65,9 +71,9 @@ export class CategoriasController {
     return categoria;
   }
 
-  // Obtener todas las categorias
-  @Get()
-  findAllCategories() {
-    return this.categoriasService.findAllCategories();
+  // Eliminar categoria
+  @Delete(':id')
+  deleteCategorie(@Param('id') id: string) {
+    return this.categoriasService.deleteCategorie(id);
   }
 }

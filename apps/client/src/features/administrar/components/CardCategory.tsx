@@ -7,16 +7,17 @@ interface CardCategoryProps {
   id: string;
   nombre: string;
   imagen?: string;
+  getCategories: () => void;
 }
 
-const CardCategory = ({ nombre, imagen, id }: CardCategoryProps) => {
+const CardCategory = ({ nombre, imagen, id, getCategories }: CardCategoryProps) => {
   const imageUrl = imagen ? imagen : noImage;
 
   return (
     <Box
       sx={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}
     >
-      <DropDownCat id={id}/>
+      <DropDownCat id={id} getCategories={getCategories}/>
       <div
         style={{
           backgroundImage: `url(${imageUrl})`,

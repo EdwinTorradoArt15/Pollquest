@@ -26,6 +26,9 @@ let CategoriasController = class CategoriasController {
     constructor(categoriasService) {
         this.categoriasService = categoriasService;
     }
+    findAllCategories() {
+        return this.categoriasService.findAllCategories();
+    }
     async createCategorie(file, createCategoriaDto) {
         cloudinary_1.v2.config({
             cloud_name: process.env.CLOUD_NAME,
@@ -39,8 +42,8 @@ let CategoriasController = class CategoriasController {
         const categoria = await this.categoriasService.createCategorie(createCategoriaDto);
         return categoria;
     }
-    findAllCategories() {
-        return this.categoriasService.findAllCategories();
+    deleteCategorie(id) {
+        return this.categoriasService.deleteCategorie(id);
     }
 };
 __decorate([
@@ -53,6 +56,12 @@ __decorate([
         status: 400,
         description: 'Hubo un error y no se pudo crear la categoria.',
     }),
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], CategoriasController.prototype, "findAllCategories", null);
+__decorate([
     (0, common_1.Post)(),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
         storage: (0, multer_1.diskStorage)({
@@ -67,11 +76,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CategoriasController.prototype, "createCategorie", null);
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], CategoriasController.prototype, "findAllCategories", null);
+], CategoriasController.prototype, "deleteCategorie", null);
 CategoriasController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, swagger_1.ApiTags)('Categorias'),

@@ -10,10 +10,12 @@ export class CategoriasService {
     @InjectModel(Categoria.name) private categoriaModel: Model<Categoria>,
   ) {}
 
+  // Obtener todas las categorias
   findAllCategories() {
     return this.categoriaModel.find().exec();
   }
 
+  // Crear una categoria
   async createCategorie(createCategoriaDto: CreateCategoriaDto) {
     const { nombre } = createCategoriaDto;
 
@@ -37,5 +39,10 @@ export class CategoriasService {
     });
 
     return categoria.save();
+  }
+
+  // Eliminar categoria
+  deleteCategorie(id: string) {
+    return this.categoriaModel.findByIdAndDelete(id).exec();
   }
 }

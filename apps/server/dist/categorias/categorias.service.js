@@ -36,6 +36,9 @@ let CategoriasService = class CategoriasService {
         const categoria = new this.categoriaModel(Object.assign(Object.assign({}, createCategoriaDto), { nombre: nombreLowerCase }));
         return categoria.save();
     }
+    deleteCategorie(id) {
+        return this.categoriaModel.findByIdAndDelete(id).exec();
+    }
 };
 CategoriasService = __decorate([
     (0, common_1.Injectable)(),

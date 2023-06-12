@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import * as categoriesServices from "@/features/administrar/services/categoriesServices";
+import { getCategories } from '../services/categoriesServices';
 
 interface CategoryProviderProps {
   children: React.ReactNode;
@@ -18,6 +19,7 @@ interface CategoryContextValues {
   image: any;
   setImg: (image: any) => void;
   createCategory: (data: FormCreateCategoryProps) => void;
+  getCategories: () => void;
 }
 
 export const CategoryContext = createContext<CategoryContextValues>({
@@ -26,6 +28,7 @@ export const CategoryContext = createContext<CategoryContextValues>({
   image: { preview: "", data: "" },
   setImg: () => {},
   createCategory: () => {},
+  getCategories: () => {},
 });
 
 export const CategoryProvider = ({ children }: CategoryProviderProps) => {
@@ -68,7 +71,7 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
 
   return (
     <CategoryContext.Provider
-      value={{ loading, createCategory, categories, image, setImg }}
+      value={{ loading, createCategory, categories, image, setImg, getCategories }}
     >
       {children}
     </CategoryContext.Provider>

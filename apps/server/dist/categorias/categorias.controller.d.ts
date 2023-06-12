@@ -30,10 +30,13 @@ import { Categoria } from './entities/categoria.entity';
 export declare class CategoriasController {
     private readonly categoriasService;
     constructor(categoriasService: CategoriasService);
-    createCategorie(file: Express.Multer.File, createCategoriaDto: CreateCategoriaDto): Promise<import("mongoose").Document<unknown, {}, Categoria> & Omit<Categoria & {
-        _id: import("mongoose").Types.ObjectId;
-    }, never>>;
     findAllCategories(): Promise<(import("mongoose").Document<unknown, {}, Categoria> & Omit<Categoria & {
         _id: import("mongoose").Types.ObjectId;
     }, never>)[]>;
+    createCategorie(file: Express.Multer.File, createCategoriaDto: CreateCategoriaDto): Promise<import("mongoose").Document<unknown, {}, Categoria> & Omit<Categoria & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>>;
+    deleteCategorie(id: string): Promise<import("mongoose").Document<unknown, {}, Categoria> & Omit<Categoria & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>>;
 }
