@@ -22,10 +22,11 @@ const swagger_1 = require("@nestjs/swagger");
 const platform_express_1 = require("@nestjs/platform-express");
 const multer_1 = require("multer");
 const images_helpers_1 = require("./helpers/images.helpers");
-const cloudinary_1 = require("cloudinary");
+const cloudinary_service_1 = require("../cloudinary/cloudinary.service");
 let CategoriasController = class CategoriasController {
     constructor(categoriasService) {
         this.categoriasService = categoriasService;
+        this.cloudinaryService = new cloudinary_service_1.CloudinaryService();
     }
     findAllCategories() {
         return this.categoriasService.findAllCategories();
@@ -34,27 +35,15 @@ let CategoriasController = class CategoriasController {
         return this.categoriasService.findOneCategorie(id);
     }
     async createCategorie(file, createCategoriaDto) {
-        cloudinary_1.v2.config({
-            cloud_name: process.env.CLOUD_NAME,
-            api_key: process.env.API_KEY,
-            api_secret: process.env.API_SECRET,
-        });
         if (file) {
-            const uploadedImage = await cloudinary_1.v2.uploader.upload(file.path);
-            createCategoriaDto.imagenUrl = uploadedImage.secure_url;
+            createCategoriaDto.imagenUrl = await this.cloudinaryService.uploadImage(file);
         }
         const categoria = await this.categoriasService.createCategorie(createCategoriaDto);
         return categoria;
     }
     async updateCategoria(id, file, updateCategoriaDto) {
-        cloudinary_1.v2.config({
-            cloud_name: process.env.CLOUD_NAME,
-            api_key: process.env.API_KEY,
-            api_secret: process.env.API_SECRET,
-        });
         if (file) {
-            const uploadedImage = await cloudinary_1.v2.uploader.upload(file.path);
-            updateCategoriaDto.imagenUrl = uploadedImage.secure_url;
+            updateCategoriaDto.imagenUrl = await this.cloudinaryService.uploadImage(file);
         }
         const categoria = await this.categoriasService.updateCategorie(id, updateCategoriaDto);
         return categoria;

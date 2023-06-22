@@ -30,6 +30,7 @@ import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { Categoria } from './entities/categoria.entity';
 export declare class CategoriasController {
     private readonly categoriasService;
+    private cloudinaryService;
     constructor(categoriasService: CategoriasService);
     findAllCategories(): Promise<(import("mongoose").Document<unknown, {}, Categoria> & Omit<Categoria & {
         _id: import("mongoose").Types.ObjectId;

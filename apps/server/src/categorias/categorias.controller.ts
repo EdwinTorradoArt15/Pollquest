@@ -19,12 +19,15 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { fileFilter } from './helpers/images.helpers';
-import { v2 } from 'cloudinary';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 @ApiBearerAuth()
 @ApiTags('Categorias')
 @Controller('categorias')
 export class CategoriasController {
-  constructor(private readonly categoriasService: CategoriasService) {}
+  private cloudinaryService: CloudinaryService;
+  constructor(private readonly categoriasService: CategoriasService) {
+    this.cloudinaryService = new CloudinaryService();
+  }
 
   @ApiResponse({
     status: 200,
@@ -62,16 +65,11 @@ export class CategoriasController {
     @UploadedFile() file: Express.Multer.File,
     @Body() createCategoriaDto: CreateCategoriaDto,
   ) {
-    v2.config({
-      cloud_name: process.env.CLOUD_NAME,
-      api_key: process.env.API_KEY,
-      api_secret: process.env.API_SECRET,
-    });
     if (file) {
-      const uploadedImage = await v2.uploader.upload(file.path);
-      createCategoriaDto.imagenUrl = uploadedImage.secure_url;
+      createCategoriaDto.imagenUrl = await this.cloudinaryService.uploadImage(
+        file,
+      );
     }
-
     const categoria = await this.categoriasService.createCategorie(
       createCategoriaDto,
     );
@@ -93,17 +91,11 @@ export class CategoriasController {
     @UploadedFile() file: Express.Multer.File,
     @Body() updateCategoriaDto: UpdateCategoriaDto,
   ) {
-    v2.config({
-      cloud_name: process.env.CLOUD_NAME,
-      api_key: process.env.API_KEY,
-      api_secret: process.env.API_SECRET,
-    });
-
     if (file) {
-      const uploadedImage = await v2.uploader.upload(file.path);
-      updateCategoriaDto.imagenUrl = uploadedImage.secure_url;
+      updateCategoriaDto.imagenUrl = await this.cloudinaryService.uploadImage(
+        file,
+      );
     }
-
     const categoria = await this.categoriasService.updateCategorie(
       id,
       updateCategoriaDto,
