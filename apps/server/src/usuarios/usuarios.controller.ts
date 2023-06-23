@@ -9,14 +9,12 @@ import {
   UseGuards,
   Req,
   UseInterceptors,
-  UploadedFile,
   UploadedFiles,
 } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { LoginUserDto } from './dto/login-user.dto';
-import { AuthGuard } from '@nestjs/passport';
 import { LocalAuthGuard } from './local-auth-guards';
 import { JwtAuthGuard } from './jwt-auth-guards';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -24,11 +22,9 @@ import { User } from './entities/usuario.entity';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import {
   FileFieldsInterceptor,
-  FileInterceptor,
 } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { fileFilter } from 'src/categorias/helpers/images.helpers';
-/* import { JwtAuthGuard } from './jwt-auth-guards'; */
 
 @ApiBearerAuth()
 @ApiTags('Usuarios')
