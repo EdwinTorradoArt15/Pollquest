@@ -26,8 +26,8 @@ const Inicio = () => {
           >
             {categories.map((category) => (
               <CardCategoryInicio
-                key={category.id}
-                id={category.id}
+                key={category._id}
+                id={category._id}
                 nombre={category.nombre}
                 imagen={category.imagenUrl}
                 getCategories={getCategories}

@@ -1,55 +1,23 @@
-import { useRef, useState, useEffect } from "react";
-import jwt from "jwt-decode";
+import { useRef, useState, useEffect, useContext } from "react";
+import { UserContext } from "@/features/user/context/UserContext";
 import { AppBar, Avatar, Box, IconButton, Toolbar } from "@mui/material";
 import { IoIosMenu } from "react-icons/io";
 import { AccountPopover } from "@/components";
-import * as userServices from "@/features/user/services/userServices";
 
 interface NavbarProps {
   onSidebarOpen: () => void;
 }
 
-interface DecodedUser {
-  _id: string;
-  correo: string;
-}
-
-interface User {
-  _id: string;
-  nombre: string;
-  apellido: string;
-  celular: string;
-  email: string;
-}
-
 const Navbar = ({ onSidebarOpen }: NavbarProps) => {
-  const settingsRef = useRef(null);
+  const { user } = useContext(UserContext);
   const [openAccountPopover, setOpenAccountPopover] = useState(false);
   const [avatarBackgroundColor, setAvatarBackgroundColor] = useState("");
-  const [user, setUser] = useState({} as User);
+  const settingsRef = useRef(null);
 
   useEffect(() => {
     // Generar un color aleatorio en formato hexadecimal y establecerlo como color de fondo del Avatar
     const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
     setAvatarBackgroundColor(randomColor);
-  }, []);
-
-  const getUserById = async () => {
-    const token = localStorage.getItem("token");
-    if (token !== null) {
-      const decoded = jwt(token) as DecodedUser;
-      const { _id } = decoded;
-      try {
-        const response = await userServices.getUser(_id);
-        setUser(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
-
-  useEffect(() => {
-    getUserById();
   }, []);
 
   /* Obtener iniciales para la foto de perfil si no hay */

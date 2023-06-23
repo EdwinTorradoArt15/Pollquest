@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "@/theme";
 import { AuthProvider } from "@/features/auth/context/AuthContext";
+import { UserProvider } from "@/features/user/context/UserContext";
 import { CategoryProvider } from "@/features/administrar/context/CategoryContext";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -14,37 +15,39 @@ const App = () => {
   return (
     <div>
       <AuthProvider>
-        <ToastContainer hideProgressBar theme="colored" />
-        <ThemeProvider theme={theme}>
-          <Routes>
-            <Route
-              path={HOME}
-              element={
-                <Publics>
-                  <Login />
-                </Publics>
-              }
-            />
-            <Route
-              path={AUTH}
-              element={
-                <Publics>
-                  <Login />
-                </Publics>
-              }
-            />
-            <Route
-              path={DASHBOARD}
-              element={
-                <Privates>
-                  <CategoryProvider>
-                    <Dashboard />
-                  </CategoryProvider>
-                </Privates>
-              }
-            />
-          </Routes>
-        </ThemeProvider>
+        <UserProvider>
+          <ToastContainer hideProgressBar theme="colored" />
+          <ThemeProvider theme={theme}>
+            <Routes>
+              <Route
+                path={HOME}
+                element={
+                  <Publics>
+                    <Login />
+                  </Publics>
+                }
+              />
+              <Route
+                path={AUTH}
+                element={
+                  <Publics>
+                    <Login />
+                  </Publics>
+                }
+              />
+              <Route
+                path={DASHBOARD}
+                element={
+                  <Privates>
+                    <CategoryProvider>
+                      <Dashboard />
+                    </CategoryProvider>
+                  </Privates>
+                }
+              />
+            </Routes>
+          </ThemeProvider>
+        </UserProvider>
       </AuthProvider>
     </div>
   );
