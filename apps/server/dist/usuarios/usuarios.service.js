@@ -37,8 +37,12 @@ let UsuariosService = class UsuariosService {
         }
         return user;
     }
-    update(id, updateUsuarioDto) {
-        return `This action updates a #${id} usuario`;
+    updateUser(id, updateUsuarioDto) {
+        const { clave } = updateUsuarioDto;
+        const claveHash = bcrypt.hashSync(clave, 10);
+        return this.userModel.findByIdAndUpdate(id, {
+            $set: Object.assign(Object.assign({}, updateUsuarioDto), { clave: claveHash }),
+        }, { new: true });
     }
     remove(id) {
         return `This action removes a #${id} usuario`;

@@ -15,6 +15,7 @@ export class UsuariosService {
     @InjectModel(User.name) private userModel: Model<User>,
     private jwtService: JwtService,
   ) {}
+  
   create(createUsuarioDto: CreateUsuarioDto) {
     return this.userModel.create({
       ...createUsuarioDto,
@@ -34,8 +35,18 @@ export class UsuariosService {
     return user;
   }
 
-  update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
-    return `This action updates a #${id} usuario`;
+  updateUser(id: string, updateUsuarioDto: UpdateUsuarioDto) {
+    const { clave } = updateUsuarioDto;
+
+    const claveHash = bcrypt.hashSync(clave, 10);
+
+    return this.userModel.findByIdAndUpdate(
+      id,
+      {
+        $set: { ...updateUsuarioDto, clave: claveHash },
+      },
+      { new: true },
+    );
   }
 
   remove(id: number) {

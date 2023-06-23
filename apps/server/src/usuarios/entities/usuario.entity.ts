@@ -25,6 +25,12 @@ export class User extends Document {
   @ApiProperty({ example: '123456' })
   @Prop({ required: true })
   clave: string;
+
+  @Prop()
+  imagenPerfilUrl?: string;
+
+  @Prop()
+  imagenPortadaUrl?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

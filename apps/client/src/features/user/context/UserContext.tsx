@@ -28,7 +28,7 @@ export const UserContext = createContext<UserContextValues>({
 });
 
 export const UserProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState({} as any);
+  const [user, setUser] = useState({} as User);
 
   const getUserById = async () => {
     const token = localStorage.getItem("token");

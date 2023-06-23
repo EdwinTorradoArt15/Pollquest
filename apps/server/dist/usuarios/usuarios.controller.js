@@ -22,9 +22,14 @@ const local_auth_guards_1 = require("./local-auth-guards");
 const jwt_auth_guards_1 = require("./jwt-auth-guards");
 const swagger_1 = require("@nestjs/swagger");
 const usuario_entity_1 = require("./entities/usuario.entity");
+const cloudinary_service_1 = require("../cloudinary/cloudinary.service");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer_1 = require("multer");
+const images_helpers_1 = require("../categorias/helpers/images.helpers");
 let UsuariosController = class UsuariosController {
     constructor(usuariosService) {
         this.usuariosService = usuariosService;
+        this.cloudinaryService = new cloudinary_service_1.CloudinaryService();
     }
     create(createUsuarioDto) {
         return this.usuariosService.create(createUsuarioDto);
@@ -38,8 +43,17 @@ let UsuariosController = class UsuariosController {
     findOne(id) {
         return this.usuariosService.findOne(id);
     }
-    update(id, updateUsuarioDto) {
-        return this.usuariosService.update(+id, updateUsuarioDto);
+    async updateUser(id, files, updateUsuarioDto) {
+        if (files.perfil) {
+            updateUsuarioDto.imagenPerfilUrl =
+                await this.cloudinaryService.uploadImage(files.perfil[0]);
+        }
+        if (files.portada) {
+            updateUsuarioDto.imagenPortadaUrl =
+                await this.cloudinaryService.uploadImage(files.portada[0]);
+        }
+        const user = await this.usuariosService.updateUser(id, updateUsuarioDto);
+        return user;
     }
     remove(id) {
         return this.usuariosService.remove(+id);
@@ -87,12 +101,22 @@ __decorate([
 ], UsuariosController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileFieldsInterceptor)([
+        { name: 'perfil', maxCount: 1 },
+        { name: 'portada', maxCount: 1 },
+    ], {
+        storage: (0, multer_1.diskStorage)({
+            destination: './uploads',
+        }),
+        fileFilter: images_helpers_1.fileFilter,
+    })),
     __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
+    __param(1, (0, common_1.UploadedFiles)()),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_usuario_dto_1.UpdateUsuarioDto]),
-    __metadata("design:returntype", void 0)
-], UsuariosController.prototype, "update", null);
+    __metadata("design:paramtypes", [String, Object, update_usuario_dto_1.UpdateUsuarioDto]),
+    __metadata("design:returntype", Promise)
+], UsuariosController.prototype, "updateUser", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),

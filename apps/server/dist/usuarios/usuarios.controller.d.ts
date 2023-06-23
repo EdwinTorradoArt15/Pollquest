@@ -1,3 +1,4 @@
+/// <reference types="multer" />
 /// <reference types="mongoose/types/aggregate" />
 /// <reference types="mongoose/types/callback" />
 /// <reference types="mongoose/types/collection" />
@@ -30,6 +31,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { User } from './entities/usuario.entity';
 export declare class UsuariosController {
     private readonly usuariosService;
+    private cloudinaryService;
     constructor(usuariosService: UsuariosService);
     create(createUsuarioDto: CreateUsuarioDto): Promise<import("mongoose").Document<unknown, {}, User> & Omit<User & {
         _id: import("mongoose").Types.ObjectId;
@@ -47,6 +49,11 @@ export declare class UsuariosController {
     }, never>, import("mongoose").Document<unknown, {}, User> & Omit<User & {
         _id: import("mongoose").Types.ObjectId;
     }, never>, {}, User, "findOne">;
-    update(id: string, updateUsuarioDto: UpdateUsuarioDto): string;
+    updateUser(id: string, files: {
+        perfil?: Express.Multer.File[];
+        portada?: Express.Multer.File[];
+    }, updateUsuarioDto: UpdateUsuarioDto): Promise<import("mongoose").Document<unknown, {}, User> & Omit<User & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>>;
     remove(id: string): string;
 }

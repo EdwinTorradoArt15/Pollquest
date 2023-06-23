@@ -42,6 +42,14 @@ __decorate([
     (0, mongoose_2.Prop)({ required: true }),
     __metadata("design:type", String)
 ], User.prototype, "clave", void 0);
+__decorate([
+    (0, mongoose_2.Prop)(),
+    __metadata("design:type", String)
+], User.prototype, "imagenPerfilUrl", void 0);
+__decorate([
+    (0, mongoose_2.Prop)(),
+    __metadata("design:type", String)
+], User.prototype, "imagenPortadaUrl", void 0);
 User = __decorate([
     (0, mongoose_2.Schema)()
 ], User);
