@@ -63,27 +63,27 @@ export class UsuariosService {
     }
   }
 
-  // updateUser(id: string, updateUsuarioDto: UpdateUsuarioDto) {
-  //   const { clave, ...rest } = updateUsuarioDto;
-  //   if (clave) {
-  //     const claveHash = bcrypt.hashSync(clave, 10);
-  //     return this.userModel.findByIdAndUpdate(
-  //       id,
-  //       {
-  //         $set: { ...rest, clave: claveHash },
-  //       },
-  //       { new: true },
-  //     );
-  //   } else {
-  //     return this.userModel.findByIdAndUpdate(
-  //       id,
-  //       {
-  //         $set: { ...rest },
-  //       },
-  //       { new: true },
-  //     );
-  //   }
-  // }
+  updatePerfil(id: string, updateUsuarioDto: UpdateUsuarioDto) {
+    const { imagenPerfilUrl } = updateUsuarioDto;
+    return this.userModel.findByIdAndUpdate(
+      id,
+      {
+        $set: { imagenPerfilUrl },
+      },
+      { new: true },
+    );
+  }
+
+  updatePortada(id: string, updateUsuarioDto: UpdateUsuarioDto) {
+    const { imagenPortadaUrl } = updateUsuarioDto;
+    return this.userModel.findByIdAndUpdate(
+      id,
+      {
+        $set: { imagenPortadaUrl },
+      },
+      { new: true },
+    );
+  }
 
   remove(id: number) {
     return `This action removes a #${id} usuario`;

@@ -66,6 +66,18 @@ let UsuariosService = class UsuariosService {
             }, { new: true });
         }
     }
+    updatePerfil(id, updateUsuarioDto) {
+        const { imagenPerfilUrl } = updateUsuarioDto;
+        return this.userModel.findByIdAndUpdate(id, {
+            $set: { imagenPerfilUrl },
+        }, { new: true });
+    }
+    updatePortada(id, updateUsuarioDto) {
+        const { imagenPortadaUrl } = updateUsuarioDto;
+        return this.userModel.findByIdAndUpdate(id, {
+            $set: { imagenPortadaUrl },
+        }, { new: true });
+    }
     remove(id) {
         return `This action removes a #${id} usuario`;
     }

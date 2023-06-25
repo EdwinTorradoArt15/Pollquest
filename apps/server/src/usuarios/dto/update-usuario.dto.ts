@@ -18,4 +18,10 @@ export class UpdateUsuarioDto {
 
   @IsOptional()
   descripcion: string;
+
+  @IsOptional()
+  imagenPerfilUrl: string;
+
+  @IsOptional()
+  imagenPortadaUrl: string;
 }

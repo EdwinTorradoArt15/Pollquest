@@ -23,6 +23,9 @@ const jwt_auth_guards_1 = require("./jwt-auth-guards");
 const swagger_1 = require("@nestjs/swagger");
 const usuario_entity_1 = require("./entities/usuario.entity");
 const cloudinary_service_1 = require("../cloudinary/cloudinary.service");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer_1 = require("multer");
+const images_helpers_1 = require("../categorias/helpers/images.helpers");
 let UsuariosController = class UsuariosController {
     constructor(usuariosService) {
         this.usuariosService = usuariosService;
@@ -42,6 +45,21 @@ let UsuariosController = class UsuariosController {
     }
     async updateInfoUsuario(id, updateUsuarioDto) {
         const user = await this.usuariosService.updateInfoUsuario(id, updateUsuarioDto);
+        return user;
+    }
+    async updatePerfil(id, file, updateUsuarioDto) {
+        if (file) {
+            updateUsuarioDto.imagenPerfilUrl =
+                await this.cloudinaryService.uploadImage(file);
+        }
+        const user = await this.usuariosService.updatePerfil(id, updateUsuarioDto);
+        return user;
+    }
+    async updatePortada(id, file, updateUsuarioDto) {
+        if (file) {
+            updateUsuarioDto.imagenPortadaUrl = await this.cloudinaryService.uploadImage(file);
+        }
+        const user = await this.usuariosService.updatePortada(id, updateUsuarioDto);
         return user;
     }
     remove(id) {
@@ -96,6 +114,36 @@ __decorate([
     __metadata("design:paramtypes", [String, update_usuario_dto_1.UpdateUsuarioDto]),
     __metadata("design:returntype", Promise)
 ], UsuariosController.prototype, "updateInfoUsuario", null);
+__decorate([
+    (0, common_1.Patch)('perfil/:id'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('perfil', {
+        storage: (0, multer_1.diskStorage)({
+            destination: './uploads',
+        }),
+        fileFilter: images_helpers_1.fileFilter,
+    })),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.UploadedFile)()),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, update_usuario_dto_1.UpdateUsuarioDto]),
+    __metadata("design:returntype", Promise)
+], UsuariosController.prototype, "updatePerfil", null);
+__decorate([
+    (0, common_1.Patch)('portada/:id'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('portada', {
+        storage: (0, multer_1.diskStorage)({
+            destination: './uploads',
+        }),
+        fileFilter: images_helpers_1.fileFilter,
+    })),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.UploadedFile)()),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, update_usuario_dto_1.UpdateUsuarioDto]),
+    __metadata("design:returntype", Promise)
+], UsuariosController.prototype, "updatePortada", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),

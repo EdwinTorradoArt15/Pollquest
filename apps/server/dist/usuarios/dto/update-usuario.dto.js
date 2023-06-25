@@ -37,5 +37,13 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateUsuarioDto.prototype, "descripcion", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateUsuarioDto.prototype, "imagenPerfilUrl", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateUsuarioDto.prototype, "imagenPortadaUrl", void 0);
 exports.UpdateUsuarioDto = UpdateUsuarioDto;
 //# sourceMappingURL=update-usuario.dto.js.map
