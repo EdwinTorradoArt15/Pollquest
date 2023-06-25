@@ -17,8 +17,5 @@ export class UpdateUsuarioDto {
   clave: string;
 
   @IsOptional()
-  imagenPerfilUrl: string;
-
-  @IsOptional()
-  imagenPortadaUrl: string;
+  descripcion: string;
 }

@@ -45,11 +45,9 @@ export declare class UsuariosService {
     }, never>, import("mongoose").Document<unknown, {}, User> & Omit<User & {
         _id: import("mongoose").Types.ObjectId;
     }, never>, {}, User, "findOne">;
-    updateUser(id: string, updateUsuarioDto: UpdateUsuarioDto): import("mongoose").Query<import("mongoose").Document<unknown, {}, User> & Omit<User & {
+    updateInfoUsuario(id: string, updateUsuarioDto: UpdateUsuarioDto): Promise<import("mongoose").Document<unknown, {}, User> & Omit<User & {
         _id: import("mongoose").Types.ObjectId;
-    }, never>, import("mongoose").Document<unknown, {}, User> & Omit<User & {
-        _id: import("mongoose").Types.ObjectId;
-    }, never>, {}, User, "findOneAndUpdate">;
+    }, never>>;
     remove(id: number): string;
     validateUser(loginUserDTO: LoginUserDto): Promise<import("mongoose").Document<unknown, {}, User> & Omit<User & {
         _id: import("mongoose").Types.ObjectId;

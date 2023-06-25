@@ -29,6 +29,7 @@ export declare class User extends Document {
     celular: string;
     email: string;
     clave: string;
+    descripcion?: string;
     imagenPerfilUrl?: string;
     imagenPortadaUrl?: string;
 }

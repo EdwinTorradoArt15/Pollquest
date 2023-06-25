@@ -66,9 +66,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       toast.success("Usuario logueado correctamente");
       setLoading(false);
       navigate("/dashboard/inicio");
-    } catch (error) {
+    } catch (error: any) {
       setLoading(false);
-      toast.error("Correo o contraseña incorrectas");
+      toast.error(error.response.data.message);
       console.error(error);
     }
   };

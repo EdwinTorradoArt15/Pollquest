@@ -1,6 +1,13 @@
 import { useRef, useState, useEffect, useContext } from "react";
 import { UserContext } from "@/features/user/context/UserContext";
-import { AppBar, Avatar, Box, IconButton, Toolbar } from "@mui/material";
+import {
+  AppBar,
+  Avatar,
+  Box,
+  IconButton,
+  Toolbar,
+  Skeleton,
+} from "@mui/material";
 import { IoIosMenu } from "react-icons/io";
 import { AccountPopover } from "@/components";
 
@@ -9,7 +16,7 @@ interface NavbarProps {
 }
 
 const Navbar = ({ onSidebarOpen }: NavbarProps) => {
-  const { user } = useContext(UserContext);
+  const { user, loading } = useContext(UserContext);
   const [openAccountPopover, setOpenAccountPopover] = useState(false);
   const [avatarBackgroundColor, setAvatarBackgroundColor] = useState("");
   const settingsRef = useRef(null);
@@ -64,21 +71,43 @@ const Navbar = ({ onSidebarOpen }: NavbarProps) => {
             <IoIosMenu />
           </IconButton>
           <Box sx={{ flexGrow: 1 }} />
-          <Avatar
-            onClick={() => setOpenAccountPopover(true)}
-            ref={settingsRef}
-            sx={{
-              cursor: "pointer",
-              height: 40,
-              width: 40,
-              ml: 1,
-              backgroundColor: avatarBackgroundColor, // Establecer el color de fondo del Avatar
-            }}
-          >
-            {user.nombre && user.apellido && (
-              <>{getInitials(user.nombre, user.apellido)}</>
-            )}
-          </Avatar>
+          {loading ? (
+            <Skeleton
+              variant="circular"
+              width={40}
+              height={40}
+              sx={{ backgroundColor: avatarBackgroundColor, ml: 1 }}
+            />
+          ) : user.imagenPerfilUrl ? (
+            <Avatar
+              onClick={() => setOpenAccountPopover(true)}
+              ref={settingsRef}
+              sx={{
+                cursor: "pointer",
+                height: 40,
+                width: 40,
+                ml: 1,
+                backgroundColor: avatarBackgroundColor,
+              }}
+              src={user.imagenPerfilUrl}
+            />
+          ) : (
+            <Avatar
+              onClick={() => setOpenAccountPopover(true)}
+              ref={settingsRef}
+              sx={{
+                cursor: "pointer",
+                height: 40,
+                width: 40,
+                ml: 1,
+                backgroundColor: avatarBackgroundColor,
+              }}
+            >
+              {user.nombre && user.apellido && (
+                <>{getInitials(user.nombre, user.apellido)}</>
+              )}
+            </Avatar>
+          )}
         </Toolbar>
       </AppBar>
       <AccountPopover

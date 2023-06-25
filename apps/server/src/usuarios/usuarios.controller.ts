@@ -20,9 +20,7 @@ import { JwtAuthGuard } from './jwt-auth-guards';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/usuario.entity';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
-import {
-  FileFieldsInterceptor,
-} from '@nestjs/platform-express';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { fileFilter } from 'src/categorias/helpers/images.helpers';
 
@@ -66,38 +64,50 @@ export class UsuariosController {
     return this.usuariosService.findOne(id);
   }
 
-  @Patch(':id')
-  @UseInterceptors(
-    FileFieldsInterceptor(
-      [
-        { name: 'perfil', maxCount: 1 },
-        { name: 'portada', maxCount: 1 },
-      ],
-      {
-        storage: diskStorage({
-          destination: './uploads',
-        }),
-        fileFilter: fileFilter,
-      },
-    ),
-  )
-  async updateUser(
+  @Patch('info/:id')
+  async updateInfoUsuario(
     @Param('id') id: string,
-    @UploadedFiles()
-    files: { perfil?: Express.Multer.File[]; portada?: Express.Multer.File[] },
     @Body() updateUsuarioDto: UpdateUsuarioDto,
   ) {
-    if (files.perfil) {
-      updateUsuarioDto.imagenPerfilUrl =
-        await this.cloudinaryService.uploadImage(files.perfil[0]);
-    }
-    if (files.portada) {
-      updateUsuarioDto.imagenPortadaUrl =
-        await this.cloudinaryService.uploadImage(files.portada[0]);
-    }
-    const user = await this.usuariosService.updateUser(id, updateUsuarioDto);
+    const user = await this.usuariosService.updateInfoUsuario(
+      id,
+      updateUsuarioDto,
+    );
     return user;
   }
+
+  // @Patch(':id')
+  // @UseInterceptors(
+  //   FileFieldsInterceptor(
+  //     [
+  //       { name: 'perfil', maxCount: 1 },
+  //       { name: 'portada', maxCount: 1 },
+  //     ],
+  //     {
+  //       storage: diskStorage({
+  //         destination: './uploads',
+  //       }),
+  //       fileFilter: fileFilter,
+  //     },
+  //   ),
+  // )
+  // async updateUser(
+  //   @Param('id') id: string,
+  //   @UploadedFiles()
+  //   files: { perfil?: Express.Multer.File[]; portada?: Express.Multer.File[] },
+  //   @Body() updateUsuarioDto: UpdateUsuarioDto,
+  // ) {
+  //   if (files.perfil) {
+  //     updateUsuarioDto.imagenPerfilUrl =
+  //       await this.cloudinaryService.uploadImage(files.perfil[0]);
+  //   }
+  //   if (files.portada) {
+  //     updateUsuarioDto.imagenPortadaUrl =
+  //       await this.cloudinaryService.uploadImage(files.portada[0]);
+  //   }
+  //   const user = await this.usuariosService.updateUser(id, updateUsuarioDto);
+  //   return user;
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

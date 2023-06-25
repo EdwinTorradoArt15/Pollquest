@@ -117,7 +117,7 @@ const ModalAdministrar = ({ open, setOpen }: ModalAdministrarProps) => {
       <Fade in={open}>
         <Box sx={styles}>
           <Typography variant="h5" gutterBottom>
-            Agregar Categoria
+            {category?._id ? "Editar categoria" : "Agregar categoria"}
           </Typography>
           <form
             encType="multipart/form-data"
@@ -220,15 +220,27 @@ const ModalAdministrar = ({ open, setOpen }: ModalAdministrarProps) => {
                   />
                 )}
               />
-              <Button
-                fullWidth
-                color="primary"
-                variant="contained"
-                size="medium"
-                type="submit"
-              >
-                {loading ? <Loader /> : category?._id ? "Editar" : "Agregar"}
-              </Button>
+              <Box sx={{ display: "flex", gap: 2 }}>
+                <Button
+                  fullWidth
+                  color="primary"
+                  variant="contained"
+                  size="medium"
+                  type="submit"
+                >
+                  {loading ? <Loader /> : category?._id ? "Editar" : "Agregar"}
+                </Button>
+                <Button
+                  fullWidth
+                  color="error"
+                  variant="contained"
+                  size="medium"
+                  type="button"
+                  onClick={handleClose}
+                >
+                  Cancelar
+                </Button>
+              </Box>
             </Stack>
           </form>
         </Box>

@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { UserContext } from "@/features/user/context/UserContext";
-import { Stack, Box, Typography } from "@mui/material";
+import { Stack, Box, Typography, Skeleton } from "@mui/material";
 import noImage from "@/features/administrar/image/noImage.png";
 import { UserProfile } from "@/features/user/components/";
 
 const Perfil = () => {
-  const { user } = useContext(UserContext);
+  const { user, loading } = useContext(UserContext);
 
   return (
     <>
@@ -23,14 +23,35 @@ const Perfil = () => {
               height: "15rem",
               background: "#fff",
               borderRadius: "1rem",
-              backgroundImage: `url(${noImage})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              border: "1px solid black",
+              border: "2px solid #edede9",
             }}
-          />
-          <UserProfile user={user} />
+          >
+            {loading ? (
+              <Skeleton
+                variant="rectangular"
+                width="100%"
+                height="100%"
+                animation="wave"
+              />
+            ) : (
+              <Box
+                sx={{
+                  backgroundImage: `${
+                    user.imagenPortadaUrl
+                      ? `url(${user.imagenPortadaUrl})`
+                      : `url(${noImage})`
+                  }`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "1rem",
+                }}
+              />
+            )}
+          </Box>
+          <UserProfile user={user} loading={loading}/>
         </Box>
         <Box>
           <Typography variant="h5">Creados recientemente</Typography>

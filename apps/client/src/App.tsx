@@ -15,39 +15,39 @@ const App = () => {
   return (
     <div>
       <AuthProvider>
-        <UserProvider>
-          <ToastContainer hideProgressBar theme="colored" />
-          <ThemeProvider theme={theme}>
-            <Routes>
-              <Route
-                path={HOME}
-                element={
-                  <Publics>
-                    <Login />
-                  </Publics>
-                }
-              />
-              <Route
-                path={AUTH}
-                element={
-                  <Publics>
-                    <Login />
-                  </Publics>
-                }
-              />
-              <Route
-                path={DASHBOARD}
-                element={
-                  <Privates>
+        <ToastContainer hideProgressBar theme="colored" />
+        <ThemeProvider theme={theme}>
+          <Routes>
+            <Route
+              path={HOME}
+              element={
+                <Publics>
+                  <Login />
+                </Publics>
+              }
+            />
+            <Route
+              path={AUTH}
+              element={
+                <Publics>
+                  <Login />
+                </Publics>
+              }
+            />
+            <Route
+              path={DASHBOARD}
+              element={
+                <Privates>
+                  <UserProvider>
                     <CategoryProvider>
                       <Dashboard />
                     </CategoryProvider>
-                  </Privates>
-                }
-              />
-            </Routes>
-          </ThemeProvider>
-        </UserProvider>
+                  </UserProvider>
+                </Privates>
+              }
+            />
+          </Routes>
+        </ThemeProvider>
       </AuthProvider>
     </div>
   );

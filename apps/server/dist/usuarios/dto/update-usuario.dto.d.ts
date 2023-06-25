@@ -4,6 +4,5 @@ export declare class UpdateUsuarioDto {
     celular: string;
     email: string;
     clave: string;
-    imagenPerfilUrl: string;
-    imagenPortadaUrl: string;
+    descripcion: string;
 }

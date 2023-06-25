@@ -27,6 +27,9 @@ export class User extends Document {
   clave: string;
 
   @Prop()
+  descripcion?: string;
+
+  @Prop()
   imagenPerfilUrl?: string;
 
   @Prop()

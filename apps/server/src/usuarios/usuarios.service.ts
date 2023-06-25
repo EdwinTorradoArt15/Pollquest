@@ -15,7 +15,7 @@ export class UsuariosService {
     @InjectModel(User.name) private userModel: Model<User>,
     private jwtService: JwtService,
   ) {}
-  
+
   create(createUsuarioDto: CreateUsuarioDto) {
     return this.userModel.create({
       ...createUsuarioDto,
@@ -35,19 +35,55 @@ export class UsuariosService {
     return user;
   }
 
-  updateUser(id: string, updateUsuarioDto: UpdateUsuarioDto) {
-    const { clave } = updateUsuarioDto;
+  async updateInfoUsuario(id: string, updateUsuarioDto: UpdateUsuarioDto) {
+    const { clave, email, ...rest } = updateUsuarioDto;
 
-    const claveHash = bcrypt.hashSync(clave, 10);
+    const existingUser = await this.userModel.findOne({ email });
+    if (existingUser && existingUser._id.toString() !== id) {
+      throw new UnauthorizedException('El correo ya está en uso');
+    }
 
-    return this.userModel.findByIdAndUpdate(
-      id,
-      {
-        $set: { ...updateUsuarioDto, clave: claveHash },
-      },
-      { new: true },
-    );
+    if (clave) {
+      const claveHash = bcrypt.hashSync(clave, 10);
+      return this.userModel.findByIdAndUpdate(
+        id,
+        {
+          $set: { ...rest, clave: claveHash },
+        },
+        { new: true },
+      );
+    } else {
+      return this.userModel.findByIdAndUpdate(
+        id,
+        {
+          $set: { ...rest },
+        },
+        { new: true },
+      );
+    }
   }
+
+  // updateUser(id: string, updateUsuarioDto: UpdateUsuarioDto) {
+  //   const { clave, ...rest } = updateUsuarioDto;
+  //   if (clave) {
+  //     const claveHash = bcrypt.hashSync(clave, 10);
+  //     return this.userModel.findByIdAndUpdate(
+  //       id,
+  //       {
+  //         $set: { ...rest, clave: claveHash },
+  //       },
+  //       { new: true },
+  //     );
+  //   } else {
+  //     return this.userModel.findByIdAndUpdate(
+  //       id,
+  //       {
+  //         $set: { ...rest },
+  //       },
+  //       { new: true },
+  //     );
+  //   }
+  // }
 
   remove(id: number) {
     return `This action removes a #${id} usuario`;

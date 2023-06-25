@@ -45,6 +45,10 @@ __decorate([
 __decorate([
     (0, mongoose_2.Prop)(),
     __metadata("design:type", String)
+], User.prototype, "descripcion", void 0);
+__decorate([
+    (0, mongoose_2.Prop)(),
+    __metadata("design:type", String)
 ], User.prototype, "imagenPerfilUrl", void 0);
 __decorate([
     (0, mongoose_2.Prop)(),
