@@ -26,12 +26,18 @@ interface User {
 }
 
 interface UserProfileProps {
+  usuarioMostrado: User;
   user: User;
   loading: boolean;
   handleOpenModal: (type: string) => void;
 }
 
-const UserProfile = ({ user, loading, handleOpenModal }: UserProfileProps) => {
+const UserProfile = ({
+  usuarioMostrado,
+  loading,
+  handleOpenModal,
+  user,
+}: UserProfileProps) => {
   const [open, setOpen] = useState(false);
   const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"), {
     defaultMatches: true,
@@ -64,11 +70,13 @@ const UserProfile = ({ user, loading, handleOpenModal }: UserProfileProps) => {
             border: "2px solid #edede9",
             overflow: "hidden",
             transition: "opacity 0.3s ease",
-            "&:hover": {
-              opacity: 0.8,
-            },
+            "&:hover": usuarioMostrado === user ? { opacity: 0.8 } : {},
           }}
-          onClick={() => handleOpenModal("perfil")}
+          onClick={
+            usuarioMostrado === user
+              ? () => handleOpenModal("perfil")
+              : () => {}
+          }
         >
           {loading ? (
             <Skeleton
@@ -79,9 +87,9 @@ const UserProfile = ({ user, loading, handleOpenModal }: UserProfileProps) => {
             />
           ) : (
             <>
-              {user.imagenPerfilUrl ? (
+              {usuarioMostrado.imagenPerfilUrl ? (
                 <img
-                  src={user.imagenPerfilUrl}
+                  src={usuarioMostrado.imagenPerfilUrl}
                   alt="Perfil"
                   style={{
                     width: "100%",
@@ -102,39 +110,41 @@ const UserProfile = ({ user, loading, handleOpenModal }: UserProfileProps) => {
                   }}
                 />
               )}
-              <Box
-                sx={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  background: "rgba(0, 0, 0, 0.5)",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: "4px",
-                  color: "#fff",
-                  opacity: 0,
-                  transition: "opacity 0.3s ease",
-                  cursor: "pointer",
-                  "&:hover": {
-                    opacity: 1,
-                  },
-                }}
-              >
-                <AiFillCamera />
-                <Typography variant="subtitle2">Cambiar foto</Typography>
-              </Box>
+              {usuarioMostrado === user && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    background: "rgba(0, 0, 0, 0.5)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "4px",
+                    color: "#fff",
+                    opacity: 0,
+                    transition: "opacity 0.3s ease",
+                    cursor: "pointer",
+                    "&:hover": {
+                      opacity: 1,
+                    },
+                  }}
+                >
+                  <AiFillCamera />
+                  <Typography variant="subtitle2">Cambiar foto</Typography>
+                </Box>
+              )}
             </>
           )}
         </Box>
         <Box sx={{ mt: 1, textAlign: "center" }}>
           <Typography variant="h5" align="center">
-            {user.nombre} {user.apellido}
+            {usuarioMostrado.nombre} {usuarioMostrado.apellido}
           </Typography>
           <Typography variant="inherit" align="center">
-            {user.descripcion}
+            {usuarioMostrado.descripcion}
           </Typography>
         </Box>
         <Box

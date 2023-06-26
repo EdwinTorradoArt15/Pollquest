@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { UserContext } from "@/features/user/context/UserContext";
 import {
   Modal,
   Fade,
@@ -14,6 +15,8 @@ import { CuerpoModal } from "@/components";
 interface ModalUserProps {
   open: boolean;
   setOpen: (open: boolean) => void;
+  avatarBackgroundColor: string;
+  getInitials: (name: string, apellido: string) => string;
 }
 
 const useStyles = () => {
@@ -36,35 +39,13 @@ const useStyles = () => {
   };
 };
 
-const usuarios = [
-  {
-    id: 1,
-    imagen: "https://picsum.photos/200/300",
-    nombre: "Juan",
-  },
-  {
-    id: 2,
-    imagen: "https://picsum.photos/200/300",
-    nombre: "Pedro",
-  },
-  {
-    id: 3,
-    imagen: "https://picsum.photos/200/300",
-    nombre: "Maria",
-  },
-  {
-    id: 4,
-    imagen: "https://picsum.photos/200/300",
-    nombre: "Jose",
-  },
-  {
-    id: 5,
-    imagen: "https://picsum.photos/200/300",
-    nombre: "Luis",
-  },
-];
-
-const ModalBuscar = ({ open, setOpen }: ModalUserProps) => {
+const ModalBuscar = ({
+  open,
+  setOpen,
+  avatarBackgroundColor,
+  getInitials
+}: ModalUserProps) => {
+  const { users, user } = useContext(UserContext);
   const [search, setSearch] = useState("");
   const styles = useStyles();
 
@@ -73,7 +54,7 @@ const ModalBuscar = ({ open, setOpen }: ModalUserProps) => {
     setOpen(false);
   };
 
-  const filteredUsers = usuarios.filter((usuario) =>
+  const filteredUsers = users.filter((usuario) =>
     usuario.nombre.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -148,7 +129,14 @@ const ModalBuscar = ({ open, setOpen }: ModalUserProps) => {
             </Box>
           </Box>
           <Divider />
-          <CuerpoModal filteredUsers={filteredUsers} search={search} />
+          <CuerpoModal
+            filteredUsers={filteredUsers}
+            search={search}
+            avatarBackgroundColor={avatarBackgroundColor}
+            getInitials={getInitials}
+            user={user}
+            handleClose={handleClose}
+          />
         </Box>
       </Fade>
     </Modal>

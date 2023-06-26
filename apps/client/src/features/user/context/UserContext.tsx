@@ -46,6 +46,9 @@ interface UserContextValues {
   typeImage?: string;
   setTypeImage: (type: string) => void;
   updateImage: (data: UserImageData) => void;
+  users: User[];
+  getUserByIdFriend: (id: string) => void;
+  userFriend: User;
 }
 
 export const UserContext = createContext<UserContextValues>({
@@ -57,13 +60,28 @@ export const UserContext = createContext<UserContextValues>({
   typeImage: "",
   setTypeImage: () => {},
   updateImage: () => {},
+  users: [],
+  getUserByIdFriend: () => {},
+  userFriend: {} as User,
 });
 
 export const UserProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({} as User);
+  const [userFriend, setUserFriend] = useState({} as User);
+  const [users, setUsers] = useState([] as User[]);
   const [typeImage, setTypeImage] = useState("");
   const [image, setImage] = useState({ preview: "", data: "" });
+
+  const getUsers = async () => {
+    try {
+      const token = localStorage.getItem("token") as string;
+      const { data } = await userServices.getUsers(token);
+      setUsers(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getUserById = async () => {
     const token = localStorage.getItem("token");
@@ -79,6 +97,18 @@ export const UserProvider = ({ children }: AuthProviderProps) => {
       } finally {
         setLoading(false);
       }
+    }
+  };
+
+  const getUserByIdFriend = async (id: string) => {
+    try {
+      setLoading(true);
+      const { data } = await userServices.getUser(id);
+      setUserFriend(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -120,12 +150,15 @@ export const UserProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     getUserById();
+    getUsers();
   }, []);
 
   return (
     <UserContext.Provider
       value={{
+        users,
         user,
+        userFriend,
         loading,
         updateInfoUser,
         image,
@@ -133,6 +166,7 @@ export const UserProvider = ({ children }: AuthProviderProps) => {
         typeImage,
         setTypeImage,
         updateImage,
+        getUserByIdFriend,
       }}
     >
       {children}

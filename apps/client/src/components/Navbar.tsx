@@ -94,7 +94,7 @@ const Navbar = ({ onSidebarOpen }: NavbarProps) => {
                 variant="circular"
                 width={40}
                 height={40}
-                sx={{ backgroundColor: avatarBackgroundColor, ml: 1 }}
+                sx={{ ml: 1 }}
               />
             ) : user.imagenPerfilUrl ? (
               <Avatar
@@ -135,7 +135,12 @@ const Navbar = ({ onSidebarOpen }: NavbarProps) => {
         open={openAccountPopover}
         onClose={() => setOpenAccountPopover(false)}
       />
-      <ModalBuscar open={open} setOpen={setOpen} />
+      <ModalBuscar
+        open={open}
+        setOpen={setOpen}
+        avatarBackgroundColor={avatarBackgroundColor}
+        getInitials={getInitials}
+      />
     </>
   );
 };

@@ -24,6 +24,7 @@ const Dashboard = () => {
               <Route path="/cuestionarios" element={<Cuestionarios />} />
               <Route path="/completados" element={<Completados />} />
               <Route path="/perfil" element={<Perfil />} />
+              <Route path="/perfil/:id" element={<Perfil />} />
               <Route path="/administrar" element={<Administrar />} />
             </Routes>
           </Box>
