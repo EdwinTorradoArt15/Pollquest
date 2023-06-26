@@ -20,7 +20,7 @@ import {
 } from "react-hook-form";
 import { Loader } from "@/components";
 
-interface ModalAdministrarProps {
+interface ModalUserProps {
   open: boolean;
   setOpen: (open: boolean) => void;
 }
@@ -53,7 +53,7 @@ const useStyles = () => {
   };
 };
 
-const ModalUser = ({ open, setOpen }: ModalAdministrarProps) => {
+const ModalUser = ({ open, setOpen }: ModalUserProps) => {
   const { user, updateInfoUser, loading } = useContext(UserContext);
   const { control, handleSubmit, reset, setValue } = useForm();
 

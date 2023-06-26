@@ -12,6 +12,7 @@ import { FiEdit, FiPlus } from "react-icons/fi";
 import noImage from "@/features/administrar/image/noImage.png";
 import { useLocation } from "react-router-dom";
 import { ModalUser } from "@/features/user/components/";
+import { AiFillCamera } from "react-icons/ai";
 
 interface User {
   _id: string;
@@ -27,9 +28,11 @@ interface User {
 interface UserProfileProps {
   user: User;
   loading: boolean;
+  handleOpenModal: (type: string) => void;
+  setTypeImage: (type: string) => void;
 }
 
-const UserProfile = ({ user, loading }: UserProfileProps) => {
+const UserProfile = ({ user, loading, handleOpenModal, setTypeImage }: UserProfileProps) => {
   const [open, setOpen] = useState(false);
   const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"), {
     defaultMatches: true,
@@ -50,17 +53,23 @@ const UserProfile = ({ user, loading }: UserProfileProps) => {
           flexDirection: "column",
           alignItems: "center",
           position: "relative",
-          bottom: "8rem",
+          bottom: "7rem",
         }}
       >
         <Box
           sx={{
             position: "relative",
-            width: "15rem",
-            height: "15rem",
+            width: "13rem",
+            height: "13rem",
             borderRadius: "50%",
             border: "2px solid #edede9",
+            overflow: "hidden",
+            transition: "opacity 0.3s ease",
+            "&:hover": {
+              opacity: 0.8,
+            },
           }}
+          onClick={() => handleOpenModal("perfil")}
         >
           {loading ? (
             <Skeleton
@@ -94,6 +103,30 @@ const UserProfile = ({ user, loading }: UserProfileProps) => {
                   }}
                 />
               )}
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  background: "rgba(0, 0, 0, 0.5)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "4px",
+                  color: "#fff",
+                  opacity: 0,
+                  transition: "opacity 0.3s ease",
+                  cursor: "pointer",
+                  "&:hover": {
+                    opacity: 1,
+                  },
+                }}
+              >
+                <AiFillCamera />
+                <Typography variant="subtitle2">Cambiar foto</Typography>
+              </Box>
             </>
           )}
         </Box>
