@@ -29,10 +29,9 @@ interface UserProfileProps {
   user: User;
   loading: boolean;
   handleOpenModal: (type: string) => void;
-  setTypeImage: (type: string) => void;
 }
 
-const UserProfile = ({ user, loading, handleOpenModal, setTypeImage }: UserProfileProps) => {
+const UserProfile = ({ user, loading, handleOpenModal }: UserProfileProps) => {
   const [open, setOpen] = useState(false);
   const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"), {
     defaultMatches: true,

@@ -102,7 +102,6 @@ const Perfil = () => {
             user={user}
             loading={loading}
             handleOpenModal={handleOpenModal}
-            setTypeImage={setTypeImage}
           />
         </Box>
         <Box>
