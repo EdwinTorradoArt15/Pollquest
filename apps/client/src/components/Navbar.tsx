@@ -9,7 +9,8 @@ import {
   Skeleton,
 } from "@mui/material";
 import { IoIosMenu } from "react-icons/io";
-import { AccountPopover } from "@/components";
+import { FiMoon, FiBell, FiSearch } from "react-icons/fi";
+import { AccountPopover, ModalBuscar } from "@/components";
 
 interface NavbarProps {
   onSidebarOpen: () => void;
@@ -18,6 +19,7 @@ interface NavbarProps {
 const Navbar = ({ onSidebarOpen }: NavbarProps) => {
   const { user, loading } = useContext(UserContext);
   const [openAccountPopover, setOpenAccountPopover] = useState(false);
+  const [open, setOpen] = useState(false);
   const [avatarBackgroundColor, setAvatarBackgroundColor] = useState("");
   const settingsRef = useRef(null);
 
@@ -35,6 +37,10 @@ const Navbar = ({ onSidebarOpen }: NavbarProps) => {
       names[0].substring(0, 1).toUpperCase() +
       lastNames[0].substring(0, 1).toUpperCase();
     return initials;
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
   };
 
   return (
@@ -70,44 +76,57 @@ const Navbar = ({ onSidebarOpen }: NavbarProps) => {
           >
             <IoIosMenu />
           </IconButton>
+
+          {/* Boton buscar */}
+          <IconButton onClick={handleOpen}>
+            <FiSearch />
+          </IconButton>
           <Box sx={{ flexGrow: 1 }} />
-          {loading ? (
-            <Skeleton
-              variant="circular"
-              width={40}
-              height={40}
-              sx={{ backgroundColor: avatarBackgroundColor, ml: 1 }}
-            />
-          ) : user.imagenPerfilUrl ? (
-            <Avatar
-              onClick={() => setOpenAccountPopover(true)}
-              ref={settingsRef}
-              sx={{
-                cursor: "pointer",
-                height: 40,
-                width: 40,
-                ml: 1,
-                backgroundColor: avatarBackgroundColor,
-              }}
-              src={user.imagenPerfilUrl}
-            />
-          ) : (
-            <Avatar
-              onClick={() => setOpenAccountPopover(true)}
-              ref={settingsRef}
-              sx={{
-                cursor: "pointer",
-                height: 40,
-                width: 40,
-                ml: 1,
-                backgroundColor: avatarBackgroundColor,
-              }}
-            >
-              {user.nombre && user.apellido && (
-                <>{getInitials(user.nombre, user.apellido)}</>
-              )}
-            </Avatar>
-          )}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <IconButton>
+              <FiMoon />
+            </IconButton>
+            <IconButton>
+              <FiBell />
+            </IconButton>
+            {loading ? (
+              <Skeleton
+                variant="circular"
+                width={40}
+                height={40}
+                sx={{ backgroundColor: avatarBackgroundColor, ml: 1 }}
+              />
+            ) : user.imagenPerfilUrl ? (
+              <Avatar
+                onClick={() => setOpenAccountPopover(true)}
+                ref={settingsRef}
+                sx={{
+                  cursor: "pointer",
+                  height: 40,
+                  width: 40,
+                  ml: 1,
+                  backgroundColor: avatarBackgroundColor,
+                }}
+                src={user.imagenPerfilUrl}
+              />
+            ) : (
+              <Avatar
+                onClick={() => setOpenAccountPopover(true)}
+                ref={settingsRef}
+                sx={{
+                  cursor: "pointer",
+                  height: 40,
+                  width: 40,
+                  ml: 1,
+                  backgroundColor: avatarBackgroundColor,
+                }}
+              >
+                {user.nombre && user.apellido && (
+                  <>{getInitials(user.nombre, user.apellido)}</>
+                )}
+              </Avatar>
+            )}
+          </Box>
         </Toolbar>
       </AppBar>
       <AccountPopover
@@ -116,6 +135,7 @@ const Navbar = ({ onSidebarOpen }: NavbarProps) => {
         open={openAccountPopover}
         onClose={() => setOpenAccountPopover(false)}
       />
+      <ModalBuscar open={open} setOpen={setOpen} />
     </>
   );
 };
