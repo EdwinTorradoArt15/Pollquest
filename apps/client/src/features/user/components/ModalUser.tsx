@@ -221,6 +221,7 @@ const ModalUser = ({ open, setOpen }: ModalUserProps) => {
                 variant="contained"
                 size="medium"
                 type="submit"
+                disabled={loading}
               >
                 {loading ? <Loader /> : "Guardar"}
               </Button>

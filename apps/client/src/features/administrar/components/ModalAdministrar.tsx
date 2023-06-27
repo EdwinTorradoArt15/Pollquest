@@ -227,6 +227,7 @@ const ModalAdministrar = ({ open, setOpen }: ModalAdministrarProps) => {
                   variant="contained"
                   size="medium"
                   type="submit"
+                  disabled={loading}
                 >
                   {loading ? <Loader /> : category?._id ? "Editar" : "Agregar"}
                 </Button>

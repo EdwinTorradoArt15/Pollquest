@@ -143,6 +143,7 @@ const ModalImagesUser = ({ open, setOpen }: ModalUserImagesProps) => {
                 size="medium"
                 type="submit"
                 onClick={onSubmit}
+                disabled={loading}
               >
                 {loading ? <Loader /> : "Guardar"}
               </Button>

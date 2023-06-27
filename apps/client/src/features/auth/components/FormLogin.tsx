@@ -64,6 +64,7 @@ const FormLogin = () => {
         size="large"
         variant="contained"
         type="submit"
+        disabled={loading}
       >
         {loading ? <Loader /> : "Iniciar sesión"}
       </Button>
