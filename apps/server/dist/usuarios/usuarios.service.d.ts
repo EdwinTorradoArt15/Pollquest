@@ -66,4 +66,10 @@ export declare class UsuariosService {
         access_token: string;
     }>;
     createPayload(user: User): string;
+    followUser(id: string, idSeguir: string): Promise<import("mongoose").Document<unknown, {}, User> & Omit<User & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>>;
+    unfollowUser(id: string, idSeguir: string): Promise<import("mongoose").Document<unknown, {}, User> & Omit<User & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>>;
 }

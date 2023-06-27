@@ -20,9 +20,7 @@ import { JwtAuthGuard } from './jwt-auth-guards';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/usuario.entity';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
-import {
-  FileInterceptor,
-} from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { fileFilter } from 'src/categorias/helpers/images.helpers';
 
@@ -115,9 +113,8 @@ export class UsuariosController {
     @Body() updateUsuarioDto: UpdateUsuarioDto,
   ) {
     if (file) {
-      updateUsuarioDto.imagenPortadaUrl = await this.cloudinaryService.uploadImage(
-        file,
-      );
+      updateUsuarioDto.imagenPortadaUrl =
+        await this.cloudinaryService.uploadImage(file);
     }
     const user = await this.usuariosService.updatePortada(id, updateUsuarioDto);
     return user;
@@ -126,5 +123,17 @@ export class UsuariosController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usuariosService.remove(+id);
+  }
+
+  @Post('follow/:id')
+  @UseGuards(JwtAuthGuard)
+  followUser(@Param('id') id: string, @Req() req) {
+    return this.usuariosService.followUser(id, req.user._id);
+  }
+
+  @Post('unfollow/:id')
+  @UseGuards(JwtAuthGuard)
+  unfollowUser(@Param('id') id: string, @Req() req) {
+    return this.usuariosService.unfollowUser(id, req.user._id);
   }
 }

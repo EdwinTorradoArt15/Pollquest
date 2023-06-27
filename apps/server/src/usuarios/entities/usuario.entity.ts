@@ -34,6 +34,12 @@ export class User extends Document {
 
   @Prop()
   imagenPortadaUrl?: string;
+
+  @Prop({ type: [{ type: String }] })
+  seguidores?: string[];
+
+  @Prop({ type: [{ type: String }] })
+  siguiendo?: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

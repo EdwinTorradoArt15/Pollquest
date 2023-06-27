@@ -110,4 +110,50 @@ export class UsuariosService {
     const payload = { correo: user.email, _id: user._id };
     return this.jwtService.sign(payload);
   }
+
+  async followUser(id: string, idSeguir: string) {
+    const usuario = await this.userModel.findById(id);
+    const usuarioSeguir = await this.userModel.findById(idSeguir);
+
+    if (!usuario || !usuarioSeguir) {
+      throw new UnauthorizedException('Usuario no encontrado');
+    }
+
+    if (usuario.seguidores.includes(idSeguir)) {
+      throw new UnauthorizedException('Ya sigues a este usuario');
+    }
+
+    usuario.seguidores.push(idSeguir);
+    usuarioSeguir.siguiendo.push(id);
+
+    await usuario.save();
+    await usuarioSeguir.save();
+
+    return usuario;
+  }
+
+  async unfollowUser(id: string, idSeguir: string) {
+    const usuario = await this.userModel.findById(id);
+    const usuarioSeguir = await this.userModel.findById(idSeguir);
+
+    if (!usuario || !usuarioSeguir) {
+      throw new UnauthorizedException('Usuario no encontrado');
+    }
+
+    if (!usuario.seguidores.includes(idSeguir)) {
+      throw new UnauthorizedException('No sigues a este usuario');
+    }
+
+    usuario.seguidores = usuario.seguidores.filter(
+      (userId) => userId.toString() !== idSeguir,
+    );
+    usuarioSeguir.siguiendo = usuarioSeguir.siguiendo.filter(
+      (userId) => userId.toString() !== id,
+    );
+
+    await usuario.save();
+    await usuarioSeguir.save();
+
+    return usuario;
+  }
 }

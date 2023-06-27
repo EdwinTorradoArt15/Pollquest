@@ -59,4 +59,10 @@ export declare class UsuariosController {
         _id: import("mongoose").Types.ObjectId;
     }, never>>;
     remove(id: string): string;
+    followUser(id: string, req: any): Promise<import("mongoose").Document<unknown, {}, User> & Omit<User & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>>;
+    unfollowUser(id: string, req: any): Promise<import("mongoose").Document<unknown, {}, User> & Omit<User & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>>;
 }

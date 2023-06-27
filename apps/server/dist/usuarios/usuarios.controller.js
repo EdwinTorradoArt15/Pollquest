@@ -57,13 +57,20 @@ let UsuariosController = class UsuariosController {
     }
     async updatePortada(id, file, updateUsuarioDto) {
         if (file) {
-            updateUsuarioDto.imagenPortadaUrl = await this.cloudinaryService.uploadImage(file);
+            updateUsuarioDto.imagenPortadaUrl =
+                await this.cloudinaryService.uploadImage(file);
         }
         const user = await this.usuariosService.updatePortada(id, updateUsuarioDto);
         return user;
     }
     remove(id) {
         return this.usuariosService.remove(+id);
+    }
+    followUser(id, req) {
+        return this.usuariosService.followUser(id, req.user._id);
+    }
+    unfollowUser(id, req) {
+        return this.usuariosService.unfollowUser(id, req.user._id);
     }
 };
 __decorate([
@@ -151,6 +158,24 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UsuariosController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Post)('follow/:id'),
+    (0, common_1.UseGuards)(jwt_auth_guards_1.JwtAuthGuard),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], UsuariosController.prototype, "followUser", null);
+__decorate([
+    (0, common_1.Post)('unfollow/:id'),
+    (0, common_1.UseGuards)(jwt_auth_guards_1.JwtAuthGuard),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], UsuariosController.prototype, "unfollowUser", null);
 UsuariosController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, swagger_1.ApiTags)('Usuarios'),
