@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { UserContext } from "@/features/user/context/UserContext";
 import {
   Box,
   Typography,
@@ -23,21 +24,20 @@ interface User {
   descripcion?: string;
   imagenPerfilUrl?: string;
   imagenPortadaUrl?: string;
+  siguiendo?: string[];
+  seguidores?: string[];
 }
 
 interface UserProfileProps {
   usuarioMostrado: User;
-  user: User;
-  loading: boolean;
   handleOpenModal: (type: string) => void;
 }
 
 const UserProfile = ({
   usuarioMostrado,
-  loading,
   handleOpenModal,
-  user,
 }: UserProfileProps) => {
+  const { user, loading, followAndUnfollow } = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"), {
     defaultMatches: true,
@@ -45,9 +45,15 @@ const UserProfile = ({
   });
   const location = useLocation();
   const isOtherUserProfile = location.pathname.includes("/perfil/");
+  // Verificar si alguno de los ID coincide con el usuario mostrado
+  const isFollowing = user?.siguiendo?.includes(usuarioMostrado._id);
 
   const handleOpenModalAdministrar = () => {
     setOpen(true);
+  };
+
+  const handleFollowButton = (typeFollow: string) => {
+    followAndUnfollow(usuarioMostrado._id, typeFollow);
   };
 
   return (
@@ -180,19 +186,39 @@ const UserProfile = ({
           }}
         >
           {isOtherUserProfile && (
-            <Button
-              sx={{
-                fontSize: smUp ? "1rem" : "0.75rem",
-              }}
-              startIcon={
-                <SvgIcon fontSize="small">
-                  <FiPlus />
-                </SvgIcon>
-              }
-              variant="contained"
-            >
-              Seguir
-            </Button>
+            <>
+              {isFollowing ? (
+                <Button
+                  sx={{
+                    fontSize: smUp ? "1rem" : "0.75rem",
+                  }}
+                  startIcon={
+                    <SvgIcon fontSize="small">
+                      <FiPlus />
+                    </SvgIcon>
+                  }
+                  variant="outlined"
+                  onClick={() => handleFollowButton("unfollow")}
+                >
+                  Dejar de seguir
+                </Button>
+              ) : (
+                <Button
+                  sx={{
+                    fontSize: smUp ? "1rem" : "0.75rem",
+                  }}
+                  startIcon={
+                    <SvgIcon fontSize="small">
+                      <FiPlus />
+                    </SvgIcon>
+                  }
+                  variant="contained"
+                  onClick={() => handleFollowButton("follow")}
+                >
+                  Seguir
+                </Button>
+              )}
+            </>
           )}
           <Box
             sx={{

@@ -21,6 +21,8 @@ interface User {
   descripcion?: string;
   imagenPerfilUrl?: string;
   imagenPortadaUrl?: string;
+  siguiendo?: string[];
+  seguidores?: string[];
 }
 
 interface UserImageData {
@@ -49,6 +51,8 @@ interface UserContextValues {
   users: User[];
   getUserByIdFriend: (id: string) => void;
   userFriend: User;
+  typeFollow?: string;
+  followAndUnfollow: (id: string, typeFollow: string) => void;
 }
 
 export const UserContext = createContext<UserContextValues>({
@@ -63,6 +67,8 @@ export const UserContext = createContext<UserContextValues>({
   users: [],
   getUserByIdFriend: () => {},
   userFriend: {} as User,
+  typeFollow: "",
+  followAndUnfollow: () => {},
 });
 
 export const UserProvider = ({ children }: AuthProviderProps) => {
@@ -148,6 +154,20 @@ export const UserProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const followAndUnfollow = async (id: string, typeFollow: string) => {
+    try {
+      const token = localStorage.getItem("token") as string;
+      if (typeFollow === "follow") {
+        await userServices.followUser(id, user._id, token);
+      } else if (typeFollow === "unfollow") {
+        await userServices.unfollowUser(id, user._id, token);
+      }
+      getUserById();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     getUserById();
     getUsers();
@@ -167,6 +187,7 @@ export const UserProvider = ({ children }: AuthProviderProps) => {
         setTypeImage,
         updateImage,
         getUserByIdFriend,
+        followAndUnfollow,
       }}
     >
       {children}

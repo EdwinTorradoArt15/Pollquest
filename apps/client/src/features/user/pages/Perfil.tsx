@@ -115,8 +115,6 @@ const Perfil = () => {
           </Box>
           <UserProfile
             usuarioMostrado={usuarioMostrado}
-            user={user}
-            loading={loading}
             handleOpenModal={handleOpenModal}
           />
         </Box>
