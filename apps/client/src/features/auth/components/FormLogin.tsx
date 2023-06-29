@@ -11,7 +11,7 @@ import {
 import { LoginFormValues } from "@/features/auth/interfaces/auth.interfaces";
 import { Loader } from "@/components";
 import { year } from "@/utils/date";
-
+import { Link } from "react-router-dom";
 
 const FormLogin = () => {
   const { control, handleSubmit } = useForm<LoginFormValues>();
@@ -56,6 +56,20 @@ const FormLogin = () => {
             />
           )}
         />
+        <Link to="/forgot-password">
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              cursor: "pointer",
+              "&:hover": {
+                color: "primary.main",
+              },
+            }}
+          >
+            ¿Olvidaste tu contraseña?
+          </Typography>
+        </Link>
       </Stack>
       <Button
         sx={{ mt: 3 }}

@@ -8,3 +8,4 @@ export { default as Dashboard } from "./Dashboard";
 export { default as Header } from "./Header";
 export { default as ModalBuscar } from "./ModalBuscar";
 export { default as CuerpoModal } from "./CuerpoModal";
+export { default as Alerta } from "./Alerta";

@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import { HOME, AUTH, DASHBOARD } from "@/routes/paths";
+import { HOME, AUTH, DASHBOARD, FORGOT_PASSWORD } from "@/routes/paths";
 import { Privates, Publics } from "@/routes/PrivatizationRouts";
-import { Login } from "@/features/auth/pages";
+import { Login, ForgotPassword } from "@/features/auth/pages";
 import { Dashboard } from "@/components";
 import { ToastContainer } from "react-toastify";
 import { ThemeProvider } from "@mui/material";
@@ -31,6 +31,14 @@ const App = () => {
               element={
                 <Publics>
                   <Login />
+                </Publics>
+              }
+            />
+            <Route
+              path={FORGOT_PASSWORD}
+              element={
+                <Publics>
+                  <ForgotPassword />
                 </Publics>
               }
             />

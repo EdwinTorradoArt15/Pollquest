@@ -1,5 +1,6 @@
 export const HOME = "/*";
-export const AUTH = "/auth/*";
+export const AUTH = "/login/*";
+export const FORGOT_PASSWORD = "/forgot-password";
 export const DASHBOARD = "/dashboard/*";
 
 export const LOG_PUBLIC = "/dashboard/inicio";
