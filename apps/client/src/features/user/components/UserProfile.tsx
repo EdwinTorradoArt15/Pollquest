@@ -45,7 +45,6 @@ const UserProfile = ({
   });
   const location = useLocation();
   const isOtherUserProfile = location.pathname.includes("/perfil/");
-  // Verificar si alguno de los ID coincide con el usuario mostrado
   const isFollowing = user?.siguiendo?.includes(usuarioMostrado._id);
 
   const handleOpenModalAdministrar = () => {
@@ -225,11 +224,11 @@ const UserProfile = ({
               background: "#fff",
               borderRadius: "6px",
               padding: "0.5rem",
-              boxShadow: "0 0 5px rgba(0,0,0,0.5)",
+              boxShadow: "0 0 5px rgba(0,0,0,0.3)",
             }}
           >
             <Typography variant="h6" align="center">
-              Seguidores 0K
+              Seguidores {usuarioMostrado.seguidores?.length || 0}
             </Typography>
           </Box>
           <Box
@@ -237,11 +236,11 @@ const UserProfile = ({
               background: "#fff",
               borderRadius: "6px",
               padding: "0.5rem",
-              boxShadow: "0 0 5px rgba(0,0,0,0.5)",
+              boxShadow: "0 0 5px rgba(0,0,0,0.3)",
             }}
           >
             <Typography variant="h6" align="center">
-              Seguidores 0K
+              Seguidos {usuarioMostrado.siguiendo?.length || 0}
             </Typography>
           </Box>
         </Box>

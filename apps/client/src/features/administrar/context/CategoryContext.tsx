@@ -46,10 +46,13 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
 
   const getCategories = async () => {
     try {
+      setLoading(true);
       const response = await categoriesServices.getCategories();
       setCategories(response.data);
     } catch (error) {
       console.error(error);
+    }finally{
+      setLoading(false);
     }
   };
 

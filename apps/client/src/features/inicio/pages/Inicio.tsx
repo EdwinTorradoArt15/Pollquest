@@ -11,7 +11,10 @@ const Inicio = () => {
     <>
       <Stack spacing={3}>
         <Stack spacing={1}>
-          <Header title="Inicio" subtitle="Disfruta de todas nuestras categorías." />
+          <Header
+            title="Inicio"
+            subtitle="Disfruta de todas nuestras categorías."
+          />
         </Stack>
         <Stack spacing={1}>
           <Box
