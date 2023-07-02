@@ -138,11 +138,9 @@ const StepsForgotPassword = () => {
                         {...field}
                         type="number"
                         inputProps={{ maxLength: 1 }}
-                        error={!!errors.verificationCode?.[index]}
+                        error={!!errors.verificationCode}
                         helperText={
-                          errors.verificationCode?.[index]
-                            ? "Código requerido"
-                            : ""
+                          errors.verificationCode ? "Código requerido" : ""
                         }
                       />
                     )}
