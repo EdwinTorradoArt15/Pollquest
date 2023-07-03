@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const usuarios_service_1 = require("./usuarios.service");
 const create_usuario_dto_1 = require("./dto/create-usuario.dto");
 const update_usuario_dto_1 = require("./dto/update-usuario.dto");
+const forgot_password_usuario_dto_1 = require("./dto/forgot-password-usuario.dto");
 const login_user_dto_1 = require("./dto/login-user.dto");
 const local_auth_guards_1 = require("./local-auth-guards");
 const jwt_auth_guards_1 = require("./jwt-auth-guards");
@@ -71,6 +72,18 @@ let UsuariosController = class UsuariosController {
     }
     unfollowUser(id, req) {
         return this.usuariosService.unfollowUser(id, req.user._id);
+    }
+    forgotPasswordStep1(forgotPasswordUsuarioDto) {
+        const { email, celular } = forgotPasswordUsuarioDto;
+        return this.usuariosService.forgotPasswordStep1(email, celular);
+    }
+    forgotPasswordStep2(forgotPasswordUsuarioDto) {
+        const { email, celular, codigo } = forgotPasswordUsuarioDto;
+        return this.usuariosService.forgotPasswordStep2(email, celular, codigo);
+    }
+    async forgotPasswordStep3(forgotPasswordUsuarioDto) {
+        const { email, celular, clave } = forgotPasswordUsuarioDto;
+        return this.usuariosService.forgotPasswordStep3(email, celular, clave);
     }
 };
 __decorate([
@@ -176,6 +189,27 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], UsuariosController.prototype, "unfollowUser", null);
+__decorate([
+    (0, common_1.Patch)('forgot-password/step1'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [forgot_password_usuario_dto_1.ForgotPasswordUsuarioDto]),
+    __metadata("design:returntype", void 0)
+], UsuariosController.prototype, "forgotPasswordStep1", null);
+__decorate([
+    (0, common_1.Patch)('forgot-password/step2'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [forgot_password_usuario_dto_1.ForgotPasswordUsuarioDto]),
+    __metadata("design:returntype", void 0)
+], UsuariosController.prototype, "forgotPasswordStep2", null);
+__decorate([
+    (0, common_1.Patch)('forgot-password/step3'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [forgot_password_usuario_dto_1.ForgotPasswordUsuarioDto]),
+    __metadata("design:returntype", Promise)
+], UsuariosController.prototype, "forgotPasswordStep3", null);
 UsuariosController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, swagger_1.ApiTags)('Usuarios'),

@@ -14,6 +14,7 @@ import {
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { ForgotPasswordUsuarioDto } from './dto/forgot-password-usuario.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { LocalAuthGuard } from './local-auth-guards';
 import { JwtAuthGuard } from './jwt-auth-guards';
@@ -135,5 +136,29 @@ export class UsuariosController {
   @UseGuards(JwtAuthGuard)
   unfollowUser(@Param('id') id: string, @Req() req) {
     return this.usuariosService.unfollowUser(id, req.user._id);
+  }
+
+  @Patch('forgot-password/step1')
+  forgotPasswordStep1(
+    @Body() forgotPasswordUsuarioDto: ForgotPasswordUsuarioDto,
+  ) {
+    const { email, celular } = forgotPasswordUsuarioDto;
+    return this.usuariosService.forgotPasswordStep1(email, celular);
+  }
+
+  @Patch('forgot-password/step2')
+  forgotPasswordStep2(
+    @Body() forgotPasswordUsuarioDto: ForgotPasswordUsuarioDto,
+  ) {
+    const { email, celular, codigo } = forgotPasswordUsuarioDto;
+    return this.usuariosService.forgotPasswordStep2(email, celular, codigo);
+  }
+
+  @Patch('forgot-password/step3')
+  async forgotPasswordStep3(
+    @Body() forgotPasswordUsuarioDto: ForgotPasswordUsuarioDto,
+  ) {
+    const { email, celular, clave } = forgotPasswordUsuarioDto;
+    return this.usuariosService.forgotPasswordStep3(email, celular, clave);
   }
 }

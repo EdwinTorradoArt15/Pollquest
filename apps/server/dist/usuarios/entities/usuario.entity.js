@@ -62,6 +62,10 @@ __decorate([
     (0, mongoose_2.Prop)({ type: [{ type: String }] }),
     __metadata("design:type", Array)
 ], User.prototype, "siguiendo", void 0);
+__decorate([
+    (0, mongoose_2.Prop)(),
+    __metadata("design:type", String)
+], User.prototype, "codigoVerificacion", void 0);
 User = __decorate([
     (0, mongoose_2.Schema)()
 ], User);

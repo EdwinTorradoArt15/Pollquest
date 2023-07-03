@@ -27,6 +27,7 @@
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { ForgotPasswordUsuarioDto } from './dto/forgot-password-usuario.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { User } from './entities/usuario.entity';
 export declare class UsuariosController {
@@ -65,4 +66,13 @@ export declare class UsuariosController {
     unfollowUser(id: string, req: any): Promise<import("mongoose").Document<unknown, {}, User> & Omit<User & {
         _id: import("mongoose").Types.ObjectId;
     }, never>>;
+    forgotPasswordStep1(forgotPasswordUsuarioDto: ForgotPasswordUsuarioDto): Promise<{
+        error: string;
+    }>;
+    forgotPasswordStep2(forgotPasswordUsuarioDto: ForgotPasswordUsuarioDto): Promise<{
+        message: string;
+    }>;
+    forgotPasswordStep3(forgotPasswordUsuarioDto: ForgotPasswordUsuarioDto): Promise<{
+        message: string;
+    }>;
 }

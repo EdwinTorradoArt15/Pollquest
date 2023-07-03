@@ -30,10 +30,12 @@ const usuario_entity_1 = require("./entities/usuario.entity");
 const mongoose_2 = require("@nestjs/mongoose");
 const bcrypt = require("bcrypt");
 const jwt_1 = require("@nestjs/jwt");
+const mailer_1 = require("@nestjs-modules/mailer");
 let UsuariosService = class UsuariosService {
-    constructor(userModel, jwtService) {
+    constructor(userModel, jwtService, mailerService) {
         this.userModel = userModel;
         this.jwtService = jwtService;
+        this.mailerService = mailerService;
     }
     create(createUsuarioDto) {
         return this.userModel.create(Object.assign(Object.assign({}, createUsuarioDto), { clave: bcrypt.hashSync(createUsuarioDto.clave, 10) }));
@@ -131,12 +133,70 @@ let UsuariosService = class UsuariosService {
         await usuarioSeguir.save();
         return usuario;
     }
+    async forgotPasswordStep1(email, celular) {
+        if (!email && !celular) {
+            return { error: 'Debe proporcionar un email o un celular' };
+        }
+        const user = await this.userModel.findOne({ email } || { celular });
+        if (!user) {
+            return {
+                error: 'No se encontró ningún usuario con el email o celular proporcionado',
+            };
+        }
+        const codigo = this.generateVerificationCode();
+        if (email) {
+            await this.sendCodeByEmail(email, codigo);
+        }
+        else {
+            console.log('Se envió el código por SMS al celular: ', celular);
+        }
+        user.codigoVerificacion = codigo;
+        await user.save();
+    }
+    async forgotPasswordStep2(email, celular, codigo) {
+        const user = await this.userModel.findOne({ email } || { celular });
+        if (!user) {
+            return {
+                message: 'No se encontró ningún usuario con el email o celular proporcionado',
+            };
+        }
+        if (user.codigoVerificacion !== codigo) {
+            return { message: 'Codigo incorrecto' };
+        }
+        user.codigoVerificacion = null;
+        await user.save();
+    }
+    async forgotPasswordStep3(email, celular, nuevaClave) {
+        const user = await this.userModel.findOne({ email } || { celular });
+        if (!user) {
+            return {
+                message: 'No se encontró ningún usuario con el email o celular proporcionado',
+            };
+        }
+        const claveHash = bcrypt.hashSync(nuevaClave, 10);
+        user.clave = claveHash;
+        await user.save();
+    }
+    generateVerificationCode() {
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+        return code;
+    }
+    async sendCodeByEmail(email, code) {
+        const message = {
+            to: email,
+            subject: 'Código de verificación',
+            text: `Tu código de recuperación de contraseña es: ${code}`,
+            html: `<p>Tu código de recuperación de contraseña es: ${code}</p>`,
+        };
+        await this.mailerService.sendMail(message);
+    }
 };
 UsuariosService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_2.InjectModel)(usuario_entity_1.User.name)),
     __metadata("design:paramtypes", [mongoose_1.Model,
-        jwt_1.JwtService])
+        jwt_1.JwtService,
+        mailer_1.MailerService])
 ], UsuariosService);
 exports.UsuariosService = UsuariosService;
 //# sourceMappingURL=usuarios.service.js.map

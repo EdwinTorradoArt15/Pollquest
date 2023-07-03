@@ -40,6 +40,9 @@ export class User extends Document {
 
   @Prop({ type: [{ type: String }] })
   siguiendo?: string[];
+
+  @Prop()
+  codigoVerificacion?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

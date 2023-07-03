@@ -2,18 +2,21 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { ForgotPasswordUsuarioDto } from './dto/forgot-password-usuario.dto';
 import { Model } from 'mongoose';
 import { User } from './entities/usuario.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtService } from '@nestjs/jwt';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class UsuariosService {
   constructor(
     @InjectModel(User.name) private userModel: Model<User>,
     private jwtService: JwtService,
+    private readonly mailerService: MailerService,
   ) {}
 
   create(createUsuarioDto: CreateUsuarioDto) {
@@ -155,5 +158,87 @@ export class UsuariosService {
     await usuarioSeguir.save();
 
     return usuario;
+  }
+
+  async forgotPasswordStep1(email: string, celular: string) {
+    if (!email && !celular) {
+      return { error: 'Debe proporcionar un email o un celular' };
+    }
+
+    const user = await this.userModel.findOne({ email } || { celular });
+
+    if (!user) {
+      return {
+        error:
+          'No se encontró ningún usuario con el email o celular proporcionado',
+      };
+    }
+
+    const codigo = this.generateVerificationCode();
+
+    if (email) {
+      await this.sendCodeByEmail(email, codigo);
+    } else {
+      console.log('Se envió el código por SMS al celular: ', celular);
+    }
+
+    // Guardar el codigo en la BD
+    user.codigoVerificacion = codigo;
+    await user.save();
+  }
+
+  async forgotPasswordStep2(email: string, celular: string, codigo: string) {
+    const user = await this.userModel.findOne({ email } || { celular });
+
+    if (!user) {
+      return {
+        message:
+          'No se encontró ningún usuario con el email o celular proporcionado',
+      };
+    }
+
+    if (user.codigoVerificacion !== codigo) {
+      return { message: 'Codigo incorrecto' };
+    }
+
+    // Limpiar el codigo de verificacion
+    user.codigoVerificacion = null;
+    await user.save();
+  }
+
+  async forgotPasswordStep3(
+    email: string,
+    celular: string,
+    nuevaClave: string,
+  ) {
+    const user = await this.userModel.findOne({ email } || { celular });
+
+    if (!user) {
+      return {
+        message:
+          'No se encontró ningún usuario con el email o celular proporcionado',
+      };
+    }
+
+    // Actualizar la contraseña del usuario
+    const claveHash = bcrypt.hashSync(nuevaClave, 10);
+    user.clave = claveHash;
+    await user.save();
+  }
+
+  private generateVerificationCode(): string {
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    return code;
+  }
+
+  private async sendCodeByEmail(email: string, code: string) {
+    const message = {
+      to: email,
+      subject: 'Código de verificación',
+      text: `Tu código de recuperación de contraseña es: ${code}`,
+      html: `<p>Tu código de recuperación de contraseña es: ${code}</p>`,
+    };
+
+    await this.mailerService.sendMail(message);
   }
 }

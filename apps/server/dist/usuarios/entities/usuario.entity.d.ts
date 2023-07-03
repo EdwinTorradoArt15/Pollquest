@@ -34,6 +34,7 @@ export declare class User extends Document {
     imagenPortadaUrl?: string;
     seguidores?: string[];
     siguiendo?: string[];
+    codigoVerificacion?: string;
 }
 export declare const UserSchema: import("mongoose").Schema<User, import("mongoose").Model<User, any, any, any, Document<unknown, any, User> & Omit<User & {
     _id: import("mongoose").Types.ObjectId;

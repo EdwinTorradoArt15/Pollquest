@@ -28,10 +28,12 @@ import { Model } from 'mongoose';
 import { User } from './entities/usuario.entity';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtService } from '@nestjs/jwt';
+import { MailerService } from '@nestjs-modules/mailer';
 export declare class UsuariosService {
     private userModel;
     private jwtService;
-    constructor(userModel: Model<User>, jwtService: JwtService);
+    private readonly mailerService;
+    constructor(userModel: Model<User>, jwtService: JwtService, mailerService: MailerService);
     create(createUsuarioDto: CreateUsuarioDto): Promise<import("mongoose").Document<unknown, {}, User> & Omit<User & {
         _id: import("mongoose").Types.ObjectId;
     }, never>>;
@@ -72,4 +74,15 @@ export declare class UsuariosService {
     unfollowUser(id: string, idSeguir: string): Promise<import("mongoose").Document<unknown, {}, User> & Omit<User & {
         _id: import("mongoose").Types.ObjectId;
     }, never>>;
+    forgotPasswordStep1(email: string, celular: string): Promise<{
+        error: string;
+    }>;
+    forgotPasswordStep2(email: string, celular: string, codigo: string): Promise<{
+        message: string;
+    }>;
+    forgotPasswordStep3(email: string, celular: string, nuevaClave: string): Promise<{
+        message: string;
+    }>;
+    private generateVerificationCode;
+    private sendCodeByEmail;
 }
