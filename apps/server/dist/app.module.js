@@ -16,6 +16,7 @@ const usuarios_module_1 = require("./usuarios/usuarios.module");
 const mongoose_1 = require("@nestjs/mongoose");
 const config_1 = require("@nestjs/config");
 const categorias_module_1 = require("./categorias/categorias.module");
+const cuestionarios_module_1 = require("./cuestionarios/cuestionarios.module");
 const mailer_1 = require("@nestjs-modules/mailer");
 let AppModule = class AppModule {
 };
@@ -38,6 +39,7 @@ AppModule = __decorate([
                     },
                 },
             }),
+            cuestionarios_module_1.CuestionariosModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

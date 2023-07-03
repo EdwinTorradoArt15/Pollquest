@@ -7,6 +7,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { CategoriasModule } from './categorias/categorias.module';
+import { CuestionariosModule } from './cuestionarios/cuestionarios.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
@@ -27,6 +28,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
         },
       },
     }),
+    CuestionariosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
