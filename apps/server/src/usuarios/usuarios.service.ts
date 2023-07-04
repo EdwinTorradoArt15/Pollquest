@@ -236,7 +236,14 @@ export class UsuariosService {
       to: email,
       subject: 'Código de verificación',
       text: `Tu código de recuperación de contraseña es: ${code}`,
-      html: `<p>Tu código de recuperación de contraseña es: ${code}</p>`,
+      html: `
+      <div style="background-color: #f5f5f5; padding: 20px;">
+      <h2 style="color: #333;">Código de verificación</h2>
+      <p>Tu código de recuperación de contraseña es: <strong>${code}</strong></p>
+      <p>Utiliza este código para completar el proceso de recuperación de contraseña.</p>
+      <p>Si no has solicitado una recuperación de contraseña, puedes ignorar este mensaje.</p>
+    </div>
+    `,
     };
 
     await this.mailerService.sendMail(message);
