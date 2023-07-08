@@ -33,6 +33,7 @@ export declare class UsuariosService {
     private userModel;
     private jwtService;
     private readonly mailerService;
+    private reclaimTimer;
     constructor(userModel: Model<User>, jwtService: JwtService, mailerService: MailerService);
     create(createUsuarioDto: CreateUsuarioDto): Promise<import("mongoose").Document<unknown, {}, User> & Omit<User & {
         _id: import("mongoose").Types.ObjectId;
@@ -74,13 +75,13 @@ export declare class UsuariosService {
     unfollowUser(id: string, idSeguir: string): Promise<import("mongoose").Document<unknown, {}, User> & Omit<User & {
         _id: import("mongoose").Types.ObjectId;
     }, never>>;
-    forgotPasswordStep1(email: string, celular: string): Promise<{
+    forgotPasswordStep1(email: string): Promise<{
         error: string;
     }>;
-    forgotPasswordStep2(email: string, celular: string, codigo: string): Promise<{
+    forgotPasswordStep2(email: string, codigo: string): Promise<{
         message: string;
     }>;
-    forgotPasswordStep3(email: string, celular: string, nuevaClave: string): Promise<{
+    forgotPasswordStep3(email: string, nuevaClave: string): Promise<{
         message: string;
     }>;
     private generateVerificationCode;

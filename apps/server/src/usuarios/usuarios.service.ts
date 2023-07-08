@@ -1,8 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
-
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-import { ForgotPasswordUsuarioDto } from './dto/forgot-password-usuario.dto';
 import { Model } from 'mongoose';
 import { User } from './entities/usuario.entity';
 import { InjectModel } from '@nestjs/mongoose';
@@ -13,6 +11,8 @@ import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class UsuariosService {
+  private reclaimTimer: NodeJS.Timeout;
+
   constructor(
     @InjectModel(User.name) private userModel: Model<User>,
     private jwtService: JwtService,
@@ -160,17 +160,16 @@ export class UsuariosService {
     return usuario;
   }
 
-  async forgotPasswordStep1(email: string, celular: string) {
-    if (!email && !celular) {
-      return { error: 'Debe proporcionar un email o un celular' };
+  async forgotPasswordStep1(email: string) {
+    if (!email) {
+      return { error: 'Debe proporcionar un email' };
     }
 
-    const user = await this.userModel.findOne({ email } || { celular });
+    const user = await this.userModel.findOne({ email });
 
     if (!user) {
       return {
-        error:
-          'No se encontró ningún usuario con el email o celular proporcionado',
+        error: 'No se encontró ningún usuario con el email',
       };
     }
 
@@ -178,22 +177,24 @@ export class UsuariosService {
 
     if (email) {
       await this.sendCodeByEmail(email, codigo);
-    } else {
-      console.log('Se envió el código por SMS al celular: ', celular);
     }
 
     // Guardar el codigo en la BD
     user.codigoVerificacion = codigo;
     await user.save();
+
+    this.reclaimTimer = setTimeout(async () => {
+      user.codigoVerificacion = null;
+      await user.save();
+    }, 1 * 60 * 1000);
   }
 
-  async forgotPasswordStep2(email: string, celular: string, codigo: string) {
-    const user = await this.userModel.findOne({ email } || { celular });
+  async forgotPasswordStep2(email: string, codigo: string) {
+    const user = await this.userModel.findOne({ email });
 
     if (!user) {
       return {
-        message:
-          'No se encontró ningún usuario con el email o celular proporcionado',
+        message: 'No se encontró ningún usuario con el email',
       };
     }
 
@@ -204,19 +205,16 @@ export class UsuariosService {
     // Limpiar el codigo de verificacion
     user.codigoVerificacion = null;
     await user.save();
+
+    clearTimeout(this.reclaimTimer);
   }
 
-  async forgotPasswordStep3(
-    email: string,
-    celular: string,
-    nuevaClave: string,
-  ) {
-    const user = await this.userModel.findOne({ email } || { celular });
+  async forgotPasswordStep3(email: string, nuevaClave: string) {
+    const user = await this.userModel.findOne({ email });
 
     if (!user) {
       return {
-        message:
-          'No se encontró ningún usuario con el email o celular proporcionado',
+        message: 'No se encontró ningún usuario con el email',
       };
     }
 

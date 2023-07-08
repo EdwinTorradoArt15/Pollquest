@@ -133,31 +133,32 @@ let UsuariosService = class UsuariosService {
         await usuarioSeguir.save();
         return usuario;
     }
-    async forgotPasswordStep1(email, celular) {
-        if (!email && !celular) {
-            return { error: 'Debe proporcionar un email o un celular' };
+    async forgotPasswordStep1(email) {
+        if (!email) {
+            return { error: 'Debe proporcionar un email' };
         }
-        const user = await this.userModel.findOne({ email } || { celular });
+        const user = await this.userModel.findOne({ email });
         if (!user) {
             return {
-                error: 'No se encontró ningún usuario con el email o celular proporcionado',
+                error: 'No se encontró ningún usuario con el email',
             };
         }
         const codigo = this.generateVerificationCode();
         if (email) {
             await this.sendCodeByEmail(email, codigo);
         }
-        else {
-            console.log('Se envió el código por SMS al celular: ', celular);
-        }
         user.codigoVerificacion = codigo;
         await user.save();
+        this.reclaimTimer = setTimeout(async () => {
+            user.codigoVerificacion = null;
+            await user.save();
+        }, 1 * 60 * 1000);
     }
-    async forgotPasswordStep2(email, celular, codigo) {
-        const user = await this.userModel.findOne({ email } || { celular });
+    async forgotPasswordStep2(email, codigo) {
+        const user = await this.userModel.findOne({ email });
         if (!user) {
             return {
-                message: 'No se encontró ningún usuario con el email o celular proporcionado',
+                message: 'No se encontró ningún usuario con el email',
             };
         }
         if (user.codigoVerificacion !== codigo) {
@@ -165,12 +166,13 @@ let UsuariosService = class UsuariosService {
         }
         user.codigoVerificacion = null;
         await user.save();
+        clearTimeout(this.reclaimTimer);
     }
-    async forgotPasswordStep3(email, celular, nuevaClave) {
-        const user = await this.userModel.findOne({ email } || { celular });
+    async forgotPasswordStep3(email, nuevaClave) {
+        const user = await this.userModel.findOne({ email });
         if (!user) {
             return {
-                message: 'No se encontró ningún usuario con el email o celular proporcionado',
+                message: 'No se encontró ningún usuario con el email',
             };
         }
         const claveHash = bcrypt.hashSync(nuevaClave, 10);

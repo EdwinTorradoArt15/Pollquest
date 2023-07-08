@@ -74,16 +74,16 @@ let UsuariosController = class UsuariosController {
         return this.usuariosService.unfollowUser(id, req.user._id);
     }
     forgotPasswordStep1(forgotPasswordUsuarioDto) {
-        const { email, celular } = forgotPasswordUsuarioDto;
-        return this.usuariosService.forgotPasswordStep1(email, celular);
+        const { email } = forgotPasswordUsuarioDto;
+        return this.usuariosService.forgotPasswordStep1(email);
     }
     forgotPasswordStep2(forgotPasswordUsuarioDto) {
-        const { email, celular, codigo } = forgotPasswordUsuarioDto;
-        return this.usuariosService.forgotPasswordStep2(email, celular, codigo);
+        const { email, codigo } = forgotPasswordUsuarioDto;
+        return this.usuariosService.forgotPasswordStep2(email, codigo);
     }
     async forgotPasswordStep3(forgotPasswordUsuarioDto) {
-        const { email, celular, clave } = forgotPasswordUsuarioDto;
-        return this.usuariosService.forgotPasswordStep3(email, celular, clave);
+        const { email, clave } = forgotPasswordUsuarioDto;
+        return this.usuariosService.forgotPasswordStep3(email, clave);
     }
 };
 __decorate([

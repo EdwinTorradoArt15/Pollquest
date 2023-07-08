@@ -142,23 +142,23 @@ export class UsuariosController {
   forgotPasswordStep1(
     @Body() forgotPasswordUsuarioDto: ForgotPasswordUsuarioDto,
   ) {
-    const { email, celular } = forgotPasswordUsuarioDto;
-    return this.usuariosService.forgotPasswordStep1(email, celular);
+    const { email } = forgotPasswordUsuarioDto;
+    return this.usuariosService.forgotPasswordStep1(email);
   }
 
   @Patch('forgot-password/step2')
   forgotPasswordStep2(
     @Body() forgotPasswordUsuarioDto: ForgotPasswordUsuarioDto,
   ) {
-    const { email, celular, codigo } = forgotPasswordUsuarioDto;
-    return this.usuariosService.forgotPasswordStep2(email, celular, codigo);
+    const { email, codigo } = forgotPasswordUsuarioDto;
+    return this.usuariosService.forgotPasswordStep2(email, codigo);
   }
 
   @Patch('forgot-password/step3')
   async forgotPasswordStep3(
     @Body() forgotPasswordUsuarioDto: ForgotPasswordUsuarioDto,
   ) {
-    const { email, celular, clave } = forgotPasswordUsuarioDto;
-    return this.usuariosService.forgotPasswordStep3(email, celular, clave);
+    const { email, clave } = forgotPasswordUsuarioDto;
+    return this.usuariosService.forgotPasswordStep3(email, clave);
   }
 }
