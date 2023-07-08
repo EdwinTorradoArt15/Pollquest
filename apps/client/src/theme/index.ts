@@ -175,8 +175,8 @@ export const theme = createTheme({
     // Bright blue
     primary: {
       main: "#3A53EE",
-      light: "#828DF8",
-      dark: "#4361ee",
+      light: "#5C79F9",
+      dark: "#293DDF",
       contrastText: "#FFFFFF",
     },
     // lime green
