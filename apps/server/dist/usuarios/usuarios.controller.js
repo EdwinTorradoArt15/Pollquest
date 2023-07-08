@@ -78,6 +78,7 @@ let UsuariosController = class UsuariosController {
         return this.usuariosService.forgotPasswordStep1(email);
     }
     forgotPasswordStep2(forgotPasswordUsuarioDto) {
+        console.log(forgotPasswordUsuarioDto);
         const { email, codigo } = forgotPasswordUsuarioDto;
         return this.usuariosService.forgotPasswordStep2(email, codigo);
     }

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {
   RegisterFormValues,
   LoginFormValues,
+  ForgotPassword,
 } from "../interfaces/auth.interfaces";
 
 interface AuthProviderProps {
@@ -17,6 +18,12 @@ interface AuthContextValues {
   value: String;
   registerUser: (data: RegisterFormValues) => void;
   loginUser: (data: LoginFormValues) => void;
+  forgotPasswordStep1: (email: ForgotPassword) => void;
+  forgotPasswordStep2: (data: ForgotPassword) => void;
+  forgotPasswordStep3: (data: ForgotPassword) => void;
+  activeStep: number;
+  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
+  handleBack?: () => void;
 }
 
 export const AuthContext = createContext<AuthContextValues>({
@@ -25,11 +32,26 @@ export const AuthContext = createContext<AuthContextValues>({
   setValue: () => {},
   registerUser: () => {},
   loginUser: () => {},
+  forgotPasswordStep1: () => {},
+  forgotPasswordStep2: () => {},
+  forgotPasswordStep3: () => {},
+  activeStep: 0,
+  setActiveStep: () => {},
+  handleBack: () => {},
 });
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState<String>("Login");
+  const [activeStep, setActiveStep] = useState(0);
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
 
   const navigate = useNavigate();
 
@@ -73,9 +95,62 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const forgotPasswordStep1 = async (email: ForgotPassword) => {
+    try {
+      setLoading(true);
+      await authServices.forgotPasswordStep1(email);
+      handleNext();
+    } catch (error) {
+      console.error(error);
+      toast.error("Error al enviar el correo");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const forgotPasswordStep2 = async (data: ForgotPassword) => {
+    try {
+      setLoading(true);
+      await authServices.forgotPasswordStep2(data);
+      toast.success("Codigo enviado correctamente");
+      handleNext();
+    } catch (error) {
+      console.error(error);
+      toast.error("Error al enviar el codigo");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const forgotPasswordStep3 = async (data: ForgotPassword) => {
+    try {
+      setLoading(true);
+      await authServices.forgotPasswordStep3(data);
+      toast.success("Contraseña cambiada correctamente");
+      handleNext();
+    } catch (error) {
+      console.error(error);
+      toast.error("Error al cambiar la contraseña");
+    }finally{
+      setLoading(false);
+    }
+  };
+
   return (
     <AuthContext.Provider
-      value={{ registerUser, loginUser, loading, setValue, value }}
+      value={{
+        registerUser,
+        loginUser,
+        loading,
+        setValue,
+        value,
+        forgotPasswordStep1,
+        forgotPasswordStep2,
+        forgotPasswordStep3,
+        activeStep,
+        setActiveStep,
+        handleBack,
+      }}
     >
       {children}
     </AuthContext.Provider>

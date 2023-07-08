@@ -1,4 +1,5 @@
-import { useState, useRef } from "react";
+import { useRef, useContext } from "react";
+import { AuthContext } from "@/features/auth/context/AuthContext";
 import {
   Box,
   Stepper,
@@ -6,10 +7,6 @@ import {
   StepLabel,
   Button,
   TextField,
-  Typography,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
 } from "@mui/material";
 import {
   useForm,
@@ -18,7 +15,8 @@ import {
   SubmitHandler,
 } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { Alerta } from "@/components";
+import { Alerta, Loader } from "@/components";
+import { ForgotPassword } from "@/features/auth/interfaces/auth.interfaces";
 
 const steps = [
   "Método de verificación",
@@ -27,7 +25,15 @@ const steps = [
 ];
 
 const StepsForgotPassword = () => {
-  const [activeStep, setActiveStep] = useState(0);
+  const {
+    forgotPasswordStep1,
+    forgotPasswordStep2,
+    forgotPasswordStep3,
+    activeStep,
+    setActiveStep,
+    loading,
+    handleBack,
+  } = useContext(AuthContext);
   const {
     control,
     handleSubmit,
@@ -35,99 +41,65 @@ const StepsForgotPassword = () => {
     formState: { errors },
   } = useForm();
   const password = useRef({});
-  password.current = watch("newPassword", "");
-  const verificationMethod = watch("verificationMethod");
+  password.current = watch("clave", "");
   const navigate = useNavigate();
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
   const handleHome = () => {
+    setActiveStep(0);
     navigate("/login");
   };
 
+  const formatedCode = (code: any) => {
+    const str = code.join("");
+    return str;
+  };
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
-    handleNext();
+    if (activeStep === 0) {
+      forgotPasswordStep1(data as ForgotPassword);
+    } else if (activeStep === 1) {
+      const code = formatedCode(data.codigo);
+      const newData = {
+        ...data,
+        codigo: code,
+      };
+      forgotPasswordStep2(newData as ForgotPassword);
+    } else if (activeStep === 2) {
+      forgotPasswordStep3(data as ForgotPassword);
+    }
   };
 
   const renderStepContent = (step: any) => {
     switch (step) {
       case 0:
         return (
-          <div>
+          <Box sx={{ mt: 3 }}>
             <Controller
               control={control}
-              name="verificationMethod"
-              defaultValue="email"
+              name="email"
+              rules={{ required: true }}
+              defaultValue=""
               render={({ field }) => (
-                <RadioGroup {...field} row>
-                  <FormControlLabel
-                    value="email"
-                    control={<Radio />}
-                    label="Correo Electrónico"
-                  />
-                  <FormControlLabel
-                    value="phone"
-                    control={<Radio />}
-                    label="Teléfono Celular"
-                  />
-                </RadioGroup>
+                <TextField
+                  fullWidth
+                  {...field}
+                  label="Correo Electrónico"
+                  error={!!errors.email}
+                  helperText={errors.email ? "Correo requerido" : ""}
+                />
               )}
             />
-            {verificationMethod === "email" || !verificationMethod ? (
-              <Controller
-                control={control}
-                name="email"
-                rules={{ required: true }}
-                defaultValue=""
-                render={({ field }) => (
-                  <TextField
-                    fullWidth
-                    {...field}
-                    label="Correo Electrónico"
-                    error={!!errors.email}
-                    helperText={errors.email ? "Correo requerido" : ""}
-                  />
-                )}
-              />
-            ) : (
-              <Controller
-                control={control}
-                name="celular"
-                rules={{ required: true }}
-                defaultValue=""
-                render={({ field }) => (
-                  <TextField
-                    fullWidth
-                    {...field}
-                    type="number"
-                    label="Teléfono Celular"
-                    error={!!errors.celular}
-                    helperText={errors.celular ? "Teléfono requerido" : ""}
-                  />
-                )}
-              />
-            )}
-          </div>
+          </Box>
         );
       case 1:
         return (
-          <div>
-            <Typography variant="subtitle1" gutterBottom>
-              Código de Verificación
-            </Typography>
+          <Box sx={{ mt: 3 }}>
             <div style={{ display: "flex" }}>
               {[0, 1, 2, 3, 4, 5].map((index: number) => (
                 <div key={index} style={{ marginRight: "10px" }}>
                   <Controller
                     control={control}
-                    name={`verificationCode[${index}]`}
+                    name={`codigo[${index}]`}
                     rules={{
                       required: true,
                       validate: (value) => value >= 0,
@@ -136,26 +108,24 @@ const StepsForgotPassword = () => {
                     render={({ field }) => (
                       <TextField
                         {...field}
-                        type="number"
-                        inputProps={{ maxLength: 1 }}
-                        error={!!errors.verificationCode}
-                        helperText={
-                          errors.verificationCode ? "Código requerido" : ""
-                        }
+                        type="text"
+                        inputProps={{ maxLength: 1, inputMode: "numeric" }}
+                        error={!!errors.codigo}
+                        helperText={errors.codigo ? "Código requerido" : ""}
                       />
                     )}
                   />
                 </div>
               ))}
             </div>
-          </div>
+          </Box>
         );
       case 2:
         return (
-          <div>
+          <Box sx={{ mt: 3 }}>
             <Controller
               control={control}
-              name="newPassword"
+              name="clave"
               rules={{ required: true }}
               defaultValue=""
               render={({ field }) => (
@@ -164,8 +134,8 @@ const StepsForgotPassword = () => {
                   {...field}
                   type="password"
                   label="Nueva Contraseña"
-                  error={!!errors.newPassword}
-                  helperText={errors.newPassword ? "Contraseña requerida" : ""}
+                  error={!!errors.clave}
+                  helperText={errors.clave ? "Contraseña requerida" : ""}
                 />
               )}
             />
@@ -191,7 +161,7 @@ const StepsForgotPassword = () => {
                 />
               )}
             />
-          </div>
+          </Box>
         );
       default:
         return null;
@@ -248,8 +218,19 @@ const StepsForgotPassword = () => {
                 <Button disabled={activeStep === 0} onClick={handleBack}>
                   Atrás
                 </Button>
-                <Button variant="contained" color="primary" type="submit">
-                  {activeStep === 2 ? "Cambiar Contraseña" : "Siguiente"}
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <Loader />
+                  ) : activeStep === steps.length - 1 ? (
+                    "Actualizar"
+                  ) : (
+                    "Siguiente"
+                  )}
                 </Button>
               </div>
             </div>

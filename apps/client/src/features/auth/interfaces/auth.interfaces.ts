@@ -19,3 +19,9 @@ export interface RegisterUser {
   email: string;
   clave: string;
 }
+
+export interface ForgotPassword {
+  email?: string;
+  codigo?: string;
+  clave?: string;
+}

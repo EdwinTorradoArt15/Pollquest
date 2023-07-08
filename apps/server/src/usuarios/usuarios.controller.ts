@@ -150,6 +150,7 @@ export class UsuariosController {
   forgotPasswordStep2(
     @Body() forgotPasswordUsuarioDto: ForgotPasswordUsuarioDto,
   ) {
+    console.log(forgotPasswordUsuarioDto)
     const { email, codigo } = forgotPasswordUsuarioDto;
     return this.usuariosService.forgotPasswordStep2(email, codigo);
   }

@@ -139,9 +139,7 @@ let UsuariosService = class UsuariosService {
         }
         const user = await this.userModel.findOne({ email });
         if (!user) {
-            return {
-                error: 'No se encontró ningún usuario con el email',
-            };
+            throw new common_1.UnauthorizedException('Usuario no encontrado');
         }
         const codigo = this.generateVerificationCode();
         if (email) {
