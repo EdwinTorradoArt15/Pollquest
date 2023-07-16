@@ -7,6 +7,7 @@ import {
   Theme,
   useMediaQuery,
   Box,
+  Skeleton,
 } from "@mui/material";
 import { FiPlus } from "react-icons/fi";
 import { Header } from "@/components";
@@ -17,7 +18,7 @@ import {
 
 const Administrar = () => {
   const [open, setOpen] = useState(false);
-  const { categories, getCategories } = useContext(CategoryContext);
+  const { categories, getCategories, loading } = useContext(CategoryContext);
 
   const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"), {
     defaultMatches: true,
@@ -62,18 +63,31 @@ const Administrar = () => {
             gap: "1rem",
           }}
         >
-          {categories.map((category) => {
-            return (
-              <CardCategory
-                key={category._id}
-                id={category._id}
-                nombre={category.nombre}
-                imagen={category.imagenUrl}
-                getCategories={getCategories}
-                handleOpenModalAdministrar={handleOpenModalAdministrar}
-              />
-            );
-          })}
+          {loading ? (
+            <>
+              {[...Array(7)].map((_, index) => (
+                <Skeleton
+                  key={index}
+                  variant="rectangular"
+                  width="15rem"
+                  height="10rem"
+                />
+              ))}
+            </>
+          ) : (
+            categories.map((category) => {
+              return (
+                <CardCategory
+                  key={category._id}
+                  id={category._id}
+                  nombre={category.nombre}
+                  imagen={category.imagenUrl}
+                  getCategories={getCategories}
+                  handleOpenModalAdministrar={handleOpenModalAdministrar}
+                />
+              );
+            })
+          )}
         </Box>
       </Stack>
       <ModalAdministrar open={open} setOpen={setOpen} />

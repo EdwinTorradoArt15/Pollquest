@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { CategoryContext } from "@/features/administrar/context/CategoryContext";
 import { Header } from "@/components";
-import { Stack, Box } from "@mui/material";
+import { Stack, Box, Skeleton } from "@mui/material";
 import { CardCategoryInicio } from "@/features/inicio/components";
 
 const Inicio = () => {
-  const { categories, getCategories } = useContext(CategoryContext);
+  const { categories, getCategories, loading } = useContext(CategoryContext);
 
   return (
     <>
@@ -27,15 +27,28 @@ const Inicio = () => {
               gap: "1rem",
             }}
           >
-            {categories.map((category) => (
-              <CardCategoryInicio
-                key={category._id}
-                id={category._id}
-                nombre={category.nombre}
-                imagen={category.imagenUrl}
-                getCategories={getCategories}
-              />
-            ))}
+            {loading ? (
+              <>
+                {[...Array(7)].map((_, index) => (
+                  <Skeleton
+                    key={index}
+                    variant="rectangular"
+                    width="15rem"
+                    height="10rem"
+                  />
+                ))}
+              </>
+            ) : (
+              categories.map((category) => (
+                <CardCategoryInicio
+                  key={category._id}
+                  id={category._id}
+                  nombre={category.nombre}
+                  imagen={category.imagenUrl}
+                  getCategories={getCategories}
+                />
+              ))
+            )}
           </Box>
         </Stack>
       </Stack>
