@@ -1,0 +1,11 @@
+export { default as Sidebar } from "./dashboard/Sidebar";
+export { default as Navbar } from "./dashboard/Navbar";
+export { default as Loader } from "./Loader";
+export { default as DashboardLayout } from "./dashboard/DashboardLayout";
+export { default as NavItem } from "./dashboard/NavItem";
+export { default as AccountPopover } from "./dashboard/AccountPopover";
+export { default as Dashboard } from "./dashboard/Dashboard";
+export { default as Header } from "./Header";
+export { default as ModalBuscar } from "./search/ModalBuscar";
+export { default as CuerpoModal } from "./search/CuerpoModal";
+export { default as Alerta } from "./Alerta";

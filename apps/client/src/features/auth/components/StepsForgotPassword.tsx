@@ -1,5 +1,3 @@
-import { useRef, useContext } from "react";
-import { AuthContext } from "@/features/auth/context/AuthContext";
 import {
   Box,
   Stepper,
@@ -8,15 +6,10 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-import {
-  useForm,
-  Controller,
-  FieldValues,
-  SubmitHandler,
-} from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Controller } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { Alerta, Loader } from "@/components";
-import { ForgotPassword } from "@/features/auth/interfaces/auth.interfaces";
+import { useStepsForgotPassword } from "@/features/auth/hook";
 
 const steps = [
   "Método de verificación",
@@ -26,48 +19,16 @@ const steps = [
 
 const StepsForgotPassword = () => {
   const {
-    forgotPasswordStep1,
-    forgotPasswordStep2,
-    forgotPasswordStep3,
-    activeStep,
-    setActiveStep,
-    loading,
-    handleBack,
-  } = useContext(AuthContext);
-  const {
     control,
     handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
-  const password = useRef({});
-  password.current = watch("clave", "");
-  const navigate = useNavigate();
-
-  const handleHome = () => {
-    setActiveStep(0);
-    navigate("/login");
-  };
-
-  const formatedCode = (code: any) => {
-    const str = code.join("");
-    return str;
-  };
-
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    if (activeStep === 0) {
-      forgotPasswordStep1(data as ForgotPassword);
-    } else if (activeStep === 1) {
-      const code = formatedCode(data.codigo);
-      const newData = {
-        ...data,
-        codigo: code,
-      };
-      forgotPasswordStep2(newData as ForgotPassword);
-    } else if (activeStep === 2) {
-      forgotPasswordStep3(data as ForgotPassword);
-    }
-  };
+    errors,
+    password,
+    onSubmit,
+    handleBack,
+    handleHome,
+    activeStep,
+    loading,
+  } = useStepsForgotPassword();
 
   const renderStepContent = (step: any) => {
     switch (step) {
