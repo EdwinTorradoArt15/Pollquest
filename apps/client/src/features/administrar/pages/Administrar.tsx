@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { CategoryContext } from "@/features/administrar/context/CategoryContext";
 import {
   Stack,
@@ -17,17 +17,12 @@ import {
 } from "@/features/administrar/components";
 
 const Administrar = () => {
-  const [open, setOpen] = useState(false);
-  const { categories, getCategories, loading } = useContext(CategoryContext);
+  const { categories, getCategories, loading, handleOpen } = useContext(CategoryContext);
 
   const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"), {
     defaultMatches: true,
     noSsr: false,
   });
-
-  const handleOpenModalAdministrar = () => {
-    setOpen(true);
-  };
 
   return (
     <>
@@ -47,7 +42,7 @@ const Administrar = () => {
                 </SvgIcon>
               }
               variant="contained"
-              onClick={handleOpenModalAdministrar}
+              onClick={handleOpen}
             >
               Agregar
             </Button>
@@ -83,14 +78,14 @@ const Administrar = () => {
                   nombre={category.nombre}
                   imagen={category.imagenUrl}
                   getCategories={getCategories}
-                  handleOpenModalAdministrar={handleOpenModalAdministrar}
+                  handleOpenModalAdministrar={handleOpen}
                 />
               );
             })
           )}
         </Box>
       </Stack>
-      <ModalAdministrar open={open} setOpen={setOpen} />
+      <ModalAdministrar/>
     </>
   );
 };

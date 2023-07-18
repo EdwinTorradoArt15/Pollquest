@@ -56,7 +56,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const navigate = useNavigate();
 
   const registerUser = async (data: RegisterFormValues) => {
-    // Formateamos data para quitar el confirmar clave
     const userData = {
       nombre: data.nombre,
       apellido: data.apellido,

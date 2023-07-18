@@ -3,8 +3,6 @@ import { AuthContext } from "@/features/auth/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import {
   useForm,
-  Controller,
-  FieldValues,
   SubmitHandler,
 } from "react-hook-form";
 import { ForgotPassword } from "@/features/auth/interfaces/auth.interfaces";

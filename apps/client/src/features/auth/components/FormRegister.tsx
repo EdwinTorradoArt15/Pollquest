@@ -1,20 +1,11 @@
-import { useRef, useContext } from "react";
-import { AuthContext } from "@/features/auth/context/AuthContext";
-import { useForm, Controller } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { Button, FormHelperText, TextField, Grid } from "@mui/material";
-import { RegisterFormValues } from "@/features/auth/interfaces/auth.interfaces";
 import { Loader } from "@/components";
 import { year } from "@/utils/date";
+import { useRegister } from "@/features/auth/hook";
 
 const FormRegister = () => {
-  const { control, handleSubmit, watch } = useForm<RegisterFormValues>();
-  const { loading, registerUser } = useContext(AuthContext);
-  const password = useRef({});
-  password.current = watch("clave", "");
-
-  const register = async (formUserData: RegisterFormValues) => {
-    registerUser(formUserData);
-  };
+  const { handleSubmit, register, control, password, loading } = useRegister();
 
   return (
     <form onSubmit={handleSubmit(register)}>
