@@ -1,34 +1,20 @@
-import { useState, useContext } from "react";
-import { CategoryContext } from "@/features/administrar/context/CategoryContext";
 import { FiMoreHorizontal, FiTrash2, FiEdit } from "react-icons/fi";
 import { IconButton, Menu, MenuItem } from "@mui/material";
-
+import { useDropDownCat } from "@/features/administrar/hook";
 
 interface DropDownCatProps {
   id: string;
   handleOpenModalAdministrar: () => void;
 }
 
-const DropDownCat = ({
-  id,
-  handleOpenModalAdministrar,
-}: DropDownCatProps) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { getCategory, handleDeleteCategory } = useContext(CategoryContext);
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const getCategoryAndOpenModal = (id: string) => {
-    getCategory(id);
-    handleOpenModalAdministrar();
-  };
-
+const DropDownCat = ({ id, handleOpenModalAdministrar }: DropDownCatProps) => {
+  const {
+    handleClick,
+    anchorEl,
+    getCategoryAndOpenModal,
+    handleClose,
+    handleDeleteCategory,
+  } = useDropDownCat(handleOpenModalAdministrar);
   return (
     <>
       <IconButton onClick={handleClick} size="small">

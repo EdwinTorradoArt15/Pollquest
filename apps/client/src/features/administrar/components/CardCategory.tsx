@@ -2,7 +2,6 @@ import { Box } from "@mui/material";
 import { formatedText } from "@/utils/formatedText";
 import { DropDownCat } from "@/features/administrar/components";
 import noImage from "@/features/administrar/image/noImage.png";
-import { useLocation } from "react-router-dom";
 
 interface CardCategoryProps {
   id: string;
@@ -17,7 +16,6 @@ const CardCategory = ({
   imagen,
   handleOpenModalAdministrar,
 }: CardCategoryProps) => {
-  const { pathname } = useLocation();
 
   const imageUrl = imagen ? imagen : noImage;
 
