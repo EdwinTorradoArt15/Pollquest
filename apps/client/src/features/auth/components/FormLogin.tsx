@@ -1,6 +1,4 @@
-import { useContext } from "react";
-import { AuthContext } from "@/features/auth/context/AuthContext";
-import { useForm, Controller } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import {
   Button,
   FormHelperText,
@@ -8,51 +6,50 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { LoginFormValues } from "@/features/auth/interfaces/auth.interfaces";
 import { Loader } from "@/components";
 import { year } from "@/utils/date";
 import { Link } from "react-router-dom";
+import { useLogin } from "@/features/auth/hook";
 
 const FormLogin = () => {
-  const { control, handleSubmit } = useForm<LoginFormValues>();
-  const { loginUser, loading } = useContext(AuthContext);
-
-  const login = (data: LoginFormValues) => {
-    loginUser(data);
-  };
+  const { methodsAuth, login, loading } = useLogin();
 
   return (
-    <form onSubmit={handleSubmit(login)}>
+    <form onSubmit={methodsAuth.handleSubmit(login)}>
       <Stack spacing={1}>
         <Controller
           name="email"
-          control={control}
-          rules={{ required: "Este campo es requerido" }}
+          control={methodsAuth.control}
+          rules={{ required: true }}
           defaultValue=""
-          render={({ field, fieldState: { error } }) => (
+          render={({ field }) => (
             <TextField
               fullWidth
               {...field}
               type="email"
               label="Correo electrónico"
-              error={error ? true : false}
-              helperText={error?.message}
+              error={!!methodsAuth.formState.errors.email}
+              helperText={
+                methodsAuth.formState.errors.email ? "Campo requerido" : null
+              }
             />
           )}
         />
         <Controller
           name="clave"
-          control={control}
-          rules={{ required: "Este campo es requerido" }}
+          control={methodsAuth.control}
+          rules={{ required: true }}
           defaultValue=""
-          render={({ field, fieldState: { error } }) => (
+          render={({ field }) => (
             <TextField
               fullWidth
               {...field}
               type="password"
               label="Contraseña"
-              error={error ? true : false}
-              helperText={error?.message}
+              error={!!methodsAuth.formState.errors.clave}
+              helperText={
+                methodsAuth.formState.errors.clave ? "Campo requerido" : null
+              }
             />
           )}
         />

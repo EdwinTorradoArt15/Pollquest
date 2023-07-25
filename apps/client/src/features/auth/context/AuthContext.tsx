@@ -3,11 +3,11 @@ import { toast } from "react-toastify";
 import * as authServices from "@/features/auth/services/authServices";
 import { useNavigate } from "react-router-dom";
 import {
-  RegisterFormValues,
   LoginFormValues,
   ForgotPassword,
-} from "../interfaces/auth.interfaces";
-
+  RegisterUser
+} from "@/features/auth/interfaces/auth.interfaces";
+import { useForm } from "react-hook-form";
 interface AuthProviderProps {
   children: React.ReactNode;
 }
@@ -16,7 +16,8 @@ interface AuthContextValues {
   loading: boolean;
   setValue: React.Dispatch<React.SetStateAction<String>>;
   value: String;
-  registerUser: (data: RegisterFormValues) => void;
+  methodsAuth: any;
+  registerUser: (data: RegisterUser) => void;
   loginUser: (data: LoginFormValues) => void;
   forgotPasswordStep1: (email: ForgotPassword) => void;
   forgotPasswordStep2: (data: ForgotPassword) => void;
@@ -29,6 +30,7 @@ interface AuthContextValues {
 export const AuthContext = createContext<AuthContextValues>({
   loading: false,
   value: "Login",
+  methodsAuth: {},
   setValue: () => {},
   registerUser: () => {},
   loginUser: () => {},
@@ -44,6 +46,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState<String>("Login");
   const [activeStep, setActiveStep] = useState(0);
+  const methodsAuth = useForm();
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -55,20 +58,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const navigate = useNavigate();
 
-  const registerUser = async (data: RegisterFormValues) => {
-    const userData = {
-      nombre: data.nombre,
-      apellido: data.apellido,
-      celular: data.celular,
-      email: data.email,
-      clave: data.clave,
-    };
+  const registerUser = async (data: RegisterUser) => {
     try {
       setLoading(true);
-      const success = await authServices.createUser(userData);
+      const success = await authServices.createUser(data);
       setLoading(false);
       if (success) {
         toast.success("Usuario registrado correctamente");
+        methodsAuth.reset();
         setValue("Login");
       } else {
         toast.error("Error al registrar el usuario");
@@ -130,7 +127,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } catch (error) {
       console.error(error);
       toast.error("Error al cambiar la contraseña");
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -138,6 +135,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   return (
     <AuthContext.Provider
       value={{
+        methodsAuth,
         registerUser,
         loginUser,
         loading,

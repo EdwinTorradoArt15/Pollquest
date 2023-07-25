@@ -5,25 +5,27 @@ import { year } from "@/utils/date";
 import { useRegister } from "@/features/auth/hook";
 
 const FormRegister = () => {
-  const { handleSubmit, register, control, password, loading } = useRegister();
+  const { register, password, loading, methodsAuth } = useRegister();
 
   return (
-    <form onSubmit={handleSubmit(register)}>
+    <form onSubmit={methodsAuth.handleSubmit(register)}>
       <Grid container rowSpacing={1} columnSpacing={1}>
         <Grid item xs={6}>
           <Controller
             name="nombre"
-            control={control}
-            rules={{ required: "Este campo es requerido" }}
+            control={methodsAuth.control}
+            rules={{ required: true }}
             defaultValue=""
-            render={({ field, fieldState: { error } }) => (
+            render={({ field }) => (
               <TextField
                 fullWidth
                 {...field}
                 type="text"
                 label="Nombre"
-                error={error ? true : false}
-                helperText={error?.message}
+                error={!!methodsAuth.formState.errors.nombre}
+                helperText={
+                  methodsAuth.formState.errors.nombre ? "Campo requerido" : null
+                }
               />
             )}
           />
@@ -31,17 +33,21 @@ const FormRegister = () => {
         <Grid item xs={6}>
           <Controller
             name="apellido"
-            control={control}
-            rules={{ required: "Este campo es requerido" }}
+            control={methodsAuth.control}
+            rules={{ required: true }}
             defaultValue=""
-            render={({ field, fieldState: { error } }) => (
+            render={({ field }) => (
               <TextField
                 fullWidth
                 {...field}
                 type="text"
                 label="Apellido"
-                error={error ? true : false}
-                helperText={error?.message}
+                error={!!methodsAuth.formState.errors.apellido}
+                helperText={
+                  methodsAuth.formState.errors.apellido
+                    ? "Campo requerido"
+                    : null
+                }
               />
             )}
           />
@@ -49,17 +55,21 @@ const FormRegister = () => {
         <Grid item xs={6}>
           <Controller
             name="celular"
-            control={control}
-            rules={{ required: "Este campo es requerido" }}
+            control={methodsAuth.control}
+            rules={{ required: true }}
             defaultValue=""
-            render={({ field, fieldState: { error } }) => (
+            render={({ field }) => (
               <TextField
                 fullWidth
                 {...field}
                 type="number"
                 label="Celular"
-                error={error ? true : false}
-                helperText={error?.message}
+                error={!!methodsAuth.formState.errors.celular}
+                helperText={
+                  methodsAuth.formState.errors.celular
+                    ? "Campo requerido"
+                    : null
+                }
               />
             )}
           />
@@ -67,17 +77,19 @@ const FormRegister = () => {
         <Grid item xs={6}>
           <Controller
             name="email"
-            control={control}
-            rules={{ required: "Este campo es requerido" }}
+            control={methodsAuth.control}
+            rules={{ required: true }}
             defaultValue=""
-            render={({ field, fieldState: { error } }) => (
+            render={({ field }) => (
               <TextField
                 fullWidth
                 {...field}
                 type="email"
                 label="Correo electrónico"
-                error={error ? true : false}
-                helperText={error?.message}
+                error={!!methodsAuth.formState.errors.email}
+                helperText={
+                  methodsAuth.formState.errors.email ? "Campo requerido" : null
+                }
               />
             )}
           />
@@ -85,17 +97,19 @@ const FormRegister = () => {
         <Grid item xs={6}>
           <Controller
             name="clave"
-            control={control}
-            rules={{ required: "Este campo es requerido" }}
+            control={methodsAuth.control}
+            rules={{ required: true }}
             defaultValue=""
-            render={({ field, fieldState: { error } }) => (
+            render={({ field }) => (
               <TextField
                 fullWidth
                 {...field}
                 type="password"
                 label="Contraseña"
-                error={error ? true : false}
-                helperText={error?.message}
+                error={!!methodsAuth.formState.errors.clave}
+                helperText={
+                  methodsAuth.formState.errors.clave ? "Campo requerido" : null
+                }
               />
             )}
           />
@@ -103,21 +117,25 @@ const FormRegister = () => {
         <Grid item xs={6}>
           <Controller
             name="confirmarClave"
-            control={control}
+            control={methodsAuth.control}
             rules={{
               required: "Este campo es requerido",
               validate: (value) =>
                 value === password.current || "Las contraseñas no coinciden",
             }}
             defaultValue=""
-            render={({ field, fieldState: { error } }) => (
+            render={({ field }) => (
               <TextField
                 fullWidth
                 {...field}
                 type="password"
                 label="Confirmar contraseña"
-                error={error ? true : false}
-                helperText={error?.message}
+                error={!!methodsAuth.formState.errors.confirmarClave}
+                helperText={
+                  methodsAuth.formState.errors.confirmarClave
+                    ? "Campo requerido"
+                    : null
+                }
               />
             )}
           />

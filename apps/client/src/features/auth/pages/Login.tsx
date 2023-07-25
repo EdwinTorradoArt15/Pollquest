@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import { AuthContext } from "@/features/auth/context/AuthContext";
 import {
   Box,
   Stack,
@@ -10,16 +8,12 @@ import {
   Tabs,
 } from "@mui/material";
 import { FormLogin, FormRegister, Slider } from "@/features/auth/components";
+import { useLogin } from "@/features/auth/hook";
 
 const Login = () => {
-  const { value, setValue } = useContext(AuthContext);
+  const { handleChange, value } = useLogin();
   const theme = useTheme();
   const mdUp = useMediaQuery(theme.breakpoints.up("md"));
-
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
-
   return (
     <>
       <Box
