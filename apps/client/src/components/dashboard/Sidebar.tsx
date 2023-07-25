@@ -71,7 +71,7 @@ const Sidebar = ({ onClose, open }: SidebarProps) => {
               width: 65,
             }}
           >
-            <Typography >POLLQUEST</Typography>
+            <Typography>POLLQUEST</Typography>
             {/* <img src={""} alt="Logo" /> */}
           </Box>
         </Box>

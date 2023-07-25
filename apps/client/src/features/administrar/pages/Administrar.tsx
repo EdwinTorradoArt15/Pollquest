@@ -17,7 +17,7 @@ import {
 } from "@/features/administrar/components";
 
 const Administrar = () => {
-  const { categories, getCategories, loading, handleOpen } = useContext(CategoryContext);
+  const { categories, loading, handleOpen } = useContext(CategoryContext);
 
   const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"), {
     defaultMatches: true,
@@ -77,7 +77,6 @@ const Administrar = () => {
                   id={category._id}
                   nombre={category.nombre}
                   imagen={category.imagenUrl}
-                  getCategories={getCategories}
                   handleOpenModalAdministrar={handleOpen}
                 />
               );

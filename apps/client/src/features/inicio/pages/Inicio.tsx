@@ -5,7 +5,7 @@ import { Stack, Box, Skeleton } from "@mui/material";
 import { CardCategoryInicio } from "@/features/inicio/components";
 
 const Inicio = () => {
-  const { categories, getCategories, loading } = useContext(CategoryContext);
+  const { categories, loading } = useContext(CategoryContext);
 
   return (
     <>
@@ -45,7 +45,6 @@ const Inicio = () => {
                   id={category._id}
                   nombre={category.nombre}
                   imagen={category.imagenUrl}
-                  getCategories={getCategories}
                 />
               ))
             )}

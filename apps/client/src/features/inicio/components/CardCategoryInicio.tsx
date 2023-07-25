@@ -1,12 +1,10 @@
 import { formatedText } from "@/utils/formatedText";
-import { Skeleton } from "@mui/material";
 import noImage from "@/features/administrar/image/noImage.png";
 
 interface CardCategoryProps {
   id?: string;
   nombre: string;
   imagen?: string;
-  getCategories?: () => void;
 }
 
 const CardCategoryInicio = ({ nombre, imagen }: CardCategoryProps) => {

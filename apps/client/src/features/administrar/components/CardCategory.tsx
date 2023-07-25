@@ -2,12 +2,12 @@ import { Box } from "@mui/material";
 import { formatedText } from "@/utils/formatedText";
 import { DropDownCat } from "@/features/administrar/components";
 import noImage from "@/features/administrar/image/noImage.png";
+import { useLocation } from "react-router-dom";
 
 interface CardCategoryProps {
   id: string;
   nombre: string;
   imagen?: string;
-  getCategories: () => void;
   handleOpenModalAdministrar: () => void;
 }
 
@@ -15,9 +15,10 @@ const CardCategory = ({
   id,
   nombre,
   imagen,
-  getCategories,
   handleOpenModalAdministrar,
 }: CardCategoryProps) => {
+  const { pathname } = useLocation();
+
   const imageUrl = imagen ? imagen : noImage;
 
   return (
@@ -26,7 +27,6 @@ const CardCategory = ({
     >
       <DropDownCat
         id={id}
-        getCategories={getCategories}
         handleOpenModalAdministrar={handleOpenModalAdministrar}
       />
       <div

@@ -1,16 +1,8 @@
-import { useState, useContext } from "react";
-import { UserContext } from "@/features/user/context/UserContext";
-import {
-  Modal,
-  Fade,
-  Box,
-  Backdrop,
-  useMediaQuery,
-  Divider,
-} from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { Modal, Fade, Box, Backdrop, Divider } from "@mui/material";
 import { FiSearch } from "react-icons/fi";
 import { CuerpoModal } from "@/components";
+import { useModalBuscar } from "@/components/search/hooks";
+import { useStyles } from "@/utils/modal/useStyles";
 
 interface ModalUserProps {
   open: boolean;
@@ -19,44 +11,15 @@ interface ModalUserProps {
   getInitials: (name: string, apellido: string) => string;
 }
 
-const useStyles = () => {
-  const theme = useTheme();
-  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
-  const isMedium = useMediaQuery(theme.breakpoints.between("md", "lg"));
-  const isCustom = useMediaQuery(theme.breakpoints.down(800));
-
-  return {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: isSmall ? "90vw" : isMedium ? "35vw" : isCustom ? "50vw" : "35vw",
-    height: isSmall ? "50vh" : isMedium ? "45vh" : isCustom ? "80vh" : "45vh",
-    bgcolor: "background.paper",
-    borderRadius: 1,
-    boxShadow: 24,
-    p: 4,
-  };
-};
-
 const ModalBuscar = ({
   open,
   setOpen,
   avatarBackgroundColor,
-  getInitials
+  getInitials,
 }: ModalUserProps) => {
-  const { users, user } = useContext(UserContext);
-  const [search, setSearch] = useState("");
+  const { handleClose, user, filteredUsers, search, setSearch } =
+    useModalBuscar(setOpen);
   const styles = useStyles();
-
-  const handleClose = () => {
-    setSearch("");
-    setOpen(false);
-  };
-
-  const filteredUsers = users.filter((usuario) =>
-    usuario.nombre.toLowerCase().includes(search.toLowerCase())
-  );
 
   return (
     <Modal

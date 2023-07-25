@@ -1,5 +1,3 @@
-import { useRef, useState, useEffect, useContext } from "react";
-import { UserContext } from "@/features/user/context/UserContext";
 import {
   AppBar,
   Avatar,
@@ -11,37 +9,25 @@ import {
 import { IoIosMenu } from "react-icons/io";
 import { FiMoon, FiBell, FiSearch } from "react-icons/fi";
 import { AccountPopover, ModalBuscar } from "@/components";
+import { useNavbar } from "@/components/dashboard/hooks";
 
 interface NavbarProps {
   onSidebarOpen: () => void;
 }
 
 const Navbar = ({ onSidebarOpen }: NavbarProps) => {
-  const { user, loading } = useContext(UserContext);
-  const [openAccountPopover, setOpenAccountPopover] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [avatarBackgroundColor, setAvatarBackgroundColor] = useState("");
-  const settingsRef = useRef(null);
-
-  useEffect(() => {
-    // Generar un color aleatorio en formato hexadecimal y establecerlo como color de fondo del Avatar
-    const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
-    setAvatarBackgroundColor(randomColor);
-  }, []);
-
-  /* Obtener iniciales para la foto de perfil si no hay */
-  const getInitials = (name: string, apellido: string) => {
-    const names = name.split(" ");
-    const lastNames = apellido.split(" ");
-    const initials =
-      names[0].substring(0, 1).toUpperCase() +
-      lastNames[0].substring(0, 1).toUpperCase();
-    return initials;
-  };
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  const {
+    handleOpen,
+    avatarBackgroundColor,
+    getInitials,
+    loading,
+    open,
+    user,
+    openAccountPopover,
+    setOpen,
+    setOpenAccountPopover,
+    settingsRef,
+  } = useNavbar();
 
   return (
     <>

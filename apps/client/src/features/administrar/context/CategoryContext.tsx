@@ -3,15 +3,13 @@ import { toast } from "react-toastify";
 import * as categoriesServices from "@/features/administrar/services/categoriesServices";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
+import {
+  Category,
+  FormCreateCategoryProps,
+} from "@/features/administrar/interfaces/category.interfaces";
 
 interface CategoryProviderProps {
   children: React.ReactNode;
-}
-
-interface FormCreateCategoryProps {
-  nombre: string;
-  descripcion: string;
-  file?: FileList;
 }
 
 interface CategoryContextValues {
@@ -25,7 +23,6 @@ interface CategoryContextValues {
   category: any;
   setCategory: (category: any) => void;
   setImg: (image: any) => void;
-  getCategories: () => void;
   getCategory: (id: string) => void;
   createCategory: (data: FormCreateCategoryProps) => void;
   updateCategory: (id: string, data: FormCreateCategoryProps) => void;
@@ -43,7 +40,6 @@ export const CategoryContext = createContext<CategoryContextValues>({
   setCategory: () => {},
   image: { preview: "", data: "" },
   setImg: () => {},
-  getCategories: () => {},
   getCategory: () => {},
   createCategory: () => {},
   updateCategory: () => {},
@@ -51,18 +47,18 @@ export const CategoryContext = createContext<CategoryContextValues>({
 });
 
 export const CategoryProvider = ({ children }: CategoryProviderProps) => {
-  const methodsCategory = useForm<FormCreateCategoryProps>();
+  const methodsCategory = useForm();
   const [openModal, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
-  const [category, setCategory] = useState<any>({});
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [category, setCategory] = useState({} as Category);
   const [image, setImg] = useState({ preview: "", data: "" });
 
   const handleOpen = () => setModalOpen(true);
 
   const handleClose = () => {
     setImg({ preview: "", data: "" });
-    setCategory({});
+    setCategory({} as Category);
     setModalOpen(false);
     methodsCategory.reset();
   };
@@ -70,8 +66,8 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
   const getCategories = async () => {
     try {
       setLoading(true);
-      const response = await categoriesServices.getCategories();
-      setCategories(response.data);
+      const { data } = await categoriesServices.getCategories();
+      setCategories(data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -81,8 +77,8 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
 
   const getCategory = async (id: string) => {
     try {
-      const response = await categoriesServices.getCategory(id);
-      return setCategory(response.data);
+      const { data } = await categoriesServices.getCategory(id);
+      return setCategory(data);
     } catch (error) {
       console.error(error);
     }
@@ -97,7 +93,11 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
       if (data.file && data.file.length > 0) {
         formData.append("file", image.data);
       }
-      await categoriesServices.createCategory(formData);
+      const requestData: FormCreateCategoryProps = {
+        nombre: formData.get("nombre") as string,
+        descripcion: formData.get("descripcion") as string,
+      };
+      await categoriesServices.createCategory(requestData);
       setLoading(false);
       getCategories();
       toast.success("Categoria creada correctamente");
@@ -119,7 +119,11 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
       if (data.file && data.file.length > 0) {
         formData.append("file", image.data);
       }
-      await categoriesServices.updateCategory(id, formData);
+      const requestData: FormCreateCategoryProps = {
+        nombre: formData.get("nombre") as string,
+        descripcion: formData.get("descripcion") as string,
+      };
+      await categoriesServices.updateCategory(id, requestData);
       setLoading(false);
       getCategories();
       toast.success("Categoria actualizada correctamente");
@@ -145,15 +149,18 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("Eliminado!", "La categoría ha sido eliminada.", "success");
         categoriesServices
           .deleteCategory(id)
           .then(() => {
-            toast.success("Mesa eliminada correctamente");
+            Swal.fire(
+              "Eliminado!",
+              "La categoría ha sido eliminada.",
+              "success"
+            );
             getCategories();
           })
           .catch((error) => {
-            toast.error("Error al eliminar la mesa");
+            Swal.fire("Error!", "La categoría no ha sido eliminada.", "error");
             console.error(error);
           });
       }
@@ -177,7 +184,6 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
         setCategory,
         image,
         setImg,
-        getCategories,
         getCategory,
         createCategory,
         updateCategory,

@@ -1,12 +1,6 @@
 import { useContext, useEffect } from "react";
 import { CategoryContext } from "@/features/administrar/context/CategoryContext";
-import { SubmitHandler } from "react-hook-form";
-
-interface FormDataCategoryProps {
-  nombre: string;
-  descripcion: string;
-  file?: FileList;
-}
+import { FormCreateCategoryProps } from "@/features/administrar/interfaces/category.interfaces";
 
 const useModal = () => {
   const {
@@ -29,7 +23,7 @@ const useModal = () => {
     setImg(img);
   };
 
-  const onsubmit: SubmitHandler<FormDataCategoryProps> = (formData) => {
+  const onsubmit = (formData: FormCreateCategoryProps) => {
     if (category?._id) {
       updateCategory(category._id, formData);
     } else {
