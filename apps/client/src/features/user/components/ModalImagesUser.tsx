@@ -1,66 +1,28 @@
-import { useContext } from "react";
-import { UserContext } from "@/features/user/context/UserContext";
 import {
   Modal,
   Fade,
   Box,
   Backdrop,
   Typography,
-  useMediaQuery,
   Stack,
   IconButton,
   Button,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { Loader } from "@/components";
 import { AiFillCamera } from "react-icons/ai";
 import noImage from "@/features/administrar/image/noImage.png";
+import { useStyles } from "@/utils/modal/useStyles";
+import { useModalImagesUser } from "@/features/user/hooks";
 
 interface ModalUserImagesProps {
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-const useStyles = () => {
-  const theme = useTheme();
-  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
-  const isMedium = useMediaQuery(theme.breakpoints.between("md", "lg"));
-  const isCustom = useMediaQuery(theme.breakpoints.down(800));
-
-  return {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: isSmall ? "90vw" : isMedium ? "35vw" : isCustom ? "50vw" : "35vw",
-    bgcolor: "background.paper",
-    borderRadius: 1,
-    boxShadow: 24,
-    p: 4,
-  };
-};
-
 const ModalImagesUser = ({ open, setOpen }: ModalUserImagesProps) => {
-  const { image, setImage, loading, updateImage } = useContext(UserContext);
-
+  const { handleClose, image, handleChange, onSubmit, loading } =
+    useModalImagesUser(setOpen);
   const styles = useStyles();
-
-  const handleChange = (e: any) => {
-    const img = {
-      preview: URL.createObjectURL(e.target.files[0]),
-      data: e.target.files[0],
-    };
-    setImage(img);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const onSubmit = () => {
-    updateImage(image);
-    handleClose();
-  };
 
   return (
     <Modal

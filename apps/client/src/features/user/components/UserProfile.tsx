@@ -1,5 +1,3 @@
-import { useState, useContext } from "react";
-import { UserContext } from "@/features/user/context/UserContext";
 import {
   Box,
   Typography,
@@ -11,23 +9,10 @@ import {
 } from "@mui/material";
 import { FiEdit, FiPlus } from "react-icons/fi";
 import noImage from "@/features/administrar/image/noImage.png";
-import { useLocation } from "react-router-dom";
 import { ModalUser } from "@/features/user/components/";
 import { AiFillCamera } from "react-icons/ai";
-
-interface User {
-  _id: string;
-  nombre: string;
-  apellido: string;
-  celular: string;
-  email: string;
-  descripcion?: string;
-  imagenPerfilUrl?: string;
-  imagenPortadaUrl?: string;
-  siguiendo?: string[];
-  seguidores?: string[];
-}
-
+import { useUserProfile } from "@/features/user/hooks";
+import { User } from "@/features/user/interface/user.interface";
 interface UserProfileProps {
   usuarioMostrado: User;
   handleOpenModal: (type: string) => void;
@@ -37,23 +22,20 @@ const UserProfile = ({
   usuarioMostrado,
   handleOpenModal,
 }: UserProfileProps) => {
-  const { user, loading, followAndUnfollow } = useContext(UserContext);
-  const [open, setOpen] = useState(false);
+  const {
+    user,
+    loading,
+    handleFollowButton,
+    handleOpenModalAdministrar,
+    isFollowing,
+    isOtherUserProfile,
+    open,
+    setOpen,
+  } = useUserProfile(usuarioMostrado);
   const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"), {
     defaultMatches: true,
     noSsr: false,
   });
-  const location = useLocation();
-  const isOtherUserProfile = location.pathname.includes("/perfil/");
-  const isFollowing = user?.siguiendo?.includes(usuarioMostrado._id);
-
-  const handleOpenModalAdministrar = () => {
-    setOpen(true);
-  };
-
-  const handleFollowButton = (typeFollow: string) => {
-    followAndUnfollow(usuarioMostrado._id, typeFollow);
-  };
 
   return (
     <>

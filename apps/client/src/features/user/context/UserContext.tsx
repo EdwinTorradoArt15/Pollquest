@@ -2,6 +2,11 @@ import { createContext, useState, useEffect } from "react";
 import * as userServices from "@/features/user/services/userServices";
 import jwt from "jwt-decode";
 import { toast } from "react-toastify";
+import {
+  User,
+  UserFormData,
+  UserImageData,
+} from "@/features/user/interface/user.interface";
 
 interface DecodedUser {
   _id: string;
@@ -10,33 +15,6 @@ interface DecodedUser {
 
 interface AuthProviderProps {
   children: React.ReactNode;
-}
-
-interface User {
-  _id: string;
-  nombre: string;
-  apellido: string;
-  celular: string;
-  email: string;
-  descripcion?: string;
-  imagenPerfilUrl?: string;
-  imagenPortadaUrl?: string;
-  siguiendo?: string[];
-  seguidores?: string[];
-}
-
-interface UserImageData {
-  preview: string;
-  data: File;
-}
-
-interface UserFormData {
-  nombre?: string;
-  apellido?: string;
-  celular?: string;
-  email?: string;
-  descripcion?: string;
-  clave?: string;
 }
 
 interface UserContextValues {
@@ -75,7 +53,7 @@ export const UserProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({} as User);
   const [userFriend, setUserFriend] = useState({} as User);
-  const [users, setUsers] = useState([] as User[]);
+  const [users, setUsers] = useState<User[]>([]);
   const [typeImage, setTypeImage] = useState("");
   const [image, setImage] = useState({ preview: "", data: "" });
 

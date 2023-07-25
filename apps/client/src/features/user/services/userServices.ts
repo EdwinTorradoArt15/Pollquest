@@ -1,4 +1,5 @@
 import axios from "axios";
+import {UserFormData} from "@/features/user/interface/user.interface";
 
 export const getUser = async (id: string) => {
   return await axios.get(`/api/usuarios/${id}`);
@@ -12,7 +13,7 @@ export const getUsers = async (token: string) => {
   });
 };
 
-export const updateUser = async <T>(id: string, data: T) => {
+export const updateUser = async (id: string, data: UserFormData) => {
   return await axios.patch(`/api/usuarios/info/${id}`, data);
 };
 

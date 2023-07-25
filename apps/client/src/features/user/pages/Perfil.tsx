@@ -1,32 +1,19 @@
-import { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import { useContext } from "react";
-import { UserContext } from "@/features/user/context/UserContext";
 import { Stack, Skeleton } from "@mui/material";
 import noImage from "@/features/administrar/image/noImage.png";
 import { UserProfile, ModalImagesUser } from "@/features/user/components/";
 import { AiFillCamera } from "react-icons/ai";
-import { useParams } from "react-router-dom";
+import { usePerfil } from "@/features/user/hooks";
 
 const Perfil = () => {
-  const { user, loading, setTypeImage, userFriend, getUserByIdFriend } =
-    useContext(UserContext);
-  const [openModal, setOpenModal] = useState(false);
-  const { id } = useParams<{ id: string }>();
-
-  const handleOpenModal = (type: string) => {
-    setTypeImage(type);
-    setOpenModal(true);
-  };
-
-  const usuarioMostrado = id ? userFriend : user;
-
-  useEffect(() => {
-    if (id) {
-      getUserByIdFriend(id);
-    }
-  }, [id]);
-
+  const {
+    usuarioMostrado,
+    user,
+    handleOpenModal,
+    loading,
+    openModal,
+    setOpenModal,
+  } = usePerfil();
   return (
     <>
       <Stack spacing={2}>
