@@ -21,6 +21,13 @@ let MenuService = class MenuService {
     constructor(menuModel) {
         this.menuModel = menuModel;
     }
+    async getMenus() {
+        const menus = await this.menuModel.find().exec();
+        return {
+            message: 'Lista de menús',
+            data: menus,
+        };
+    }
     async createMenu(createMenuDto) {
         const { icon, name, status } = createMenuDto;
         const existingMenu = await this.menuModel.findOne({ name }).exec();
@@ -37,6 +44,46 @@ let MenuService = class MenuService {
             message: 'Menú creado',
             data: newMenu,
         };
+    }
+    async updateMenu(id, updateMenuDto) {
+        const menu = await this.menuModel.findById(id).exec();
+        if (!menu) {
+            throw new common_1.ConflictException('El menú no existe');
+        }
+        const { icon, name, status } = updateMenuDto;
+        if (icon) {
+            menu.icon = icon;
+        }
+        if (name) {
+            menu.name = name;
+        }
+        if (status !== undefined) {
+            menu.status = status;
+        }
+        try {
+            const updatedMenu = await menu.save();
+            return {
+                message: 'Menú actualizado',
+                data: updatedMenu,
+            };
+        }
+        catch (error) {
+            throw new common_1.ConflictException('Error al actualizar el menú');
+        }
+    }
+    async deleteMenu(id) {
+        const menu = await this.menuModel.findById(id).exec();
+        if (!menu) {
+            throw new common_1.ConflictException('El menú no existe');
+        }
+        menu.status = false;
+        try {
+            const deletedMenu = await menu.save();
+            return deletedMenu;
+        }
+        catch (error) {
+            throw new common_1.ConflictException('Error al eliminar el menú');
+        }
     }
 };
 MenuService = __decorate([

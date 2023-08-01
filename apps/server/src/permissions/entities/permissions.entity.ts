@@ -3,8 +3,8 @@ import { Document, Schema as Esquema, Types } from 'mongoose';
 
 @Schema()
 export class Permission extends Document {
-  @Prop({ required: true })
-  menu: string;
+  @Prop({ type: Esquema.Types.ObjectId, ref: 'Menu', required: true })
+  menu: Types.ObjectId;
 
   @Prop({ required: true })
   name: string;

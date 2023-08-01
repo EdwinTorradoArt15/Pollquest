@@ -21,13 +21,24 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
+import { CreatePermissionDto } from './dto/create-permission.dto';
+import { UpdatePermissionDto } from './dto/update-permission.dto';
 import { PermissionsService } from './permissions.service';
+import { Types } from "mongoose";
 export declare class PermissionsController {
     private readonly permissionsService;
     constructor(permissionsService: PermissionsService);
-    getAll(): Promise<(import("mongoose").Document<unknown, {}, import("./entities/permissions.entity").Permission> & Omit<import("./entities/permissions.entity").Permission & {
-        _id: import("mongoose").Types.ObjectId;
-    }, never>)[]>;
+    getAll(): Promise<Omit<import("mongoose").Document<unknown, {}, import("./entities/permissions.entity").Permission> & Omit<import("./entities/permissions.entity").Permission & {
+        _id: Types.ObjectId;
+    }, never>, never>[]>;
+    createPermission(createPermissionDto: CreatePermissionDto): Promise<import("mongoose").Document<unknown, {}, import("./entities/permissions.entity").Permission> & Omit<import("./entities/permissions.entity").Permission & {
+        _id: Types.ObjectId;
+    }, never>>;
+    updatePermission(id: Types.ObjectId, updatePermissionDto: UpdatePermissionDto): Promise<import("mongoose").Document<unknown, {}, import("./entities/permissions.entity").Permission> & Omit<import("./entities/permissions.entity").Permission & {
+        _id: Types.ObjectId;
+    }, never>>;
+    deletePermission(id: string): Promise<import("mongoose").Document<unknown, {}, import("./entities/permissions.entity").Permission> & Omit<import("./entities/permissions.entity").Permission & {
+        _id: Types.ObjectId;
+    }, never>>;
 }

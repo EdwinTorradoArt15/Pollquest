@@ -26,7 +26,7 @@ __decorate([
 ], CreateMenuDto.prototype, "icon", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ description: 'status', example: true }),
-    (0, class_validator_1.IsOptional)({ message: 'El estatus es requerido' }),
+    (0, class_validator_1.IsNotEmpty)({ message: 'El estatus es requerido' }),
     __metadata("design:type", Boolean)
 ], CreateMenuDto.prototype, "status", void 0);
 exports.CreateMenuDto = CreateMenuDto;

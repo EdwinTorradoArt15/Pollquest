@@ -22,7 +22,51 @@ let PermissionsService = class PermissionsService {
         this.permissionsModel = permissionsModel;
     }
     async getAll() {
-        return await this.permissionsModel.find().exec();
+        return await this.permissionsModel.find().populate('menu').exec();
+    }
+    async createPermission(createPermissionDto) {
+        const newPermission = new this.permissionsModel(createPermissionDto);
+        return await newPermission.save();
+    }
+    async updatePermission(id, updatePermissionDto) {
+        const permission = await this.permissionsModel.findById(id).exec();
+        if (!permission) {
+            throw new common_1.ConflictException('El permiso no existe');
+        }
+        const { menu, name, url, status } = updatePermissionDto;
+        if (menu) {
+            permission.menu = menu;
+        }
+        if (name) {
+            permission.name = name;
+        }
+        if (url) {
+            permission.url = url;
+        }
+        if (status !== undefined) {
+            permission.status = status;
+        }
+        try {
+            const updatedPermission = await permission.save();
+            return updatedPermission;
+        }
+        catch (error) {
+            throw new common_1.ConflictException('Error al actualizar el permiso');
+        }
+    }
+    async deletePermission(id) {
+        const permission = await this.permissionsModel.findById(id).exec();
+        if (!permission) {
+            throw new common_1.ConflictException('El permiso no existe');
+        }
+        permission.status = false;
+        try {
+            const updatedPermission = await permission.save();
+            return updatedPermission;
+        }
+        catch (error) {
+            throw new common_1.ConflictException('Error al cambiar el estado del permiso');
+        }
     }
 };
 PermissionsService = __decorate([

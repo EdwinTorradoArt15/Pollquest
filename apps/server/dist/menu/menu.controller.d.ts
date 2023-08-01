@@ -24,14 +24,30 @@
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
 import { CreateMenuDto } from './dto/create-menu.dto';
+import { UpdateMenuDto } from './dto/update-menu.dto';
 import { MenuService } from './menu.service';
 export declare class MenuController {
     private readonly menuService;
     constructor(menuService: MenuService);
+    getMenus(): Promise<{
+        message: string;
+        data: (import("mongoose").Document<unknown, {}, import("./entities/menu.entity").Menu> & Omit<import("./entities/menu.entity").Menu & {
+            _id: import("mongoose").Types.ObjectId;
+        }, never>)[];
+    }>;
     createMenu(createMenuDto: CreateMenuDto): Promise<{
         message: string;
         data: import("mongoose").Document<unknown, {}, import("./entities/menu.entity").Menu> & Omit<import("./entities/menu.entity").Menu & {
             _id: import("mongoose").Types.ObjectId;
         }, never>;
     }>;
+    updateMenu(id: string, updateMenuDto: UpdateMenuDto): Promise<{
+        message: string;
+        data: import("mongoose").Document<unknown, {}, import("./entities/menu.entity").Menu> & Omit<import("./entities/menu.entity").Menu & {
+            _id: import("mongoose").Types.ObjectId;
+        }, never>;
+    }>;
+    deleteMenu(id: string): Promise<import("mongoose").Document<unknown, {}, import("./entities/menu.entity").Menu> & Omit<import("./entities/menu.entity").Menu & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>>;
 }

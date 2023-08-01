@@ -9,30 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PermissionSchema = exports.Permission = void 0;
-const mongoose_1 = require("@nestjs/mongoose");
-const mongoose_2 = require("mongoose");
-let Permission = class Permission extends mongoose_2.Document {
-};
+exports.UpdateMenuDto = void 0;
+const class_validator_1 = require("class-validator");
+const swagger_1 = require("@nestjs/swagger");
+class UpdateMenuDto {
+}
 __decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.Schema.Types.ObjectId, ref: 'Menu', required: true }),
-    __metadata("design:type", mongoose_2.Types.ObjectId)
-], Permission.prototype, "menu", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, swagger_1.ApiProperty)({ description: 'name', example: 'name' }),
+    (0, class_validator_1.IsOptional)({ message: 'El nombre es requerido' }),
     __metadata("design:type", String)
-], Permission.prototype, "name", void 0);
+], UpdateMenuDto.prototype, "name", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, swagger_1.ApiProperty)({ description: 'icon', example: 'AiFillUser' }),
+    (0, class_validator_1.IsOptional)({ message: 'El icono es requerido' }),
     __metadata("design:type", String)
-], Permission.prototype, "url", void 0);
+], UpdateMenuDto.prototype, "icon", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, swagger_1.ApiProperty)({ description: 'status', example: true }),
+    (0, class_validator_1.IsOptional)({ message: 'El estatus es requerido' }),
     __metadata("design:type", Boolean)
-], Permission.prototype, "status", void 0);
-Permission = __decorate([
-    (0, mongoose_1.Schema)()
-], Permission);
-exports.Permission = Permission;
-exports.PermissionSchema = mongoose_1.SchemaFactory.createForClass(Permission);
-//# sourceMappingURL=permissions.entity.js.map
+], UpdateMenuDto.prototype, "status", void 0);
+exports.UpdateMenuDto = UpdateMenuDto;
+//# sourceMappingURL=update-menu.dto.js.map

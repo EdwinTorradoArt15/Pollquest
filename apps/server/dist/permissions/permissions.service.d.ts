@@ -24,10 +24,22 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { Permission } from './entities/permissions.entity';
 import { Model } from 'mongoose';
+import { CreatePermissionDto } from './dto/create-permission.dto';
+import { UpdatePermissionDto } from './dto/update-permission.dto';
+import { Types } from 'mongoose';
 export declare class PermissionsService {
     private permissionsModel;
     constructor(permissionsModel: Model<Permission>);
-    getAll(): Promise<(import("mongoose").Document<unknown, {}, Permission> & Omit<Permission & {
-        _id: import("mongoose").Types.ObjectId;
-    }, never>)[]>;
+    getAll(): Promise<Omit<import("mongoose").Document<unknown, {}, Permission> & Omit<Permission & {
+        _id: Types.ObjectId;
+    }, never>, never>[]>;
+    createPermission(createPermissionDto: CreatePermissionDto): Promise<import("mongoose").Document<unknown, {}, Permission> & Omit<Permission & {
+        _id: Types.ObjectId;
+    }, never>>;
+    updatePermission(id: Types.ObjectId, updatePermissionDto: UpdatePermissionDto): Promise<import("mongoose").Document<unknown, {}, Permission> & Omit<Permission & {
+        _id: Types.ObjectId;
+    }, never>>;
+    deletePermission(id: string): Promise<import("mongoose").Document<unknown, {}, Permission> & Omit<Permission & {
+        _id: Types.ObjectId;
+    }, never>>;
 }

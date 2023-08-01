@@ -24,7 +24,7 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { Document, Schema as Esquema, Types } from 'mongoose';
 export declare class Permission extends Document {
-    menu: string;
+    menu: Types.ObjectId;
     name: string;
     url: string;
     status: boolean;
