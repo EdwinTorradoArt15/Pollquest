@@ -11,37 +11,46 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateUsuarioDto = void 0;
 const class_validator_1 = require("class-validator");
+const swagger_1 = require("@nestjs/swagger");
 class UpdateUsuarioDto {
 }
 __decorate([
+    (0, swagger_1.ApiProperty)({ description: 'nombre', example: 'nombre' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateUsuarioDto.prototype, "nombre", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ description: 'apellido', example: 'apellido' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateUsuarioDto.prototype, "apellido", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ description: 'celular', example: 'celular' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateUsuarioDto.prototype, "celular", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ description: 'email', example: 'email' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateUsuarioDto.prototype, "email", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ description: 'clave', example: 'clave' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateUsuarioDto.prototype, "clave", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ description: 'descripcion', example: 'descripcion' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateUsuarioDto.prototype, "descripcion", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ description: 'imagenPerfilUrl', example: 'imagenPerfilUrl' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateUsuarioDto.prototype, "imagenPerfilUrl", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ description: 'imagenPortadaUrl', example: 'imagenPortadaUrl' }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateUsuarioDto.prototype, "imagenPortadaUrl", void 0);

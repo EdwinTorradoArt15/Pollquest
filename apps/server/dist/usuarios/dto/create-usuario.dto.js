@@ -11,26 +11,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateUsuarioDto = void 0;
 const class_validator_1 = require("class-validator");
+const swagger_1 = require("@nestjs/swagger");
 class CreateUsuarioDto {
 }
 __decorate([
+    (0, swagger_1.ApiProperty)({ description: 'nombre', example: 'nombre' }),
     (0, class_validator_1.IsNotEmpty)({ message: 'El nombre es requerido' }),
     __metadata("design:type", String)
 ], CreateUsuarioDto.prototype, "nombre", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ description: 'apellido', example: 'apellido' }),
     (0, class_validator_1.IsNotEmpty)({ message: 'El apellido es requerido' }),
     __metadata("design:type", String)
 ], CreateUsuarioDto.prototype, "apellido", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ description: 'celular', example: 'celular' }),
     (0, class_validator_1.IsNotEmpty)({ message: 'El celular es requerido' }),
     __metadata("design:type", String)
 ], CreateUsuarioDto.prototype, "celular", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ description: 'email', example: 'email' }),
     (0, class_validator_1.IsNotEmpty)({ message: 'El email es requerido' }),
     (0, class_validator_1.IsEmail)({}, { message: 'El email no es válido' }),
     __metadata("design:type", String)
 ], CreateUsuarioDto.prototype, "email", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ description: 'clave', example: 'clave' }),
     (0, class_validator_1.IsNotEmpty)({ message: 'La clave es requerida' }),
     __metadata("design:type", String)
 ], CreateUsuarioDto.prototype, "clave", void 0);

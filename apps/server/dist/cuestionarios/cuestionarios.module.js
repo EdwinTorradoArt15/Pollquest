@@ -19,7 +19,9 @@ CuestionariosModule = __decorate([
         controllers: [cuestionarios_controller_1.CuestionariosController],
         providers: [cuestionarios_service_1.CuestionariosService],
         imports: [
-            mongoose_1.MongooseModule.forFeature([{ name: 'Cuestionario', schema: cuestionario_entity_1.CuestionarioSchema }]),
+            mongoose_1.MongooseModule.forFeature([
+                { name: 'Cuestionario', schema: cuestionario_entity_1.CuestionarioSchema },
+            ]),
         ],
     })
 ], CuestionariosModule);

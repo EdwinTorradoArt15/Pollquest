@@ -10,6 +10,12 @@ import { CategoriasModule } from './categorias/categorias.module';
 import { CuestionariosModule } from './cuestionarios/cuestionarios.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { PermissionsService } from './permissions/permissions.service';
+import { PermissionsController } from './permissions/permissions.controller';
+import { PermissionsModule } from './permissions/permissions.module';
+import { MenuService } from './menu/menu.service';
+import { MenuController } from './menu/menu.controller';
+import { MenuModule } from './menu/menu.module';
 
 @Module({
   imports: [
@@ -30,6 +36,8 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
       },
     }),
     CuestionariosModule,
+    PermissionsModule,
+    MenuModule,
   ],
   controllers: [AppController],
   providers: [AppService],
