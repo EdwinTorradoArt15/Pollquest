@@ -22,22 +22,13 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Document, Schema as Esquema, Types } from 'mongoose';
-export declare class User extends Document {
-    nombre: string;
-    apellido: string;
-    celular: string;
-    email: string;
-    clave: string;
-    descripcion?: string;
-    imagenPerfilUrl?: string;
-    imagenPortadaUrl?: string;
-    seguidores?: string[];
-    siguiendo?: string[];
-    codigoVerificacion?: string;
+import { Document } from 'mongoose';
+export declare class Rol extends Document {
+    name: string;
+    status: boolean;
 }
-export declare const UserSchema: Esquema<User, import("mongoose").Model<User, any, any, any, Document<unknown, any, User> & Omit<User & {
-    _id: Types.ObjectId;
-}, never>, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, User, Document<unknown, {}, import("mongoose").FlatRecord<User>> & Omit<import("mongoose").FlatRecord<User> & {
-    _id: Types.ObjectId;
+export declare const RolSchema: import("mongoose").Schema<Rol, import("mongoose").Model<Rol, any, any, any, Document<unknown, any, Rol> & Omit<Rol & {
+    _id: import("mongoose").Types.ObjectId;
+}, never>, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Rol, Document<unknown, {}, import("mongoose").FlatRecord<Rol>> & Omit<import("mongoose").FlatRecord<Rol> & {
+    _id: import("mongoose").Types.ObjectId;
 }, never>>;

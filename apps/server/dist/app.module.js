@@ -20,6 +20,7 @@ const cuestionarios_module_1 = require("./cuestionarios/cuestionarios.module");
 const mailer_1 = require("@nestjs-modules/mailer");
 const permissions_module_1 = require("./permissions/permissions.module");
 const menu_module_1 = require("./menu/menu.module");
+const roles_module_1 = require("./roles/roles.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -44,6 +45,7 @@ AppModule = __decorate([
             cuestionarios_module_1.CuestionariosModule,
             permissions_module_1.PermissionsModule,
             menu_module_1.MenuModule,
+            roles_module_1.RolesModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

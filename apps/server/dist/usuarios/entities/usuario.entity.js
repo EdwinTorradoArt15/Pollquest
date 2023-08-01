@@ -10,65 +10,57 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserSchema = exports.User = void 0;
-const mongoose_1 = require("mongoose");
-const mongoose_2 = require("@nestjs/mongoose");
-const swagger_1 = require("@nestjs/swagger");
-let User = class User extends mongoose_1.Document {
+const mongoose_1 = require("@nestjs/mongoose");
+const mongoose_2 = require("mongoose");
+let User = class User extends mongoose_2.Document {
 };
 __decorate([
-    (0, swagger_1.ApiProperty)({
-        example: 'Cristiano ',
-    }),
-    (0, mongoose_2.Prop)({ required: true }),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], User.prototype, "nombre", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: 'Ronaldo' }),
-    (0, mongoose_2.Prop)({ required: true }),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], User.prototype, "apellido", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: '3112123123' }),
-    (0, mongoose_2.Prop)({ required: true }),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], User.prototype, "celular", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: 'victorbond@email.com' }),
-    (0, mongoose_2.Prop)({ required: true, unique: true }),
+    (0, mongoose_1.Prop)({ required: true, unique: true }),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: '123456' }),
-    (0, mongoose_2.Prop)({ required: true }),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], User.prototype, "clave", void 0);
 __decorate([
-    (0, mongoose_2.Prop)(),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], User.prototype, "descripcion", void 0);
 __decorate([
-    (0, mongoose_2.Prop)(),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], User.prototype, "imagenPerfilUrl", void 0);
 __decorate([
-    (0, mongoose_2.Prop)(),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], User.prototype, "imagenPortadaUrl", void 0);
 __decorate([
-    (0, mongoose_2.Prop)({ type: [{ type: String }] }),
+    (0, mongoose_1.Prop)({ type: [{ type: String }] }),
     __metadata("design:type", Array)
 ], User.prototype, "seguidores", void 0);
 __decorate([
-    (0, mongoose_2.Prop)({ type: [{ type: String }] }),
+    (0, mongoose_1.Prop)({ type: [{ type: String }] }),
     __metadata("design:type", Array)
 ], User.prototype, "siguiendo", void 0);
 __decorate([
-    (0, mongoose_2.Prop)(),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], User.prototype, "codigoVerificacion", void 0);
 User = __decorate([
-    (0, mongoose_2.Schema)()
+    (0, mongoose_1.Schema)()
 ], User);
 exports.User = User;
-exports.UserSchema = mongoose_2.SchemaFactory.createForClass(User);
+exports.UserSchema = mongoose_1.SchemaFactory.createForClass(User);
 //# sourceMappingURL=usuario.entity.js.map
