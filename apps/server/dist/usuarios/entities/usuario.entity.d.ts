@@ -35,6 +35,7 @@ export declare class User extends Document {
     seguidores?: string[];
     siguiendo?: string[];
     codigoVerificacion?: string;
+    rol: Types.ObjectId;
 }
 export declare const UserSchema: Esquema<User, import("mongoose").Model<User, any, any, any, Document<unknown, any, User> & Omit<User & {
     _id: Types.ObjectId;

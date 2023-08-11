@@ -22,4 +22,7 @@ export class CreateUsuarioDto {
   @ApiProperty({ description: 'clave', example: 'clave' })
   @IsNotEmpty({ message: 'La clave es requerida' })
   clave: string;
+
+  @ApiProperty({ description: 'rol', example: 'ID rol' })
+  rol: string;
 }

@@ -38,7 +38,8 @@ let UsuariosService = class UsuariosService {
         this.mailerService = mailerService;
     }
     create(createUsuarioDto) {
-        return this.userModel.create(Object.assign(Object.assign({}, createUsuarioDto), { clave: bcrypt.hashSync(createUsuarioDto.clave, 10) }));
+        const defaultRole = process.env.ID_ROL_USUARIO;
+        return this.userModel.create(Object.assign(Object.assign({}, createUsuarioDto), { clave: bcrypt.hashSync(createUsuarioDto.clave, 10), rol: defaultRole }));
     }
     findAll() {
         return this.userModel.find().select('-clave');

@@ -58,6 +58,10 @@ __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], User.prototype, "codigoVerificacion", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Schema.Types.ObjectId, ref: 'Rol', required: true }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], User.prototype, "rol", void 0);
 User = __decorate([
     (0, mongoose_1.Schema)()
 ], User);

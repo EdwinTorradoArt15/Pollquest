@@ -35,6 +35,9 @@ export class User extends Document {
 
   @Prop()
   codigoVerificacion?: string;
+
+  @Prop({ type: Esquema.Types.ObjectId, ref: 'Rol', required: true })
+  rol: Types.ObjectId;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

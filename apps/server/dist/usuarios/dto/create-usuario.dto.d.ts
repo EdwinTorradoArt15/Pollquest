@@ -4,4 +4,5 @@ export declare class CreateUsuarioDto {
     celular: string;
     email: string;
     clave: string;
+    rol: string;
 }

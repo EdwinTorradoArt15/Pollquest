@@ -20,9 +20,12 @@ export class UsuariosService {
   ) {}
 
   create(createUsuarioDto: CreateUsuarioDto) {
+    const defaultRole = process.env.ID_ROL_USUARIO;
+
     return this.userModel.create({
       ...createUsuarioDto,
       clave: bcrypt.hashSync(createUsuarioDto.clave, 10),
+      rol: defaultRole,
     });
   }
 

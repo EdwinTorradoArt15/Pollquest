@@ -40,5 +40,9 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)({ message: 'La clave es requerida' }),
     __metadata("design:type", String)
 ], CreateUsuarioDto.prototype, "clave", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'rol', example: 'ID rol' }),
+    __metadata("design:type", String)
+], CreateUsuarioDto.prototype, "rol", void 0);
 exports.CreateUsuarioDto = CreateUsuarioDto;
 //# sourceMappingURL=create-usuario.dto.js.map
