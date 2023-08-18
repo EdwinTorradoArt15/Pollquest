@@ -7,8 +7,9 @@ import {
   Tab,
   Tabs,
 } from "@mui/material";
-import { FormLogin, FormRegister, Slider } from "@/features/auth/components";
+import { FormLogin, FormRegister } from "@/features/auth/components";
 import { useLogin } from "@/features/auth/hook";
+import banner from "../assets/banner.png";
 
 const Login = () => {
   const { handleChange, value } = useLogin();
@@ -77,7 +78,11 @@ const Login = () => {
             width: !mdUp ? "0%" : "50%",
           }}
         >
-          <Slider />
+          <img
+            src={banner}
+            alt="slider"
+            style={{ height: "97vh", width: "100%" }}
+          />
         </Box>
       </Box>
     </>

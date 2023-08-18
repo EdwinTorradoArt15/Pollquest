@@ -257,7 +257,7 @@ export const theme = createTheme({
     button: {
       fontWeight: 600,
     },
-    fontFamily: ["Montserrat", "sans-serif"].join(","),
+    fontFamily: ["Noto Sans KR", "sans-serif"].join(","),
     body1: {
       fontSize: "1rem",
       fontWeight: 400,

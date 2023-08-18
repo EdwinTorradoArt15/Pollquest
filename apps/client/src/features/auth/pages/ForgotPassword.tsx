@@ -1,10 +1,6 @@
-import {
-  Box,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
-import { Slider, StepsForgotPassword } from "@/features/auth/components";
-
+import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { StepsForgotPassword } from "@/features/auth/components";
+import banner from "../assets/banner.png";
 
 const ForgotPassword = () => {
   const theme = useTheme();
@@ -36,7 +32,7 @@ const ForgotPassword = () => {
               px: 3,
             }}
           >
-            <StepsForgotPassword/>
+            <StepsForgotPassword />
           </Box>
         </Box>
         <Box
@@ -45,7 +41,11 @@ const ForgotPassword = () => {
             width: !mdUp ? "0%" : "50%",
           }}
         >
-          <Slider />
+          <img
+            src={banner}
+            alt="slider"
+            style={{ height: "97vh", width: "100%" }}
+          />
         </Box>
       </Box>
     </>
