@@ -24,5 +24,10 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)({ message: 'El estatus es requerido' }),
     __metadata("design:type", Boolean)
 ], CreateRolesDto.prototype, "status", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'permissions', example: [1, 2, 3] }),
+    (0, class_validator_1.IsNotEmpty)({ message: 'Permisos requeridos' }),
+    __metadata("design:type", String)
+], CreateRolesDto.prototype, "permissions", void 0);
 exports.CreateRolesDto = CreateRolesDto;
 //# sourceMappingURL=create-roles.dto.js.map

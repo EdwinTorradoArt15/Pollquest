@@ -8,6 +8,9 @@ export class Rol extends Document {
 
   @Prop({ required: true })
   status: boolean;
+
+  @Prop({ type: [{ type: String }] })
+  permissions: string[];
 }
 
 export const RolSchema = SchemaFactory.createForClass(Rol);

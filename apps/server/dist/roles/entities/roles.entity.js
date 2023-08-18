@@ -22,6 +22,10 @@ __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", Boolean)
 ], Rol.prototype, "status", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: [{ type: String }] }),
+    __metadata("design:type", Array)
+], Rol.prototype, "permissions", void 0);
 Rol = __decorate([
     (0, mongoose_1.Schema)()
 ], Rol);

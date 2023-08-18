@@ -9,4 +9,8 @@ export class UpdateRolesDto {
   @ApiProperty({ description: 'status', example: true })
   @IsNotEmpty({ message: 'El estatus es requerido' })
   status: boolean;
+
+  @ApiProperty({ description: 'permissions', example: [1, 2, 3] })
+  @IsNotEmpty({ message: 'Permisos requeridos' })
+  permissions: string;
 }

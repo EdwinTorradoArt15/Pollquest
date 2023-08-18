@@ -29,7 +29,7 @@ let RolesService = class RolesService {
         };
     }
     async createRole(createRoleDto) {
-        const { name } = createRoleDto;
+        const { name, permissions } = createRoleDto;
         const verifyRol = await this.rolModel.findOne({ name }).exec();
         if (verifyRol) {
             throw new common_1.ConflictException('El rol ya existe');
@@ -37,6 +37,7 @@ let RolesService = class RolesService {
         const newRol = new this.rolModel({
             name,
             status: true,
+            permissions,
         });
         await newRol.save();
         return {
@@ -45,7 +46,7 @@ let RolesService = class RolesService {
         };
     }
     async updateRole(id, updateRoleDto) {
-        const { name, status } = updateRoleDto;
+        const { name, status, permissions } = updateRoleDto;
         const existingRol = await this.rolModel.findById(id).exec();
         if (!existingRol) {
             throw new common_1.NotFoundException('Rol no encontrado');
@@ -56,6 +57,12 @@ let RolesService = class RolesService {
                 throw new common_1.ConflictException('El nombre del rol ya existe');
             }
             existingRol.name = name;
+        }
+        if (permissions && existingRol.permissions.indexOf(permissions) === -1) {
+            existingRol.permissions.push(permissions);
+        }
+        else {
+            throw new common_1.ConflictException('El permiso ya está asignado al rol');
         }
         existingRol.status = status;
         await existingRol.save();

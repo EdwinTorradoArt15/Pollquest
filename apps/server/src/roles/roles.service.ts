@@ -22,7 +22,7 @@ export class RolesService {
   }
 
   async createRole(createRoleDto: CreateRolesDto) {
-    const { name } = createRoleDto;
+    const { name, permissions } = createRoleDto;
 
     const verifyRol = await this.rolModel.findOne({ name }).exec();
 
@@ -33,6 +33,7 @@ export class RolesService {
     const newRol = new this.rolModel({
       name,
       status: true,
+      permissions,
     });
 
     await newRol.save();
@@ -43,7 +44,7 @@ export class RolesService {
   }
 
   async updateRole(id: string, updateRoleDto: UpdateRolesDto) {
-    const { name, status } = updateRoleDto;
+    const { name, status, permissions } = updateRoleDto;
 
     const existingRol = await this.rolModel.findById(id).exec();
     if (!existingRol) {
@@ -58,9 +59,14 @@ export class RolesService {
       existingRol.name = name;
     }
 
+    if (permissions && existingRol.permissions.indexOf(permissions) === -1) {
+      existingRol.permissions.push(permissions);
+    } else {
+      throw new ConflictException('El permiso ya está asignado al rol');
+    }
+
     existingRol.status = status;
     await existingRol.save();
-
     return {
       message: 'Rol actualizado',
       data: existingRol,

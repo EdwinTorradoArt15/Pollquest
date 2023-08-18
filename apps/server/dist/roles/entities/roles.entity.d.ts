@@ -26,6 +26,7 @@ import { Document } from 'mongoose';
 export declare class Rol extends Document {
     name: string;
     status: boolean;
+    permissions: string[];
 }
 export declare const RolSchema: import("mongoose").Schema<Rol, import("mongoose").Model<Rol, any, any, any, Document<unknown, any, Rol> & Omit<Rol & {
     _id: import("mongoose").Types.ObjectId;
