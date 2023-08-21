@@ -2,12 +2,9 @@ import { createContext, useState } from "react";
 import { toast } from "react-toastify";
 import * as authServices from "@/features/auth/services/authServices";
 import { useNavigate } from "react-router-dom";
-import {
-  LoginFormValues,
-  ForgotPassword,
-  RegisterUser
-} from "@/features/auth/interfaces/auth.interfaces";
+import { ForgotPassword } from "@/features/auth/interfaces/auth.interfaces";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
 interface AuthProviderProps {
   children: React.ReactNode;
 }
@@ -17,8 +14,10 @@ interface AuthContextValues {
   setValue: React.Dispatch<React.SetStateAction<String>>;
   value: String;
   methodsAuth: any;
-  registerUser: (data: RegisterUser) => void;
-  loginUser: (data: LoginFormValues) => void;
+  loginMutation: any;
+  isLoginLoading: boolean;
+  registerMutation: any;
+  isRegisterLoading: boolean;
   forgotPasswordStep1: (email: ForgotPassword) => void;
   forgotPasswordStep2: (data: ForgotPassword) => void;
   forgotPasswordStep3: (data: ForgotPassword) => void;
@@ -32,8 +31,10 @@ export const AuthContext = createContext<AuthContextValues>({
   value: "Login",
   methodsAuth: {},
   setValue: () => {},
-  registerUser: () => {},
-  loginUser: () => {},
+  loginMutation: () => {},
+  isLoginLoading: false,
+  registerMutation: () => {},
+  isRegisterLoading: false,
   forgotPasswordStep1: () => {},
   forgotPasswordStep2: () => {},
   forgotPasswordStep3: () => {},
@@ -58,38 +59,31 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const navigate = useNavigate();
 
-  const registerUser = async (data: RegisterUser) => {
-    try {
-      setLoading(true);
-      const success = await authServices.createUser(data);
-      setLoading(false);
-      if (success) {
+  const { isLoading: isLoginLoading, mutate: loginMutation } = useMutation({
+    mutationFn: authServices.loginUser,
+    onSuccess: (data) => {
+      localStorage.setItem("token", data.data.access_token);
+      toast.success("Usuario logueado correctamente");
+      methodsAuth.reset();
+      navigate("/dashboard/inicio");
+    },
+    onError: (error: any) => {
+      toast.error(error.response.data.message);
+    },
+  });
+
+  const { mutate: registerMutation, isLoading: isRegisterLoading } =
+    useMutation({
+      mutationFn: authServices.createUser,
+      onSuccess: () => {
         toast.success("Usuario registrado correctamente");
         methodsAuth.reset();
         setValue("Login");
-      } else {
-        toast.error("Error al registrar el usuario");
-      }
-    } catch (error) {
-      setLoading(false);
-      console.error(error);
-    }
-  };
-
-  const loginUser = async (dataUser: LoginFormValues) => {
-    try {
-      setLoading(true);
-      const { data } = await authServices.loginUser(dataUser);
-      localStorage.setItem("token", data.access_token);
-      toast.success("Usuario logueado correctamente");
-      setLoading(false);
-      navigate("/dashboard/inicio");
-    } catch (error: any) {
-      setLoading(false);
-      toast.error(error.response.data.message);
-      console.error(error);
-    }
-  };
+      },
+      onError: (error: any) => {
+        toast.error(error.response.data.message);
+      },
+    });
 
   const forgotPasswordStep1 = async (email: ForgotPassword) => {
     try {
@@ -136,8 +130,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     <AuthContext.Provider
       value={{
         methodsAuth,
-        registerUser,
-        loginUser,
         loading,
         setValue,
         value,
@@ -147,6 +139,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         activeStep,
         setActiveStep,
         handleBack,
+        loginMutation,
+        isLoginLoading,
+        registerMutation,
+        isRegisterLoading,
       }}
     >
       {children}

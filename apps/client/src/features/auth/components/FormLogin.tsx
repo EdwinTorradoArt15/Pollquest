@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { useLogin } from "@/features/auth/hook";
 
 const FormLogin = () => {
-  const { methodsAuth, login, loading } = useLogin();
+  const { methodsAuth, login, isLoginLoading } = useLogin();
 
   return (
     <form onSubmit={methodsAuth.handleSubmit(login)}>
@@ -27,7 +27,7 @@ const FormLogin = () => {
               fullWidth
               {...field}
               type="email"
-              label="Correo electrónico"
+              label="Correo electrónico *"
               error={!!methodsAuth.formState.errors.email}
               helperText={
                 methodsAuth.formState.errors.email ? "Campo requerido" : null
@@ -45,7 +45,7 @@ const FormLogin = () => {
               fullWidth
               {...field}
               type="password"
-              label="Contraseña"
+              label="Contraseña *"
               error={!!methodsAuth.formState.errors.clave}
               helperText={
                 methodsAuth.formState.errors.clave ? "Campo requerido" : null
@@ -75,9 +75,9 @@ const FormLogin = () => {
         size="large"
         variant="contained"
         type="submit"
-        disabled={loading}
+        disabled={isLoginLoading}
       >
-        {loading ? <Loader /> : "Iniciar sesión"}
+        {isLoginLoading ? <Loader /> : "Iniciar sesión"}
       </Button>
 
       <Typography

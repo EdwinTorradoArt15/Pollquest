@@ -5,7 +5,7 @@ import { year } from "@/utils/date";
 import { useRegister } from "@/features/auth/hook";
 
 const FormRegister = () => {
-  const { register, password, loading, methodsAuth } = useRegister();
+  const { register, password, isRegisterLoading, methodsAuth } = useRegister();
 
   return (
     <form onSubmit={methodsAuth.handleSubmit(register)}>
@@ -149,7 +149,7 @@ const FormRegister = () => {
         variant="contained"
         type="submit"
       >
-        {loading ? <Loader /> : "Registrarse"}
+        {isRegisterLoading ? <Loader /> : "Registrarse"}
       </Button>
       <FormHelperText sx={{ mt: 1 }}>
         &copy; {year} ARTECH - Derechos totalmente reservados.

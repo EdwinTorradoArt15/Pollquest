@@ -48,11 +48,11 @@ const Login = () => {
               </Tabs>
               {value === "Login" && (
                 <>
-                  <Stack spacing={1} sx={{ my: 3 }}>
-                    <Typography variant="h4">Inicia sesión</Typography>
+                  <Stack spacing={1} sx={{ my: 2 }}>
+                    <Typography variant="h4">¡Bienvenido de nuevo!</Typography>
                     <Typography color="text.secondary" variant="body2">
-                      Bienvenido a QuizzApp. Por favor inicie sesión para
-                      continuar.
+                      Descubre. Aprende. Opina. Con PollQuest, tus encuestas y
+                      quices cobran vida.
                     </Typography>
                   </Stack>
                   <FormLogin />

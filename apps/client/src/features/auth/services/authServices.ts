@@ -2,19 +2,11 @@ import axios from "axios";
 import {
   RegisterUser,
   LoginFormValues,
-  ForgotPassword
+  ForgotPassword,
 } from "@/features/auth/interfaces/auth.interfaces";
 
 export const createUser = async (user: RegisterUser) => {
-  let success = false;
-  try {
-    const response = await axios.post("/api/usuarios", user);
-    success = true;
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
-  return success;
+  await axios.post("/api/usuarios", user);
 };
 
 export const loginUser = async (user: LoginFormValues) => {
